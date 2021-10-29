@@ -106,3 +106,14 @@ Otherwise, here are my ideas for future work to be implemented (when I have some
 - Improve the comparison of duplicate files. The current comparison has good results but it is quite simple. Using regex it may be possible to do more complex things like select files from a certain region, language, revision, etc.
 - Write a document with examples and tricks of the cool things that I' ve been able to do with sbfrm
 - Improve my english :p
+
+Donation:
+
+    "I have no special talent. I am only passionately curious."
+    -Albert Einstein
+
+Would you like to see this project continue to progress? Your help will be very welcome!
+
+https://www.paypal.com/donate?hosted_button_id=G7KRYRNQ247AG
+
+![Donation by PayPal](images/qrcode.png)

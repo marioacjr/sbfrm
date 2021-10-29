@@ -106,3 +106,15 @@ De resto, fica minhas idéias de trabalhos futuros a ser implementado (quando eu
 - Melhorar a comparação de arquivos duplicados. A comparação atual tem bons resultadosmas é bem simples. Usando regex poderá ser possível fazer coisas mais complexas como selecionar arquivos de determinada região, idioma, revisão, etc.
 - Escrever um documento com exemplos e truques de coisas legais que eu já consegui fazer com o sbfrm
 - Melhorar meu inglês :p
+
+
+Doações:
+
+    "Não tenho nenhum talento especial. Estou apenas apaixonadamente curioso."
+    -Albert Einstein
+
+Gostaria de ver este projeto evoluir? Sua ajuda será muito bem vinda!
+
+https://www.paypal.com/donate?hosted_button_id=G7KRYRNQ247AG
+
+![Doação pelo PayPal](images/qrcode.png)
