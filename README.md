@@ -111,7 +111,7 @@ The previous **gamelist.xml** will also be backup to avoid as much as possible t
 Also, each game media type will be placed in its own directory. The following will detail the composition of the report files and the folder structure of each collection:
 
 - **dest-collection/**
-    - system/**
+    - **system/**
         - **boxarts/**: Folder where the image files of the collection's game boxes are stored.
         - **images/**: Folder where the gameplay image files of collection's games are stored.
         - **markers/**: The folder where the signage images files of collection's games are stored.
