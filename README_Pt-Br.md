@@ -88,6 +88,10 @@ O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é 
     - **update_collections**: Atualiza, em **dest/**, todos os arquivos de roms, imagens e videos para cada coleção (sistema de jogos) presentes em **src/**. Atualiza o **gamelist.xml** de cada coleção, ou cria um novo caso não exista;
     - **update_subcollection**: Adiciona subcoleções à suas respectivas coleções. Entende-se como subcoleção, as pastas com roms dentro de uma coleção (ex: ## HACKS ##). Esta operação trabalha em conjunto com o parâmetro opcional **-subcol_list**. Caso o parâmetro opcional não seja passado, nenhuma subcoleção será adicionada;
     - **raise_subcollection**: Eleva uma subcoleção para a hierarquia de coleção. A nova coleção criada irá possuir suas próprias pastas para organização de imagens e vídeos e seu próprio **gamelist.xml**. Esta operação trabalha em conjunto com o parametro opcional **-subcol_list**. Caso ele não seja informado, a nova coleção não será criada.
+- **src/**: Caminho do diretório onde está a coleção a ser adicionada.
+    - Ex: /media/user/SHARE1/roms
+- **dest/**: Caminho do diretório onde os arquivos devem ser adicionados.
+    - Ex: /media/user/SHARE/roms
 
 #### Parâmetros Opicionais:
 - **-box_src**: Nome do diretório onde estão os arquivos de imagens das caixas dos jogos que deverão ser adicionadas à sua coleção (ex: -box_src Named_Boxarts ou box_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de midia não serão atualizados na coleção destino.

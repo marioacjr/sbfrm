@@ -88,6 +88,10 @@ The example above is the simplest thing that sbfrm can do. In fact, it is capabl
     - **update_collections**: Updates, in **dest/**, all roms, images and videos files for each collection (game system) present in **src/**. Update the **gamelist.xml** of each collection, or create a new one if it doesn't exist;
     - **update_subcollection**: Update or Adds sub-collections to their respective collections. A subcollection is the another roms folder inside a collection folder (e.g. nes/## HACKS ##/). This operation works together with the optional parameter **-subcol_list**. If the optional parameter is not passed, no subcollection will be considered;
     - **raise_subcollection**: Elevates a sub-collection into the collection hierarchy. The newly created collection will have its own folders for organizing images and videos and its own **gamelist.xml**. This operation works in conjunction with the optional **-subcol_list** parameter. If it is not set, the new collection will not be created.
+- **src/**: Path of the directory where the collection to be added is located.
+    - Ex: /media/user/SHARE1/roms
+- **dest/**: Path of the directory where the files should be added.
+    - Ex: /media/user/SHARE/roms
 
 #### Optional Parameters:
 - **-box_src**: Name of the directory where the game box image files that are to be added to your collection are located (e.g. -box_src Named_Boxarts or box_src downloaded_images). If this parameter is not declared, these media files will not be updated in the target collection.
