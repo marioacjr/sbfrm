@@ -97,12 +97,35 @@ O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é 
 - **-box_src**: Nome do diretório onde estão os arquivos de imagens das caixas dos jogos que deverão ser adicionadas à sua coleção (ex: -box_src Named_Boxarts ou box_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
 - **-img_src**: Nome do diretório onde estão os arquivos de imagens do gameplay dos jogos que deverão ser adicionadas à sua coleção (ex: -img_src Named_Snaps ou -img_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
 - **-marq_src**: Nome do diretório onde estão os arquivos de imagens do letreiro dos jogos que deverão ser adicionadas à sua coleção (ex: -marq_src Named_Marquees ou -marq_src downloaded_wheels). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-thumb_src**: Nome do diretório onde estão os arquivos de imagens do título dos jogos que deverão ser adicionadas à sua coleção (ex: -thumb_src Named_Titles ou -thumb_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-vid_src**: Nome do diretório onde estão os arquivos de vídeo dos jogos que deverão ser adicionadas à sua coleção (ex: -vid_src videos ou -vid_src downloaded_videos). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
+- **-thumb_src**: Nome do diretório onde estão os arquivos de imagens da tela de título dos jogos que deverão ser adicionadas à sua coleção (ex: -thumb_src Named_Titles ou -thumb_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
+- **-vid_src**: Nome do diretório onde estão os arquivos de vídeo da gamepley dos jogos que deverão ser adicionadas à sua coleção (ex: -vid_src videos ou -vid_src downloaded_videos). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
 - **-subcol_list**: Lista de subcoleções a serem consideradas durante o processamento do script (ex: -subcol_list "## HACKS ##, # PT-BR #, # TECTOY #"). A lista deve ser separada por vírgula, sem espaços entre os itens e estar dentro de aspas duplas. Para cada coleção presente em **src/**, a lista inteira será avaliada, e, caso algum subdiretório exista com o mesmo nome do item, o script irá atualizar ou elevar a subcoleção.
 - **-filemode**: Define se os arquivos serão copiados ou movidos para o destino (ex: -filemode cp ou -filemode mv). Essa opção é muito útil caso você tenha limitação de espaço em disco ou deseja que o processamento seja realizado de forma mais rápida (arquivos são movidos quase instantaneamente se estiverem dentro da mesma partição :p).
 
-Longe de mim achar que esse é um projeto espetacular e que não haja outro igual ou melhor. Tem muita coisa que pode ser melhorada, certamente tem bugs que eu não percebi, muito refatoração de código para ser feito, falta implementar testes, etc, etc. Mas espero que ele lhe seja útil e ajude a ganhar espaço em disco e poupar muito tempo organizando suas roms. Tempo esse que dever ser usado para jogar e se divertir. Se você chegou até aqui, é porque realmente se interessou pelo meu trabalho e provavelmente está, ou vai em algum momento, se perguntar que diabos significa sbfrm, que é o acrônimo para Small Big Fucking Retro Gamelist Manager :)
+#### Relatórios da composição das coleções e Organização dos Arquivos de Mídia
+
+Após o processamento do script, um conjunto de arquivos de texto, com informações de totais de arquivos e mídias ausentes, será criado para cada uma das coleções presentes em **dest/**. Estes arquivos são bastantes úteis para identificar e adicionar o que está faltando na coleção. Por exemplo, por meio deles, pode-se criar uma força-tarefa para completar todas as informações de uma coleção.
+
+Também será realizado um backup da **gamelist.xml** anterior para evitar ao máximo a perda de informação caso algum problema ocorra.
+
+Além disso, cada tipo de mídia dos jogos será inserida em um diretório proprio para ela. A seguir será detalhado a composição dos arquivos de relatório e a estrutura de pastas de cada coloção:
+
+- **dest-collection/**
+    - **sistema/**
+        - **boxarts/**: Pasta onde estão adicionados os arquivos de imagens das caixas dos jogos da coleção.
+        - **images/**: Pasta onde estão adicionados os arquivos de imagens do gameplay dos jogos da coleção.
+        - **marquees/**: Pasta onde estão adicionados os arquivos de imagens do letreiro dos jogos da coleção.
+        - **thumbnails/**: Pasta onde estão adicionados os arquivos de imagens da tela de titulo dos jogos da coleção.
+        - **videos/**: Pasta onde estão adicionados os arquivos de vídeo do gameplay dos jogos da coleção.
+        - **gamelist_yyyymmdd-hhmmss.txt/**: Backup do gamelist.xml anterior, com a data e hora do backup.
+        - **gamelist_results.txt/**: Arquivo de texto com a totalização dos jogos, mídias e descrições, tanto nos arquivos quanto na **gamelist.xml**.
+        - **game_wihout_box.txt/**: Arquivo de texto com a lista das imagens das caixas ausentes da coleção.
+        - **game_wihout_image..txt/**: Arquivo de texto com a lista das imagens de gameplay ausentes da coleção.
+        - **game_wihout_marquee.txt/**: Arquivo de texto com a lista das imagens de letreiro ausentes da coleção.
+        - **game_wihout_thumbnails.txt/**: Arquivo de texto com a lista das imagens do gameplay ausentes da coleção.
+        - **game_wihout_video.txt/**: Arquivo de texto com a lista dos vídeos de gameplay ausentes da coleção.
+
+Longe de mim achar que esse é um projeto espetacular e que não haja outro igual ou melhor. Tem muita coisa que pode ser melhorada, certamente tem bugs que eu não percebi, muita refatoração de código para ser feita, falta implementar testes, etc, etc. Mas espero que ele lhe seja útil e ajude a ganhar espaço em disco e poupar muito tempo organizando suas roms. Tempo esse que dever ser usado para jogar e se divertir. Se você chegou até aqui, é porque realmente se interessou pelo meu trabalho e provavelmente está, ou vai em algum momento, se perguntar que diabos significa sbfrm, que é o acrônimo para Small Big Fucking Retro Gamelist Manager :)
 
 De resto, fica minhas ideias de trabalhos futuros a ser implementado (quando eu tiver algum tempo sobrando):
 - Interface Gráfica (para facilitar a utilização para quem não é acostumado a usar linha de comando);

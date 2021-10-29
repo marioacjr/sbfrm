@@ -102,6 +102,29 @@ The example above is the simplest thing that sbfrm can do. In fact, it is capabl
 - **-subcol_list**: List of sub-collections to be considered during script processing (ex: -subcol_list "## HACKS ##, # PT-BR #, # TECTOY #"). The list must be separated by commas, with no spaces between items, and enclosed in double quotes. For each collection present in **src**, the entire list will be evaluated, and, if any subdirectory exists with the same name as the item, the script will update or raise the subcollection.
 - **-filemode**: Defines whether files will be copied or moved to the destination (e.g. -filemode cp or -filemode mv). This option is very useful if you have limited disk space or want the processing to be faster (files are moved almost instantly if they are within the same partition :p).
 
+#### Reports on Collection Composition and Media File Organization
+
+After the script is processed, a set of text files with totals of missing files and media information will be created for each of the collections present in **dest/**. These files are very useful for identifying and adding what is missing in the collection. For example, through them you can create a task force to complete all the information in a collection.
+
+The previous **gamelist.xml** will also be backup to avoid as much as possible the loss of information in case a problem occurs.
+
+Also, each game media type will be placed in its own directory. The following will detail the composition of the report files and the folder structure of each collection:
+
+- **dest-collection/**
+    - system/**
+        - **boxarts/**: Folder where the image files of the collection's game boxes are stored.
+        - **images/**: Folder where the gameplay image files of collection's games are stored.
+        - **markers/**: The folder where the signage images files of collection's games are stored.
+        - **thumbnails/**: Folder where the title screen image files of collection's games are stored.
+        - **videos/**: Folder where the gameplay video files of collection's games are stored.
+        - **gamelist_yyyymmdd-hhmmss.txt/**: Backup of the previous gamelist.xml, with the date and time of the backup.
+        - **gamelist_results.txt/**: Text file with the game totals, media, and descriptions, both in the files and in **gamelist.xml**.
+        - **game_wihout_box.txt/**: Text file listing the images of the collection's missing boxes.
+        - **game_wihout_image..txt/**: Text file with the list of the collection's missing gameplay images.
+        - **game_wihout_marquee.txt/**: Text file with the list of the lettering's images missing from the collection.
+        - **game_wihout_thumbnails.txt/**: Text file with the list of the gameplay images missing from the collection.
+        - **game_wihout_video.txt/**: Text file with the list of gameplay videos missing from the collection.
+
 It is not my intention to think that this is a spectacular project and that there is no other equal or better one. There is a lot that can be improved, certainly there are bugs that I didn't notice, a lot of code refactoring to be done, lack of test implementation, etc, etc. But I hope it will be useful to you and help you save a lot of disk space and time organizing your roms. Time that should be used for playing and having fun. If you got this far, it is because you are really interested in my work and probably are, or will at some point, wonder what the hell sbfrm means, which is the acronym for Small Big Fucking Retro Gamelist Manager :)
 
 Otherwise, here are my ideas for future work to be implemented (when I have some time to spare):
