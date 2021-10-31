@@ -17,7 +17,7 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Python3;
 - Funciona em Linux e Windows.
 
-Veja [exemplos](examples) em formato Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.sh) e Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh).
+Veja [exemplos](examples) em formato Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.bat) e Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh).
 
 O **SBFRM**, é um script python, onde se deve passar vários parâmetros na linha de comando para realizar as tarefas que se deseja.
 

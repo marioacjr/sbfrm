@@ -17,7 +17,7 @@ This manager is applied to collections in EmulationStation format (those with a 
 - Python3;
 - Works on Linux and Windows.
 
-See [examples](examples) in Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.sh) format and Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh) format.
+See [examples](examples) in Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.bat) format and Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh) format.
 
 The **SBFRM** is a python script, where you must enter several parameters in the input to perform the tasks you want.
 
