@@ -13,11 +13,17 @@ This manager is applied to collections in EmulationStation format (those with a 
 - Avoid wasting disk space;
 - And, most importantly, generate the gamelist.xml file automatically.
 
-Actually it is still a python script, where you must enter several parameters in the input to perform the tasks you want.
+### Requirements:
+- Python3;
+- Works on Linux and Windows.
+
+See [examples](examples) in Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.sh) format and Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh) format.
+
+The **SBFRM** is a python script, where you must enter several parameters in the input to perform the tasks you want.
 
 ####  The simplest way to run:
 
-`sudo python3 colection_handler.py update_collections src-collection/ dest-collection/`
+`python3 sbfrm.py update_collections src-collection/ dest-collection/`
 
 ####  Where:
 - **update_collections** is the task you want to perform. In this case it is to add new roms to your collection;
@@ -143,4 +149,4 @@ Would you like to see this project continue to progress? Your help will be very 
 
 https://www.paypal.com/donate?hosted_button_id=G7KRYRNQ247AG
 
-![Donation by PayPal](images/qrcode.png)
+![Donation by PayPal](qrcode.png)

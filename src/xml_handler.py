@@ -23,7 +23,7 @@ def pretty_print_xml_given_root(root, output_xml):
     """
     xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml()
     xml_string = os.linesep.join([s for s in xml_string.splitlines() if s.strip()]) # remove the weird newline issue
-    with open(output_xml, "w") as file_out:
+    with open(output_xml, "w", encoding="utf-8") as file_out:
         file_out.write(xml_string)
 
 def pretty_print_xml_given_file(input_xml, output_xml):

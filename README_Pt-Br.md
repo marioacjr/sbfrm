@@ -2,7 +2,7 @@
 
 [English Version](https://github.com/marioacjr/sbfrm)
 
-## Um Organizador para Coleções de Jogos Retrô.
+## Um Gerenciador para Coleções de Jogos Retrô.
 
 Este gerenciador é utilizado em coleções no formato do EmulationStation (aquelas com um arquivo gamelist.xml dentro). É bastante simples mas, ao mesmo tempo, muito poderoso. Inicialmente era apenas um script para fazer coisas muito simples para me ajudar a organizar minhas coleções de jogos (eu sou aquele tipo acumulador de jogos :). Com o tempo continuei a acrescentar mais funcionalidades até perceber que já estava bastante robusto e que podia ser útil para a comunidade.
 
@@ -13,11 +13,17 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Evitar desperdício de espaço em disco;
 - E, mais importante, gerar o arquivo gamelist.xml automaticamente.
 
-Na verdade, ainda é um script python, onde se deve passar vários parâmetros na linha de comando para realizar as tarefas que se deseja.
+### Requerimentos:
+- Python3;
+- Funciona em Linux e Windows.
+
+Veja [exemplos](examples) em formato Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.sh) e Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh).
+
+O **SBFRM**, é um script python, onde se deve passar vários parâmetros na linha de comando para realizar as tarefas que se deseja.
 
 ####  A forma mais simples de executar é:
 
-`sudo python3 colection_handler.py update_collections src-collection/ dest-collection/`
+`python3 sbfrm.py update_collections src-collection/ dest-collection/`
 
 ####  Onde:
 - **update_collections*** é a tarefa que deseja realizar. Neste caso, é adicionar novas roms à sua coleção;
@@ -144,4 +150,4 @@ Gostaria de ver este projeto evoluir? Sua ajuda será muito bem vinda!
 
 https://www.paypal.com/donate?hosted_button_id=G7KRYRNQ247AG
 
-![Doação pelo PayPal](images/qrcode.png)
+![Doação pelo PayPal](qrcode.png)
