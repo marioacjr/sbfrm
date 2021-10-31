@@ -90,13 +90,14 @@ def get_game_by_tag_text(root, tag, text):
 
 
 def update_game1_from_game2(game1, game2):
-    for e2 in game2:
-        if e2.tag not in media_tags:
-            e1 = game1.find(e2.tag)
-            if e1 == None:
-                game1.append(e2)
-            else:
-                game1.find(e2.tag).text = game2.find(e2.tag).text
+    if game2:
+        for e2 in game2:
+            if e2.tag not in media_tags:
+                e1 = game1.find(e2.tag)
+                if e1 == None:
+                    game1.append(e2)
+                else:
+                    game1.find(e2.tag).text = game2.find(e2.tag).text
 
 
 def update_root_from_game(root, game):

@@ -1,12 +1,8 @@
 #######################  README  #######################
 # Este exemplo faz uma busca em todas as roms da       #
-# imagem CobaltoV4_Pi3_16GB.img do Galisteo e          #
+# imagem Cobalto_GA_Batocera5.25_16GB.img do Galisteo e          #
 # atualiza a sua coleção com os jogos, imagens e       #
 # videos que você ainda não possui.                    #
-# Nesta imagem existe uma subcoleção da TECTOY dentro  #
-# do sistema Mastersystem. Ela será transformada em    #
-# uma coleção independente com sua própria             #
-# gamelist.xml e seus arquivos de imagens e vídeos.    #
 # Ao final do processo, cada coleção possuirá um       #
 # relatório com a totalização de arquivos e lista de   #
 # imagens e vídeos ausentes.                           #
@@ -32,16 +28,12 @@ destdir="/media/mario/SHARE/roms"
 # este exemplo em outra coleção, atualize esses
 # nomes conforme necessário.
 imgsrc="downloaded_images"
-marqsrc="downloaded_wheels"
-vidsrc="downloaded_videos"
+imgsrc2="images"
 
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms. imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc
+python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc2
 
-# Este comando transforma a subcoleção da TECTOY, dentro
-# do sistema Mastersystem, em uma coleção independente,
-# com sua própria gamelist.xml e arquivos de imagens
-# e vídeos
-python3 sbfrm.py raise_subcollection $srcdir/mastersystem $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subcol_list "# TECTOY #"
+# Este comando vai varrer novamente a coleção e adicionar as imagens que estão na pasta images.
+python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc

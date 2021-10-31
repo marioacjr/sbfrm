@@ -150,26 +150,65 @@ def update_collections(args, subcoltag=False):
                 copy_collection(src_dir, dest_dir, args, subcoltag)
 
 
+def gen_raised_colname(subcol, src):
+    colsufix = subcol.replace(' ', '')
+    colsufix = colsufix.replace('#', '')
+    colsufix = colsufix.replace('(', '')
+    colsufix = colsufix.replace(')', '')
+    n = os.path.basename(os.path.normpath(src)) + '_' + colsufix.lower()
+    return n
+
+
+def copy_raised_files(args, subcol, file):
+    newcolname = gen_raised_colname(subcol, args.src)
+    subcolpath = os.path.join(args.src, subcol)
+    dest_dir = os.path.join(args.dest, newcolname)
+
+    p = fh.copy_game_file(subcolpath, dest_dir, file)
+
+    variable = [[args.box_src, '.png', box_dirname, False],
+              [args.img_src, '.png', img_dirname, False],
+              [args.marq_src, '.png', marq_dirname, False],
+              [args.thumb_src, '.png', thumb_dirname, False],
+              [args.vid_src, '.mp4', video_dirname, False]]
+    for v in variable:
+        if v[0]:
+            s = os.path.join(args.src, v[0], subcol)
+            n = os.path.splitext(file)[0] + v[1]
+            d = os.path.join(dest_dir, v[2])
+            v[3] = fh.copy_game_file(s, d, n)
+
+    b = variable[0][3]
+    i = variable[1][3]
+    m = variable[2][3]
+    t = variable[3][3]
+    v = variable[4][3]
+    return p, i, b, t, m, v
+
+
+def check_folders(src, dest_dir):
+    if fh.check_folders(src, dest_dir,
+                        img_dirname,
+                        box_dirname,
+                        video_dirname,
+                        marq_dirname,
+                        thumb_dirname):
+        return True
+    return False
+
+
 def raise_subcollection(args):
     subcollist = args.subcol_list.split(',')
     for subcol in subcollist:
-        colsufix = subcol
-        for c in [' ', '#', '(', ')']:
-            colsufix = colsufix.replace(c, '')
-        newcolname = os.path.basename(os.path.normpath(args.src)) + '_' + colsufix.lower()
+        newcolname = gen_raised_colname(subcol, args.src)
         proc_col_msg = 'Processing Raised Collection: ' + newcolname
         print(proc_col_msg)
         subcolpath = os.path.join(args.src, subcol)
         dest_dir = os.path.join(args.dest, newcolname)
 
-        if fh.check_folders(subcolpath, args.dest,
-                         img_dirname,
-                         box_dirname,
-                         video_dirname,
-                         marq_dirname,
-                         thumb_dirname):
+        if check_folders(subcolpath, dest_dir):
 
-            xml_path = os.path.join(args.dest, 'gamelist.xml')
+            xml_path = os.path.join(dest_dir, 'gamelist.xml')
             tree = xmlh.get_gamelist(xml_path)
             xmlh.backup_xml(tree, xml_path)
 
@@ -179,40 +218,42 @@ def raise_subcollection(args):
             files = fh.get_files(subcolpath)
             files.sort()
             for file in files:
-                p = fh.copy_game_file(subcolpath, args.dest, file)
+                p, i, b, t, m, v = copy_raised_files(args, subcol, file)
+                if p:
+                    subcolfile = os.path.join(subcol, p)
+                    copy_game_media_from_tree(subcolfile, tree2, dest_dir)
 
-                s = os.path.join(args.src, args.img_src, subcol)
-                n = os.path.splitext(file)[0] + '.png'
-                d = os.path.join(args.dest, img_dirname)
-                fh.copy_game_file(s, d, n)
+                    game1 = xmlh.get_game_by_tag_text(tree.getroot(), 'path', p)
+                    game2 = xmlh.get_game_by_tag_text(tree2.getroot(), 'path',
+                                                      subcolfile)
 
-                path_text = os.path.join(subcol, n)
-                tag = 'path'
-                game2 = xmlh.get_game_by_tag_text(tree2.getroot(), tag, path_text)
-                if game2 != False and game2.find(tag).text is not None:
-                    vs = [['box', args.box_src],
-                          ['image', args.img_src],
-                          ['marquee', args.marq_src],
-                          ['thumbnail', args.thumb_src],
-                          ['video', args.vid_src]]
-                    for v in vs:
-                        if game2.find(v[0]) is not None:
-                            if game2.find(v[0]).text is not None:
-                                mf = game2.find(v[0]).text.replace('./', '')
-                                if os.path.isfile(os.path.join(args.src, mf)):
-                                    n2 = os.path.basename(mf)
-                                    s2 = os.path.join(args.src, v[1])
-                                    fh.copy_game_file(s2, d, n2)
+                    if not game1:
+                        game1 = xmlh.create_game(p)
+                    xmlh.update_game1_from_game2(game1, game2)
+                    tree.getroot().append(game1)
 
-                    if p:
-                        game1 = xmlh.get_game_by_tag_text(tree.getroot(), 'path', p)
-                        if not game1:
-                            game1 = xmlh.create_game(p)
-                        xmlh.update_game1_from_game2(game1, game2)
-                        tree.getroot().append(game1)
-
-            xmlh.update_media_paths(tree, args.dest, box_dirname, img_dirname, marq_dirname, thumb_dirname, video_dirname)
+            xmlh.update_media_paths(tree, dest_dir, box_dirname, img_dirname, marq_dirname, thumb_dirname, video_dirname)
             xmlh.save_xml(tree, xml_path)
+
+
+def copy_game_media_from_tree(filename, tree, dest):
+    if filename:
+        game = xmlh.get_game_by_tag_text(tree.getroot(), 'path', filename)
+        if game:
+            vs = [['box', box_dirname, '.png'],
+                  ['image', img_dirname, '.png'],
+                  ['marquee', marq_dirname, '.png'],
+                  ['thumbnail', thumb_dirname, '.png'],
+                  ['video', video_dirname, '.mp4']]
+            for v in vs:
+                if game.find(v[0]) and game.find(v[0]).text:
+                    if os.path.isfile(game.find(v[0]).text):
+                        n = os.path.splitext(filename)[0] + v[2]
+                        fh.copy_game_file(game.find(v[0]).text,
+                                          os.path.join(dest, v[1],
+                                          n))
+
+
 
 
 

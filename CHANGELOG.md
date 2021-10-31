@@ -1,4 +1,10 @@
-# Change Log
+# ChangeLog
+
+---
+
+## 0.2.1
+- Bugfix of Raise Collection Operation.
+- Code refatoring
 
 ---
 
