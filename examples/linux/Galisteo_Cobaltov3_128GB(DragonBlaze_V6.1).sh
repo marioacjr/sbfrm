@@ -18,7 +18,7 @@
 #                                                      #
 ########################################################
 
-Aqui voce deve alterar os caminhos para a pasta de
+# Aqui voce deve alterar os caminhos para a pasta de
 # roms da imagem do Galisteo e para a pasta onde
 # está a sua coleção.
 srcdir="/media/mario/SHARE1/roms"

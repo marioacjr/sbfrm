@@ -2,9 +2,15 @@
 
 ---
 
+## 0.3.0
+- Code organized in Classes and Methods (object-oriented).
+- Code refatoring.
+
+---
+
 ## 0.2.1
 - Bugfix of Raise Collection Operation.
-- Code refatoring
+- Code refatoring.
 
 ---
 
