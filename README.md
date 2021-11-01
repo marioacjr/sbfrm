@@ -1,6 +1,8 @@
 # **SBFRM**
 
-[Versão em Português](README_Pt-Br.md)
+[Versão em Português](README_Pt-Br.md) |
+[Changelog](CHANGELOG.md) |
+[Use Examples](examples/)
 
 ## A Manager for Retrogames Collections.
 

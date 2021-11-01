@@ -1,6 +1,8 @@
 # **SBFRM**
 
-[English Version](https://github.com/marioacjr/sbfrm)
+[English Version](https://github.com/marioacjr/sbfrm) |
+[Changelog](CHANGELOG.md) |
+[Examplos de Uso](examples/)
 
 ## Um Gerenciador para Coleções de Jogos Retrô.
 

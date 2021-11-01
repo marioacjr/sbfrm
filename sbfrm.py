@@ -20,6 +20,6 @@ ch = CollectionHandler(args.src, args.dest, args.box_src, args.img_src,
 if args.op == 'update_collections':
     ch.update_collections()
 elif args.op == 'update_subcollection':
-    ch.update_subcollection(args)
+    ch.update_subcollection()
 elif args.op == 'raise_subcollection':
     ch.raise_subcollection()

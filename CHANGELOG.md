@@ -2,6 +2,12 @@
 
 ---
 
+## 0.3.1
+- Error correction on update_subcollection method.
+- Code refatoring.
+
+---
+
 ## 0.3.0
 - Code organized in Classes and Methods (object-oriented).
 - Code refatoring.
