@@ -11,118 +11,63 @@ class CollectionHandler:
         self.src = src
         self.dest = dest
 
-        self.box_dirname = 'boxarts'
-        self.img_dirname = 'images'
-        self.marq_dirname = 'marquees'
-        self.thumb_dirname = 'thumbnails'
-        self.video_dirname = 'videos'
+        self.box_dest_dir = 'boxarts'
+        self.img_dest_dir = 'images'
+        self.marq_dest_dir = 'marquees'
+        self.thumb_dest_dir = 'thumbnails'
+        self.vid_dest_dir = 'videos'
 
-        self.boxarts_src = boxarts_src
-        self.images_src = images_src
-        self.marquees_src = marquees_src
-        self.thumbnails_src = thumbnails_src
-        self.videos_src = videos_src
+        self.box_src_dir = boxarts_src
+        self.img_src_dir = images_src
+        self.marq_src_dir = marquees_src
+        self.thumb_src_dir = thumbnails_src
+        self.vid_src_dir = videos_src
 
         self.subcol_list = subcol_list
         self.filemode = filemode
 
-    def cp_collection_media(self, file, src_dir, dest_dir,
-                            tree, subcoltag=False):
-        i, b, t, m, v = False, False, False, False, False
-        if self.images_src:
-            i = fh.copy_game_media(file, '.png',
-                                   src_dir, self.images_src, dest_dir,
-                                   self.img_dirname, subcoltag, self.filemode)
-            i = i or fh.copy_game_media_by_gamelistfile(
-                tree, file, 'image', '.png',
-                src_dir, self.images_src, dest_dir, self.img_dirname,
-                subcoltag, self.filemode)
-        if self.box_dirname:
-            b = fh.copy_game_media(file, '.png', src_dir,
-                                   self.box_dirname, dest_dir,
-                                   self.box_dirname, subcoltag, self.filemode)
+    def copy_media_file(self, file, src_dir, dest_dir, tree, tag, ext,
+                        src_media, dest_media, subcoltag=False):
+        b = False
+        if src_media:
+            b = fh.copy_game_media(file, ext,
+                                   src_dir, src_media, dest_dir,
+                                   dest_media, subcoltag, self.filemode)
             b = b or fh.copy_game_media_by_gamelistfile(
-                tree, file, 'box', '.png',
-                src_dir, self.box_dirname, dest_dir, self.box_dirname,
+                tree, file, tag, ext,
+                src_dir, src_media, dest_dir, dest_media,
                 subcoltag, self.filemode)
-        if self.thumb_dirname:
-            t = fh.copy_game_media(file, '.png', src_dir, self.thumb_dirname,
-                                   dest_dir, self.thumb_dirname,
-                                   subcoltag, self.filemode)
-            t = t or fh.copy_game_media_by_gamelistfile(
-                tree, file, 'thumbnail', '.png', src_dir, self.thumb_dirname,
-                dest_dir, self.thumb_dirname, subcoltag, self.filemode)
-        if self.marq_dirname:
-            m = fh.copy_game_media(file, '.png', src_dir, self.marq_dirname,
-                                   dest_dir, self.marq_dirname,
-                                   subcoltag, self.filemode)
-            m = m or fh.copy_game_media_by_gamelistfile(
-                tree, file, 'marquee', '.png', src_dir, self.marq_dirname,
-                dest_dir, self.marq_dirname, subcoltag, self.filemode)
-        if self.video_dirname:
-            v = fh.copy_game_media(file, '.mp4', src_dir, self.video_dirname,
-                                   dest_dir, self.video_dirname,
-                                   subcoltag, self.filemode)
-            v = v or fh.copy_game_media_by_gamelistfile(
-                tree, file, 'video', '.mp4', src_dir, self.video_dirname,
-                dest_dir, self.video_dirname, subcoltag, self.filemode)
+        return b
+
+    def copy_collection_media(self, file, src_dir, dest_dir,
+                              tree, subcoltag=False):
+        i = self.copy_media_file(file, src_dir, dest_dir, tree,
+                                 'image', '.png', self.img_src_dir,
+                                 self.img_dest_dir, subcoltag)
+        b = self.copy_media_file(file, src_dir, dest_dir, tree,
+                                 'box', '.png', self.box_src_dir,
+                                 self.box_dest_dir, subcoltag)
+        t = self.copy_media_file(file, src_dir, dest_dir, tree,
+                                 'thumbnail', '.png', self.thumb_src_dir,
+                                 self.thumb_dest_dir, subcoltag)
+
+        m = self.copy_media_file(file, src_dir, dest_dir, tree,
+                                 'marquee', '.png', self.marq_src_dir,
+                                 self.marq_dest_dir, subcoltag)
+
+        v = self.copy_media_file(file, src_dir, dest_dir, tree,
+                                 'video', '.mp4', self.vid_src_dir,
+                                 self.vid_dest_dir, subcoltag)
 
         return i, b, t, m, v
 
-    def save_results(self, tree, dest_dir, game_wihout_image,
-                     game_wihout_video, game_wihout_box, game_wihout_marquee,
-                     game_wihout_thumbnails, subcoltag=False):
-        fh.save_txt_file(dest_dir, 'game_wihout_image.txt',
-                         game_wihout_image)
-        fh.save_txt_file(dest_dir, 'game_wihout_video.txt',
-                         game_wihout_video)
-        fh.save_txt_file(dest_dir, 'game_wihout_box.txt',
-                         game_wihout_box)
-        fh.save_txt_file(dest_dir, 'game_wihout_marquee.txt',
-                         game_wihout_marquee)
-        fh.save_txt_file(dest_dir, 'game_wihout_thumbnails.txt',
-                         game_wihout_thumbnails)
-
-        g, i, v, b, m, t, d = xmlh.get_tree_details(tree)
-        collection_details = '\n\tGameList Results:'
-        collection_details += '\n\t\tGames: ' + str(g)
-        collection_details += '\n\t\tImages: ' + str(i)
-        collection_details += '\n\t\tVideos: ' + str(v)
-        collection_details += '\n\t\tBoxes: ' + str(b)
-        collection_details += '\n\t\tMarquees: ' + str(m)
-        collection_details += '\n\t\tThumbnails: ' + str(t)
-        collection_details += '\n\t\tDescriptions: ' + str(d)
-
-        f = len(fh.get_files(dest_dir))
-        i = len(fh.get_files(os.path.join(dest_dir, self.img_dirname)))
-        v = len(fh.get_files(os.path.join(dest_dir, self.video_dirname)))
-        b = len(fh.get_files(os.path.join(dest_dir, self.box_dirname)))
-        m = len(fh.get_files(os.path.join(dest_dir, self.marq_dirname)))
-        t = len(fh.get_files(os.path.join(dest_dir, self.thumb_dirname)))
-        if subcoltag:
-            f += len(fh.get_files(os.path.join(dest_dir, subcoltag)))
-            i += len(fh.get_files(
-                os.path.join(dest_dir, self.img_dirname, subcoltag)))
-            v += len(fh.get_files(
-                os.path.join(dest_dir, self.video_dirname, subcoltag)))
-            b += len(fh.get_files(
-                os.path.join(dest_dir, self.box_dirname, subcoltag)))
-            m += len(fh.get_files(
-                os.path.join(dest_dir, self.marq_dirname, subcoltag)))
-            t += len(fh.get_files(
-                os.path.join(dest_dir, self.thumb_dirname, subcoltag)))
-        collection_details += '\n\tFiles Results:'
-        collection_details += '\n\t\tFiles: ' + str(f)
-        collection_details += '\n\t\tImages: ' + str(i)
-        collection_details += '\n\t\tVideos: ' + str(v)
-        collection_details += '\n\t\tBoxes: ' + str(b)
-        collection_details += '\n\t\tMarquees: ' + str(m)
-        collection_details += '\n\t\tThumbnails: ' + str(t)
-        collection_details += '\n====================================='
-
-        fh.save_txt_file(dest_dir, 'gamelist_results.txt', collection_details)
-
-        print(collection_details)
+    def copy_game_files(self, src_dir, dest_dir, file, tree, subcoltag):
+        p = fh.copy_game_file(src_dir, dest_dir,
+                              file, subcoltag, self.filemode)
+        i, b, t, m, v = self.copy_collection_media(file, src_dir,
+                                                   dest_dir, tree,
+                                                   subcoltag)
+        return p, i, b, t, m, v
 
     def copy_collection(self, src_dir, dest_dir, subcoltag=False):
         proc_col_msg = 'Processing Collection: ' + dest_dir
@@ -146,11 +91,9 @@ class CollectionHandler:
         files = fh.get_files(src_dir, subcoltag)
         files.sort()
         for file in files:
-            p = fh.copy_game_file(src_dir, dest_dir,
-                                  file, subcoltag, self.filemode)
-            i, b, t, m, v = self.cp_collection_media(file, src_dir,
-                                                     dest_dir, tree2,
-                                                     subcoltag)
+            p, i, b, t, m, v = self.copy_game_files(src_dir, dest_dir, file,
+                                                    tree2, subcoltag)
+
             if p:
                 game = xmlh.create_game(p)
                 tree.getroot().append(game)
@@ -168,9 +111,9 @@ class CollectionHandler:
 
         xmlh.update_tree1_from_tree2(tree, tree2)
 
-        xmlh.update_media_paths(tree, dest_dir, self.box_dirname,
-                                self.img_dirname, self.marq_dirname,
-                                self.thumb_dirname, self.video_dirname)
+        xmlh.update_media_paths(tree, dest_dir, self.box_dest_dir,
+                                self.img_dest_dir, self.marq_dest_dir,
+                                self.thumb_dest_dir, self.vid_dest_dir)
 
         xmlh.save_xml(tree, xml_path)
 
@@ -187,11 +130,11 @@ class CollectionHandler:
                 dest_dir = os.path.join(self.dest, folder)
 
                 if fh.check_folders(src_dir, dest_dir,
-                                    self.img_dirname,
-                                    self.box_dirname,
-                                    self.video_dirname,
-                                    self.marq_dirname,
-                                    self.thumb_dirname,
+                                    self.img_dest_dir,
+                                    self.box_dest_dir,
+                                    self.vid_dest_dir,
+                                    self.marq_dest_dir,
+                                    self.thumb_dest_dir,
                                     subcoltag):
 
                     self.copy_collection(src_dir, dest_dir, subcoltag)
@@ -211,11 +154,11 @@ class CollectionHandler:
 
         p = fh.copy_game_file(subcolpath, dest_dir, file)
 
-        variable = [[self.box_dirname, '.png', self.box_dirname, False],
-                    [self.images_src, '.png', self.img_dirname, False],
-                    [self.marq_dirname, '.png', self.marq_dirname, False],
-                    [self.thumb_dirname, '.png', self.thumb_dirname, False],
-                    [self.video_dirname, '.mp4', self.video_dirname, False]]
+        variable = [[self.box_src_dir, '.png', self.box_dest_dir, False],
+                    [self.img_src_dir, '.png', self.img_dest_dir, False],
+                    [self.marq_src_dir, '.png', self.marq_dest_dir, False],
+                    [self.thumb_src_dir, '.png', self.thumb_dest_dir, False],
+                    [self.vid_src_dir, '.mp4', self.vid_dest_dir, False]]
         for v in variable:
             if v[0]:
                 s = os.path.join(self.src, v[0], subcol)
@@ -232,11 +175,11 @@ class CollectionHandler:
 
     def check_folders(self, src, dest_dir):
         if fh.check_folders(src, dest_dir,
-                            self.img_dirname,
-                            self.box_dirname,
-                            self.video_dirname,
-                            self.marq_dirname,
-                            self.thumb_dirname):
+                            self.img_dest_dir,
+                            self.box_dest_dir,
+                            self.vid_dest_dir,
+                            self.marq_dest_dir,
+                            self.thumb_dest_dir):
             return True
         return False
 
@@ -277,21 +220,20 @@ class CollectionHandler:
                         xmlh.update_game1_from_game2(game1, game2)
                         tree.getroot().append(game1)
 
-                xmlh.update_media_paths(tree, dest_dir, self.box_dirname,
-                                        self.img_dirname,
-                                        self.marq_dirname, self.thumb_dirname,
-                                        self.video_dirname)
+                xmlh.update_media_paths(tree, dest_dir, self.box_dest_dir,
+                                        self.img_dest_dir, self.marq_dest_dir,
+                                        self.thumb_dest_dir, self.vid_dest_dir)
                 xmlh.save_xml(tree, xml_path)
 
     def copy_game_media_from_tree(self, filename, tree, dest):
         if filename:
             game = xmlh.get_game_by_tag_text(tree.getroot(), 'path', filename)
             if game:
-                vs = [['box', self.box_dirname, '.png'],
-                      ['image', self.img_dirname, '.png'],
-                      ['marquee', self.marq_dirname, '.png'],
-                      ['thumbnail', self.thumb_dirname, '.png'],
-                      ['video', self.video_dirname, '.mp4']]
+                vs = [['box', self.box_dest_dir, '.png'],
+                      ['image', self.img_dest_dir, '.png'],
+                      ['marquee', self.marq_dest_dir, '.png'],
+                      ['thumbnail', self.thumb_dest_dir, '.png'],
+                      ['video', self.vid_dest_dir, '.mp4']]
                 for v in vs:
                     if game.find(v[0]) and game.find(v[0]).text:
                         if os.path.isfile(game.find(v[0]).text):
@@ -305,3 +247,58 @@ class CollectionHandler:
             subcollist = self.subcol_list.split(',')
             for subcoltag in subcollist:
                 self.update_collections(subcoltag)
+
+    def save_results(self, tree, dest_dir, game_wihout_image,
+                     game_wihout_video, game_wihout_box, game_wihout_marquee,
+                     game_wihout_thumbnails, subcoltag=False):
+        fh.save_txt_file(dest_dir, 'game_wihout_image.txt',
+                         game_wihout_image)
+        fh.save_txt_file(dest_dir, 'game_wihout_video.txt',
+                         game_wihout_video)
+        fh.save_txt_file(dest_dir, 'game_wihout_box.txt',
+                         game_wihout_box)
+        fh.save_txt_file(dest_dir, 'game_wihout_marquee.txt',
+                         game_wihout_marquee)
+        fh.save_txt_file(dest_dir, 'game_wihout_thumbnails.txt',
+                         game_wihout_thumbnails)
+
+        g, i, v, b, m, t, d = xmlh.get_tree_details(tree)
+        collection_details = '\n\tGameList Results:'
+        collection_details += '\n\t\tGames: ' + str(g)
+        collection_details += '\n\t\tImages: ' + str(i)
+        collection_details += '\n\t\tVideos: ' + str(v)
+        collection_details += '\n\t\tBoxes: ' + str(b)
+        collection_details += '\n\t\tMarquees: ' + str(m)
+        collection_details += '\n\t\tThumbnails: ' + str(t)
+        collection_details += '\n\t\tDescriptions: ' + str(d)
+
+        f = len(fh.get_files(dest_dir))
+        i = len(fh.get_files(os.path.join(dest_dir, self.img_dest_dir)))
+        v = len(fh.get_files(os.path.join(dest_dir, self.vid_dest_dir)))
+        b = len(fh.get_files(os.path.join(dest_dir, self.box_dest_dir)))
+        m = len(fh.get_files(os.path.join(dest_dir, self.marq_dest_dir)))
+        t = len(fh.get_files(os.path.join(dest_dir, self.thumb_dest_dir)))
+        if subcoltag:
+            f += len(fh.get_files(os.path.join(dest_dir, subcoltag)))
+            i += len(fh.get_files(
+                os.path.join(dest_dir, self.img_dest_dir, subcoltag)))
+            v += len(fh.get_files(
+                os.path.join(dest_dir, self.vid_dest_dir, subcoltag)))
+            b += len(fh.get_files(
+                os.path.join(dest_dir, self.box_dest_dir, subcoltag)))
+            m += len(fh.get_files(
+                os.path.join(dest_dir, self.marq_dest_dir, subcoltag)))
+            t += len(fh.get_files(
+                os.path.join(dest_dir, self.thumb_dest_dir, subcoltag)))
+        collection_details += '\n\tFiles Results:'
+        collection_details += '\n\t\tFiles: ' + str(f)
+        collection_details += '\n\t\tImages: ' + str(i)
+        collection_details += '\n\t\tVideos: ' + str(v)
+        collection_details += '\n\t\tBoxes: ' + str(b)
+        collection_details += '\n\t\tMarquees: ' + str(m)
+        collection_details += '\n\t\tThumbnails: ' + str(t)
+        collection_details += '\n====================================='
+
+        fh.save_txt_file(dest_dir, 'gamelist_results.txt', collection_details)
+
+        print(collection_details)

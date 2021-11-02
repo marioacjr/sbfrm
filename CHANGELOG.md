@@ -2,6 +2,12 @@
 
 ---
 
+## 0.3.2
+- Created baseclasses Game, System, GameListHandler, Utils().
+- Code refatoring.
+
+---
+
 ## 0.3.1
 - Error correction on update_subcollection method.
 - Code refatoring.

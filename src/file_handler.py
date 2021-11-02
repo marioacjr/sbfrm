@@ -1,5 +1,7 @@
 import os
 import shutil
+import hashlib
+
 
 def check_folders(src, dest, ifn, bfn, vfn, mfn, tfn, subsystemtag=False):
     if subsystemtag:
@@ -36,17 +38,17 @@ def check_folders(src, dest, ifn, bfn, vfn, mfn, tfn, subsystemtag=False):
 def get_files(path, subsystemtag=False):
     if subsystemtag:
         path = os.path.join(path, subsystemtag)
-    l = list()
+    filelist = list()
     try:
         if os.path.isdir(path) and len(os.listdir(path)) > 0:
             files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
             for file in files:
                 if not excluded_file(file):
-                    l.append(file)
+                    filelist.append(file)
     except Exception as e:
         print(e)
-    l.sort()
-    return l
+    filelist.sort()
+    return filelist
 
 
 def md5(fname):
@@ -122,7 +124,7 @@ def copy_game_file(source, dest, file, subsystemtag=False, op="cp"):
     if subsystemtag:
         e = os.path.join(source, subsystemtag, file)
         s = os.path.join(dest, subsystemtag, file)
-        r = os.path.join(subsystemtag,file)
+        r = os.path.join(subsystemtag, file)
 
     if c1 and c2 and os.path.isfile(e):
         if op == 'mv':
@@ -133,7 +135,8 @@ def copy_game_file(source, dest, file, subsystemtag=False, op="cp"):
     return False
 
 
-def copy_game_media(filename, ext, scr_folder, src_media_folder, dest_folder, media_folder, subsystemtag=False, op="cp"):
+def copy_game_media(filename, ext, scr_folder, src_media_folder, dest_folder,
+                    media_folder, subsystemtag=False, op="cp"):
     n = os.path.splitext(filename)[0] + ext
     if subsystemtag:
         n = os.path.join(subsystemtag, n)

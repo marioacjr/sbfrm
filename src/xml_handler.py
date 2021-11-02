@@ -22,9 +22,11 @@ def pretty_print_xml_given_root(root, output_xml):
     Useful for when you are editing xml data on the fly
     """
     xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml()
-    xml_string = os.linesep.join([s for s in xml_string.splitlines() if s.strip()]) # remove the weird newline issue
+    # remove the weird newline issue
+    xml_string = os.linesep.join([s for s in xml_string.splitlines() if s.strip()])
     with open(output_xml, "w", encoding="utf-8") as file_out:
         file_out.write(xml_string)
+
 
 def pretty_print_xml_given_file(input_xml, output_xml):
     """
@@ -117,17 +119,18 @@ def update_tree1_from_tree2(tree1, tree2):
 
 def set_element_by_tag(game, tag, t):
     t = t.replace('./', '')
-    t = './'+ t
+    t = './' + t
     if game.find(tag) != None:
         game.find(tag).text = t
     else:
-         e = ET.SubElement(game, tag)
-         e.text = t
+        e = ET.SubElement(game, tag)
+        e.text = t
 
 
-def update_media_paths(tree, dest_dir, dest_box, dest_img, dest_marq, dest_thumb, dest_video):
+def update_media_paths(tree, dest_dir, dest_box, dest_img, dest_marq,
+                       dest_thumb, dest_video):
     for game in tree.getroot():
-        if game.find('path')!= None:
+        if game.find('path') is not None:
             game_path = game.find('path').text
             game_path = game_path.replace('./', '')
             n = os.path.splitext(game_path)[0]
