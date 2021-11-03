@@ -1,5 +1,5 @@
 import argparse
-from src.collection_handler import CollectionHandler
+from src.baseclasses import Game, System
 
 parser = argparse.ArgumentParser(description='RetroGames Collection Manager')
 
@@ -35,12 +35,8 @@ parser.add_argument("-filemode", help=helptext)
 
 args = parser.parse_args()
 
-ch = CollectionHandler(args.src, args.dest, args.box_src, args.img_src,
-                       args.marq_src, args.thumb_src, args.vid_src,
-                       args.subcol_list, args.filemode)
-if args.op == 'update_collections':
-    ch.update_collections()
-elif args.op == 'update_subcollection':
-    ch.update_subcollection()
-elif args.op == 'raise_subcollection':
-    ch.raise_subcollection()
+system = System('test/roms1/', 'mastersystem')
+system.load_gamelist()
+system.load_games()
+for game in system.game:
+    print(game)

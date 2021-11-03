@@ -2,6 +2,13 @@
 
 ---
 
+## 0.3.3
+- Created baseclasses Game, System, Collection
+- Created utils FileHandler, GameListHandler, StringHandler.
+- Code refatoring.
+
+---
+
 ## 0.3.2
 - Created baseclasses Game, System, GameListHandler, Utils().
 - Code refatoring.

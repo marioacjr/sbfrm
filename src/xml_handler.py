@@ -96,18 +96,20 @@ def update_game1_from_game2(game1, game2):
         for e2 in game2:
             if e2.tag not in media_tags:
                 e1 = game1.find(e2.tag)
-                if e1 == None:
+                if e1 is not None:
                     game1.append(e2)
                 else:
-                    game1.find(e2.tag).text = game2.find(e2.tag).text
+                    if game1.find(e2.tag) is not None:
+                        if game1.find(e2.tag).text is not None:
+                            game1.find(e2.tag).text = game2.find(e2.tag).text
 
 
 def update_root_from_game(root, game):
     tag = 'path'
-    if game.find(tag) != None and game.find(tag).text != None:
+    if game.find(tag) is not None and game.find(tag).text is not None:
         path_text = game.find(tag).text
         g = get_game_by_tag_text(root, tag, path_text)
-        if g != False:
+        if g is not False:
             update_game1_from_game2(g, game)
 
 
