@@ -2,6 +2,15 @@
 
 ---
 
+## 0.3.4
+- Updated baseclasses Game, System
+- The Game class is now generating its xml element.
+- The System class is now generating and saving to disk the gamelist.xml
+- Started implementing unit tests
+- Code refatoring.
+
+---
+
 ## 0.3.3
 - Created baseclasses Game, System, Collection
 - Created utils FileHandler, GameListHandler, StringHandler.

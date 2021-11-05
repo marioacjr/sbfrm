@@ -35,8 +35,10 @@ parser.add_argument("-filemode", help=helptext)
 
 args = parser.parse_args()
 
-system = System('test/roms1/', 'mastersystem')
+system = System('test/roms1/',
+                'mastersystem',
+                images='downloaded_images',
+                videos='downloaded_videos')
 system.load_gamelist()
 system.load_games()
-for game in system.game:
-    print(game)
+system.gen_xml_gamelist_from_games()

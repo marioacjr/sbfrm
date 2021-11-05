@@ -1,5 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
+import xml.dom.minidom as xdm
+from datetime import datetime
 
 
 class FileHandler:
@@ -29,8 +31,13 @@ class FileHandler:
                 return True
         return False
 
-    def check_file(self, path):
+    def ch_ext(self, filename, ext):
+        return os.path.splitext(filename)[0] + ext
+
+    def check_file(self, path, ext=False):
         if path is not None:
+            if ext:
+                path = self.ch_ext(self, path, ext)
             if os.path.isfile(path):
                 return path
         return None
@@ -60,6 +67,9 @@ class GameListHandler:
         tree = ET.parse(path)
         self.tree = tree
         self.path = path
+
+    def set_root(self, element):
+        self.tree._setroot(element)
 
     def get_game_by_tag_text(self, tag, text):
         if self.tree is not None:
@@ -92,6 +102,34 @@ class GameListHandler:
         gamepath = gamepath.replace('./', '')
         gamepath = os.path.splitext(gamepath)[0]
         return filename == gamepath
+
+    def create_element(self, tag):
+        return ET.Element(tag)
+
+    def append_subelement(self, element, tag, text):
+        subelement = ET.SubElement(element, tag)
+        subelement.text = text
+        # return element
+
+    def pretty_print(self, root):
+        """Description"""
+        root = self.tree.getroot()
+        xml_string = xdm.parseString(ET.tostring(root)).toprettyxml()
+        # remove the weird newline issue
+        xml_string = os.linesep.join([s for s in xml_string.splitlines()
+                                      if s.strip()])
+        return xml_string
+
+    def save_xml(self, path):
+        self.tree.write(path)
+        xml_string = self.pretty_print(path)
+        with open(path, "w", encoding="utf-8") as file_out:
+            file_out.write(xml_string)
+
+    def backup_xml(self, path):
+        now = datetime.now().strftime("%Y%m%d-%H%M%S")
+        bkp_path = path.replace('.xml', '_'+now+'.xml')
+        self.save_xml(self.tree, bkp_path)
 
 
 class StringHandler():

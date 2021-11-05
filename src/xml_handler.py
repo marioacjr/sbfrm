@@ -122,7 +122,7 @@ def update_tree1_from_tree2(tree1, tree2):
 def set_element_by_tag(game, tag, t):
     t = t.replace('./', '')
     t = './' + t
-    if game.find(tag) != None:
+    if game.find(tag) is not None:
         game.find(tag).text = t
     else:
         e = ET.SubElement(game, tag)
