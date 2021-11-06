@@ -1,4 +1,5 @@
 import os
+import shutil
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xdm
 from datetime import datetime
@@ -129,7 +130,7 @@ class GameListHandler:
     def backup_xml(self, path):
         now = datetime.now().strftime("%Y%m%d-%H%M%S")
         bkp_path = path.replace('.xml', '_'+now+'.xml')
-        self.save_xml(self.tree, bkp_path)
+        shutil.copyfile(path, bkp_path)
 
 
 class StringHandler():

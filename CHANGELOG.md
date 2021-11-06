@@ -2,6 +2,13 @@
 
 ---
 
+## 0.3.5
+- Bugfix on gamelist.xml generation.
+- Added new linux example.
+- Code refatoring.
+
+---
+
 ## 0.3.4
 - Updated baseclasses Game, System
 - The Game class is now generating its xml element.
@@ -25,7 +32,7 @@
 ---
 
 ## 0.3.1
-- Error correction on update_subcollection method.
+- Bugfix on update_subcollection method.
 - Code refatoring.
 
 ---
@@ -37,7 +44,7 @@
 ---
 
 ## 0.2.1
-- Bugfix of Raise Collection Operation.
+- Bugfix on Raise Collection Operation.
 - Code refatoring.
 
 ---

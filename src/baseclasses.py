@@ -123,8 +123,8 @@ class Game:
             self.developer = self.set_info(gl, xmlg, 'developer')
             self.publisher = self.set_info(gl, xmlg, 'publisher')
             self.genre = self.set_info(gl, xmlg, 'genre')
-            self.players = self.set_info(gl, xmlg, 'core')
-            self.core = self.set_info(gl, xmlg, 'name')
+            self.players = self.set_info(gl, xmlg, 'players')
+            self.core = self.set_info(gl, xmlg, 'core')
             self.emulator = self.set_info(gl, xmlg, 'emulator')
             self.rating = self.set_info(gl, xmlg, 'rating')
             self.playcount = self.set_info(gl, xmlg, 'playcount')
@@ -209,13 +209,17 @@ class System:
             game.load_from_gamelist(self.gamelist, sp)
             self.games.append(game)
 
-    def gen_xml_gamelist_from_games(self):
+    def update_gamelist_from_games(self):
         root = self.gamelist.create_element('gameList')
         for g in self.games:
             e = g.gen_xml_element()
             root.append(e)
+
         self.gamelist.set_root(root)
-        p = self.get_gamelist_path().replace('.xml', '2.xml')
+
+    def save_xml(self):
+        p = self.get_gamelist_path()
+        self.gamelist.backup_xml(p)
         self.gamelist.save_xml(p)
 
 

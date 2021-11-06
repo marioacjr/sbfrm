@@ -96,7 +96,7 @@ def update_game1_from_game2(game1, game2):
         for e2 in game2:
             if e2.tag not in media_tags:
                 e1 = game1.find(e2.tag)
-                if e1 is not None:
+                if e1 is None:
                     game1.append(e2)
                 else:
                     if game1.find(e2.tag) is not None:
