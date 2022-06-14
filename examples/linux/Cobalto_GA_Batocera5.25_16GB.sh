@@ -28,12 +28,17 @@ destdir="/media/mario/SHARE/roms"
 # este exemplo em outra coleção, atualize esses
 # nomes conforme necessário.
 imgsrc="downloaded_images"
-imgsrc2="images"
 
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms. imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc2
+python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc
 
-# Este comando vai varrer novamente a coleção e adicionar as imagens que estão na pasta images.
-python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc
+# Estes comandos vão varrer duas vezes a coleção e adicionar as imagens que
+# nas duas pastas de images do snes.
+srcdir="/media/mario/SHARE1/roms/snes"
+destdir="/media/mario/SHARE/roms/snes"
+imgsrc="images"
+python3 sbfrm.py update_system $srcdir/ $destdir/ -img_src $imgsrc
+imgsrc="downloaded_images"
+python3 sbfrm.py update_system $srcdir/ $destdir/ -img_src $imgsrc

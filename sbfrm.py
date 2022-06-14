@@ -1,46 +1,77 @@
+"""Make Description."""
+
 import argparse
-from src.collection_handler import CollectionHandler
+from os.path import join
+
+from src.collection import Collection
+from src.terminalutils import text_colored
 
 parser = argparse.ArgumentParser(description='RetroGames Collection Manager')
 
-helptext = """Operation"""
-parser.add_argument("op", help=helptext)
+HELPTEXT = """Operation"""
+parser.add_argument("op", help=HELPTEXT)
 
-helptext = """Source Folder"""
-parser.add_argument("src", help=helptext)
+HELPTEXT = """Source Folder"""
+parser.add_argument("src", help=HELPTEXT)
 
-helptext = """Destiantion Folder"""
-parser.add_argument("dest", help=helptext)
+HELPTEXT = """Destiantion Folder"""
+parser.add_argument("dest", help=HELPTEXT)
 
-helptext = """Box Folder Source"""
-parser.add_argument("-box_src", help=helptext)
+HELPTEXT = """Box Folder Source"""
+parser.add_argument("-box_src", help=HELPTEXT)
 
-helptext = """Image Folder Source"""
-parser.add_argument("-img_src", help=helptext)
+HELPTEXT = """Image Folder Source"""
+parser.add_argument("-img_src", help=HELPTEXT)
 
-helptext = """Marquee Folder Source"""
-parser.add_argument("-marq_src", help=helptext)
+HELPTEXT = """Marquee Folder Source"""
+parser.add_argument("-marq_src", help=HELPTEXT)
 
-helptext = """Thumbnail Folder Source"""
-parser.add_argument("-thumb_src", help=helptext)
+HELPTEXT = """Thumbnail Folder Source"""
+parser.add_argument("-thumb_src", help=HELPTEXT)
 
-helptext = """Video Folder Source"""
-parser.add_argument("-vid_src", help=helptext)
+HELPTEXT = """Video Folder Source"""
+parser.add_argument("-vid_src", help=HELPTEXT)
 
-helptext = """SubCollections Tag Lists"""
-parser.add_argument("-subcol_list", help=helptext)
+HELPTEXT = """SubSystem Tag List"""
+parser.add_argument("-subsyslist", help=HELPTEXT)
 
-helptext = """For copy or move file: '-filemode cp' or -filemode mv"""
-parser.add_argument("-filemode", help=helptext)
+HELPTEXT = """For copy or move file: '-filemode cp' or -filemode mv"""
+parser.add_argument("-filemode", help=HELPTEXT)
 
 args = parser.parse_args()
 
-ch = CollectionHandler(args.src, args.dest, args.box_src, args.img_src,
-                       args.marq_src, args.thumb_src, args.vid_src,
-                       args.subcol_list, args.filemode)
-if args.op == 'update_collections':
-    ch.update_collections()
-elif args.op == 'update_subcollection':
-    ch.update_subcollection()
-elif args.op == 'raise_subcollection':
-    ch.raise_subcollection()
+src, dest, subsyslist = args.src, args.dest, args.subsyslist
+if subsyslist:
+    subsyslist = subsyslist.split(',')
+mdirs = {"boxart": args.box_src,
+         "image": args.img_src,
+         "marquee": args.marq_src,
+         "thumbnail": args.thumb_src,
+         "video": args.vid_src}
+provider = {
+    "system": "system_one",
+    "software": "SBFRM",
+    "web": "https://github.com/marioacjr/sbfrm"
+}
+VERBOSE = True
+
+col = Collection()
+if args.op == "update_system":
+    if VERBOSE:
+        print(text_colored('green', 'Update System:'), dest, flush=True, end='')
+    col.update_sys_from(dest, src, mdirs, subsyslist=subsyslist,
+                        verbose=VERBOSE)
+elif args.op == "update_collection":
+    if VERBOSE:
+        print(text_colored('green', 'Update Collection:'), flush=True, end='')
+    sys_paths = col.list_systems(args.src)
+    for sys_path in sys_paths:
+        if VERBOSE:
+            print(text_colored('green', '\n  Processing:'), sys_path, '',
+                  flush=True, end='')
+        src_path = join(args.src, sys_path)
+        dest_path = join(args.dest, sys_path)
+        col.update_sys_from(dest_path, src_path, mdirs, subsyslist=subsyslist,
+                            verbose=VERBOSE)
+if VERBOSE:
+    print()

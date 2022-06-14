@@ -35,13 +35,15 @@ imgsrc="downloaded_images"
 marqsrc="downloaded_wheels"
 vidsrc="downloaded_videos"
 
+subsystems="## HACKS ##,# PT-BR #,# TECTOY #"
+
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms. imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collections $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc
+python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc
 
 # Este comando transforma a subcoleção da TECTOY, dentro
 # do sistema Mastersystem, em uma coleção independente,
 # com sua própria gamelist.xml e arquivos de imagens
 # e vídeos
-python3 sbfrm.py raise_subcollection $srcdir/mastersystem $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subcol_list "# TECTOY #"
+python3 sbfrm.py raise_subcollection $srcdir/mastersystem $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subsys_list "$subsystems"
