@@ -15,6 +15,16 @@ This manager is applied to collections in EmulationStation format (those with a 
 - Avoid wasting disk space;
 - And, most importantly, generate the gamelist.xml file automatically.
 
+## Graphical interface:
+
+To use, simply download the binary for your O.S. in the [releases](releases/) folder and run. The binary was compiled from python code and does not need any requirements.
+
+![Execute GUI](srfrm_gui.png)
+
+## Command line:
+
+To use, you must have Python3 or higher installed. Run the script [sbfrm.py](sbfrm.py), passing the arguments as explained below, or open the gui [sbfrm_gui.py](sbfrm_gui.py).
+
 ### Requirements:
 - Python3;
 - Works on Linux and Windows.
@@ -93,12 +103,11 @@ The example above is the simplest thing that sbfrm can do. In fact, it is capabl
 
 #### Mandatory Parameters:
 - **op**: Operation to be performed.
-    - **update_collection**: Updates, in **dest/**, all roms, images and videos files for each collection (game system) present in **src/**. Update the **gamelist.xml** of each collection, or create a new one if it doesn't exist;
-    - **update_subsystem**: Update or Adds sub-collections to their respective collections. A subsystem is the another roms folder inside a system folder (e.g. nes/## HACKS ##/). This operation works together with the optional parameter **-subsys_list**. If the optional parameter is not passed, no subsystem will be considered;
-    - **raise_subsystem**: Elevates a subsystem into the system hierarchy. The newly created system will have its own folders for organizing images and videos and its own **gamelist.xml**. This operation works in conjunction with the optional **-subsys_list** parameter. If it is not set, the new collection will not be created.
-- **src/**: Path of the directory where the collection to be added is located.
+    - **update_collection**: Updates, in **dest/**, all roms, images and video files for each collection (game system) present in **src/**. Updates the **gamelist.xml** of each collection, or creates a new one if it doesn't exist;
+    - **update_system**: Updates the respective system, or creates a new one if it does not exist, and its subsystems. Subsystems are understood as folders with roms inside a system (e.g. ## HACKS ##). This operation works together with the optional parameter **-subsyslist**. If the optional parameter is not passed, no subsystems will be updated or added;
+- **src/**: Path to the directory where the collection to be added is located.
     - Ex: /media/user/SHARE1/roms
-- **dest/**: Path of the directory where the files should be added.
+- dest/**: Path of the directory where the files are to be added.
     - Ex: /media/user/SHARE/roms
 
 #### Optional Parameters:
@@ -107,7 +116,7 @@ The example above is the simplest thing that sbfrm can do. In fact, it is capabl
 - **-marq_src**: Name of the directory where the game lettering image files to be added to your collection are located (e.g. -marq_src Named_Marks or -marq_src downloaded_wheels). If this parameter is not declared, these media files will not be updated in the target collection.
 - **-thumb_src**: Name of the directory containing the small game title image files to be added to your collection (e.g. -thumb_src Named_Titles or -thumb_src downloaded_images). If this parameter is not declared, these media files will not be updated in the target collection.
 - **-vid_src**: Name of the directory containing the games' video files to be added to your collection (e.g. -vid_src videos or -vid_src downloaded_videos). If this parameter is not declared, these media files will not be updated in the target collection.
-- **-subsys_list**: List of sub-collections to be considered during script processing (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). The list must be separated by commas, with no spaces between items, and enclosed in double quotes. For each collection present in **src**, the entire list will be evaluated, and, if any subdirectory exists with the same name as the item, the script will update or raise the subsystem.
+- **-subsyslist**: List of sub-collections to be considered during script processing (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). The list must be separated by commas, with no spaces between items, and enclosed in double quotes. For each collection present in **src**, the entire list will be evaluated, and, if any subdirectory exists with the same name as the item, the script will update or raise the subsystem.
 - **-filemode**: Defines whether files will be copied or moved to the destination (e.g. -filemode cp or -filemode mv). This option is very useful if you have limited disk space or want the processing to be faster (files are moved almost instantly if they are within the same partition :p).
 
 #### Reports on Collection Composition and Media File Organization

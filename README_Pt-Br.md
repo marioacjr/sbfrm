@@ -15,6 +15,17 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Evitar desperdício de espaço em disco;
 - E, mais importante, gerar o arquivo gamelist.xml automaticamente.
 
+## Interface gráfica:
+
+Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releases/) e executar. O binário foi compilado a partir do código python e não necessita de nenhum requerimento para funcionar.
+
+![Executar GUI](srfrm_gui.png)
+
+## Linha de comando:
+
+Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme explicado a seguir, ou abra a gui [sbfrm_gui.py](sbfrm_gui.py).
+
+
 ### Requerimentos:
 - Python3;
 - Funciona em Linux e Windows.
@@ -94,8 +105,7 @@ O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é 
 #### Parâmetros Obrigatórios:
 - **op**: Operação a ser efetuada.
     - **update_collection**: Atualiza, em **dest/**, todos os arquivos de roms, imagens e vídeos para cada coleção (sistema de jogos) presentes em **src/**. Atualiza o **gamelist.xml** de cada coleção, ou cria um novo caso não exista;
-    - **update_subcollection**: Adiciona subsistemas ao seu respectivo sistema. Entende-se como subcoleção, as pastas com roms dentro de uma coleção (ex: ## HACKS ##). Esta operação trabalha em conjunto com o parâmetro opcional **-subsys_list**. Caso o parâmetro opcional não seja passado, nenhuma subcoleção será adicionada;
-    - **raise_subcollection**: Eleva uma subcoleção para a hierarquia de coleção. A nova coleção criada irá possuir suas próprias pastas para organização de imagens e vídeos e seu próprio **gamelist.xml**. Esta operação trabalha em conjunto com o parâmetro opcional **-subsys_list**. Caso ele não seja informado, a nova coleção não será criada.
+    - **update_system**: Atualiza o respectivo sistema ou cria um novo, caso não exista, e seus subsistemas. Entende-se como subsistema as pastas com roms dentro de um sistema (ex: ## HACKS ##). Esta operação trabalha em conjunto com o parâmetro opcional **-subsyslist**. Caso o parâmetro opcional não seja passado, nenhuma subcoleção será atualizada ou adicionada;
 - **src/**: Caminho do diretório onde está a coleção a ser adicionada.
     - Ex: /media/user/SHARE1/roms
 - **dest/**: Caminho do diretório onde os arquivos devem ser adicionados.
@@ -107,7 +117,7 @@ O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é 
 - **-marq_src**: Nome do diretório onde estão os arquivos de imagens do letreiro dos jogos que deverão ser adicionadas à sua coleção (ex: -marq_src Named_Marquees ou -marq_src downloaded_wheels). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
 - **-thumb_src**: Nome do diretório onde estão os arquivos de imagens da tela de título dos jogos que deverão ser adicionadas à sua coleção (ex: -thumb_src Named_Titles ou -thumb_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
 - **-vid_src**: Nome do diretório onde estão os arquivos de vídeo da gamepley dos jogos que deverão ser adicionadas à sua coleção (ex: -vid_src videos ou -vid_src downloaded_videos). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-subsys_list**: Lista de subsistemas a serem considerados durante o processamento do script (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). A lista deve ser separada por vírgula, sem espaços entre os itens e estar dentro de aspas duplas. Para cada coleção presente em **src/**, a lista inteira será avaliada, e, caso algum subdiretório exista com o mesmo nome do item, o script irá atualizar ou elevar a subcoleção.
+- **-subsyslist**: Lista de subsistemas a serem considerados durante o processamento do script (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). A lista deve ser separada por vírgula, sem espaços entre os itens e estar dentro de aspas duplas. Para cada coleção presente em **src/**, a lista inteira será avaliada, e, caso algum subdiretório exista com o mesmo nome do item, o script irá atualizar ou elevar a subcoleção.
 - **-filemode**: Define se os arquivos serão copiados ou movidos para o destino (ex: -filemode cp ou -filemode mv). Essa opção é muito útil caso você tenha limitação de espaço em disco ou deseja que o processamento seja realizado de forma mais rápida (arquivos são movidos quase instantaneamente se estiverem dentro da mesma partição :p).
 
 #### Relatórios da composição das coleções e Organização dos Arquivos de Mídia
