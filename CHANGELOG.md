@@ -2,6 +2,13 @@
 
 ---
 
+## 0.4.0
+- Added GUI.
+- Code refatoring.
+- Removed report features (will be added soon).
+
+---
+
 ## 0.3.5
 - Bugfix on gamelist.xml generation.
 - Added new linux example.

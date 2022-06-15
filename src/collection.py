@@ -33,6 +33,28 @@ def make_sys_dirs(path, mdirs, subsys=None):
         makedirs(mpath, exist_ok=True)
 
 
+def copy_file(src_path, src_filename, dest_path, dest_filename,
+              src_mdir=None, dest_mdir=None, subsys=None, overwrite_file=False):
+    """Make Description."""
+    src_file = join(src_path)
+    if src_mdir is not None:
+        src_file = join(src_file, src_mdir)
+    if subsys is not None:
+        src_file = join(src_file, subsys)
+    src_file = join(src_file, src_filename)
+    if isfile(src_file):
+        dest_path = join(dest_path)
+        if dest_mdir is not None:
+            dest_path = join(dest_path, dest_mdir)
+        if subsys is not None:
+            dest_path = join(dest_path, subsys)
+        if not isfile(join(dest_path, dest_filename)):
+            shutil.copy(src_file, dest_path)
+        elif overwrite_file:
+            dest_path = join(dest_path, dest_filename)
+            shutil.copy(src_file, dest_path)
+
+
 class Collection:
     """Base class for system."""
 
@@ -65,7 +87,7 @@ class Collection:
         return False
 
     def copy_files(self, system_path, src_path, src_mdirs,
-                   subsys=None, verbose=False):
+                   subsys=None, verbose=False, overwrite_file=False):
         """Make Description."""
         make_sys_dirs(system_path, self.media_dirs, subsys=subsys)
         src_system = System()
@@ -83,45 +105,36 @@ class Collection:
             for key, value in game.paths.items():
                 if value is not None:
                     if key == 'path':
-                        if subsys is None:
-                            src_file = join(src_path, basename(value))
-                            if isfile(src_file):
-                                shutil.copy(src_file, system_path)
-                        else:
-                            src_file = join(src_path, subsys, basename(value))
-                            if isfile(src_file):
-                                dest_path = join(system_path, subsys)
-                                shutil.copy(src_file, dest_path)
+                        copy_file(src_path, basename(value),
+                                  system_path, basename(value),
+                                  subsys=subsys, overwrite_file=overwrite_file)
                     elif src_mdirs[key] is not None:
-                        src_file = join(src_path, src_mdirs[key])
-                        if subsys is not None:
-                            src_file = join(src_file, subsys)
-                        src_file = join(src_file, basename(value))
-                        if isfile(src_file):
-                            dest_path = get_file_name(game.paths['path'])
-                            dest_path += get_file_extension(src_file)
-                            if subsys is not None:
-                                dest_path = join(subsys, dest_path)
-                            dest_path = join(self.media_dirs[key], dest_path)
-                            dest_path = join(system_path, dest_path)
-                            shutil.copy(src_file, dest_path)
+                        dest_filename = get_file_name(game.paths['path'])
+                        dest_filename += get_file_extension(basename(value))
+                        copy_file(src_path, basename(value),
+                                  system_path, dest_filename,
+                                  src_mdir=src_mdirs[key],
+                                  dest_mdir=self.media_dirs[key],
+                                  subsys=subsys, overwrite_file=overwrite_file)
 
     def update_sys_from(self, sys_path, src_path, src_mdirs,
                         subsyslist=None, overwrite_info=False, provider=None,
-                        verbose=False):
+                        verbose=False, overwrite_file=False):
         """Make Description."""
         system = System()
         gl_dest_path = join(sys_path, 'gamelist.xml')
         gl_src_path = join(src_path, 'gamelist.xml')
 
-        self.copy_files(sys_path, src_path, src_mdirs, verbose=verbose)
+        self.copy_files(sys_path, src_path, src_mdirs,
+                        verbose=verbose, overwrite_file=overwrite_file)
         system.load(sys_path, self.media_dirs)
 
         if isinstance(subsyslist, list):
             for subsys in subsyslist:
                 if isdir(join(src_path, subsys)):
                     self.copy_files(sys_path, src_path, src_mdirs,
-                                    subsys=subsys)
+                                    subsys=subsys, verbose=verbose,
+                                    overwrite_file=overwrite_file)
                     system.load(sys_path, self.media_dirs, subsys=subsys)
 
         if overwrite_info:
@@ -132,3 +145,5 @@ class Collection:
             system.load_info(gl_dest_path)
 
         system.set_gamelist(gl_dest_path, provider=provider)
+        system.gen_report()
+        system.save_reports(sys_path)

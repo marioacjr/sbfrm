@@ -39,4 +39,6 @@ subsystems="# Japan #,## HACKS ##,# MARK III (JP) #,# TECTOY #,# GENESIS (JP) #,
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms, imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subsyslist "$subsystems"
+python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subsyslist "$subsystems" -verbose 1
+
+# openbor ports scummvm

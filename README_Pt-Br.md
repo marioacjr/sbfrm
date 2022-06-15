@@ -15,15 +15,17 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Evitar desperdício de espaço em disco;
 - E, mais importante, gerar o arquivo gamelist.xml automaticamente.
 
-## Interface gráfica:
+## Releases Executáveis:
 
-Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releases/) e executar. O binário foi compilado a partir do código python e não necessita de nenhum requerimento para funcionar.
+Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releases/) e executar. O binário foi compilado a partir deste código python e não necessita de nenhum requerimento para funcionar.
 
 ![Executar GUI](srfrm_gui.png)
 
 ## Linha de comando:
 
 Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme explicado a seguir, ou abra a gui [sbfrm_gui.py](sbfrm_gui.py).
+
+![Executar Terminal](srfrm.png)
 
 
 ### Requerimentos:
@@ -120,7 +122,8 @@ O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é 
 - **-subsyslist**: Lista de subsistemas a serem considerados durante o processamento do script (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). A lista deve ser separada por vírgula, sem espaços entre os itens e estar dentro de aspas duplas. Para cada coleção presente em **src/**, a lista inteira será avaliada, e, caso algum subdiretório exista com o mesmo nome do item, o script irá atualizar ou elevar a subcoleção.
 - **-filemode**: Define se os arquivos serão copiados ou movidos para o destino (ex: -filemode cp ou -filemode mv). Essa opção é muito útil caso você tenha limitação de espaço em disco ou deseja que o processamento seja realizado de forma mais rápida (arquivos são movidos quase instantaneamente se estiverem dentro da mesma partição :p).
 
-#### Relatórios da composição das coleções e Organização dos Arquivos de Mídia
+## Relatórios das coleções e Organização dos Arquivos de Mídia
+
 
 Após o processamento do script, um conjunto de arquivos de texto, com informações de totais de arquivos e mídias ausentes, será criado para cada uma das coleções presentes em **dest/**. Estes arquivos são bastantes úteis para identificar e adicionar o que está faltando na coleção. Por exemplo, por meio deles, pode-se criar uma força-tarefa para completar todas as informações de uma coleção.
 
@@ -130,18 +133,35 @@ Além disso, cada tipo de mídia dos jogos será inserida em um diretório propr
 
 - **dest-collection/**
     - **sistema/**
-        - **boxarts/**: Pasta onde estão adicionados os arquivos de imagens das caixas dos jogos da coleção.
-        - **images/**: Pasta onde estão adicionados os arquivos de imagens do gameplay dos jogos da coleção.
-        - **marquees/**: Pasta onde estão adicionados os arquivos de imagens do letreiro dos jogos da coleção.
+        - **boxart/**: Pasta onde estão adicionados os arquivos de imagens das caixas dos jogos da coleção.
+
+        - **image/**: Pasta onde estão adicionados os arquivos de imagens do gameplay dos jogos da coleção.
+
+        - **marquee/**: Pasta onde estão adicionados os arquivos de imagens do letreiro dos jogos da coleção.
+
         - **thumbnails/**: Pasta onde estão adicionados os arquivos de imagens da tela de titulo dos jogos da coleção.
-        - **videos/**: Pasta onde estão adicionados os arquivos de vídeo do gameplay dos jogos da coleção.
+
+        - **video/**: Pasta onde estão adicionados os arquivos de vídeo de demostração dos jogos da coleção.
+
         - **gamelist_yyyymmdd-hhmmss.txt/**: Backup do gamelist.xml anterior, com a data e hora do backup.
-        - **gamelist_results.txt/**: Arquivo de texto com a totalização dos jogos, mídias e descrições, tanto nos arquivos quanto na **gamelist.xml**.
-        - **game_wihout_box.txt/**: Arquivo de texto com a lista das imagens das caixas ausentes da coleção.
-        - **game_wihout_image..txt/**: Arquivo de texto com a lista das imagens de gameplay ausentes da coleção.
-        - **game_wihout_marquee.txt/**: Arquivo de texto com a lista das imagens de letreiro ausentes da coleção.
-        - **game_wihout_thumbnails.txt/**: Arquivo de texto com a lista das imagens do gameplay ausentes da coleção.
-        - **game_wihout_video.txt/**: Arquivo de texto com a lista dos vídeos de gameplay ausentes da coleção.
+        - **sbfrm_reports/**
+          - **game_wihout_box.txt/**: Arquivo de texto com a lista das imagens das boxarts ausentes da coleção.
+
+          - **game_wihout_image.txt/**: Arquivo de texto com a lista das imagens de gameplay ausentes da coleção.
+
+          - **game_wihout_marquee.txt/**: Arquivo de texto com a lista das imagens de letreiro ausentes da coleção.
+
+          - **game_wihout_thumbnails.txt/**: Arquivo de texto com a lista das imagens do gameplay ausentes da coleção.
+
+          - **game_wihout_video.txt/**: Arquivo de texto com a lista dos vídeos de gameplay ausentes da coleção.
+
+          - **game_wihout_info_name.txt/**: Arquivo de texto com a lista dos jogos sem o nome no gamelist.txt.
+
+          - **game_wihout_info_desc.txt/**: Arquivo de texto com a lista dos jogos sem a descrição no gamelist.txt.
+
+          - **game_wihout_info_genre.txt/**: Arquivo de texto com a lista dos jogos sem o gênero do jogo no gamelist.txt.
+
+          - **demais arquivos de relatório**
 
 Longe de mim achar que esse é um projeto espetacular e que não haja outro igual ou melhor. Tem muita coisa que pode ser melhorada, certamente tem bugs que eu não percebi, muita refatoração de código para ser feita, falta implementar testes, etc, etc. Mas espero que ele lhe seja útil e ajude a ganhar espaço em disco e poupar muito tempo organizando suas roms. Tempo esse que dever ser usado para jogar e se divertir. Se você chegou até aqui, é porque realmente se interessou pelo meu trabalho e provavelmente está, ou vai em algum momento, se perguntar que diabos significa sbfrm, que é o acrônimo para Small Big Fucking Retro Gamelist Manager :)
 

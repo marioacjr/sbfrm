@@ -35,8 +35,14 @@ parser.add_argument("-vid_src", help=HELPTEXT)
 HELPTEXT = """SubSystem Tag List"""
 parser.add_argument("-subsyslist", help=HELPTEXT)
 
-HELPTEXT = """For copy or move file: '-filemode cp' or -filemode mv"""
+HELPTEXT = """For copy or move file: '-filemode [cp, mv]"""
 parser.add_argument("-filemode", help=HELPTEXT)
+
+HELPTEXT = """For copy or move file: '-overwritefile [0, 1]"""
+parser.add_argument("-overwritefile", help=HELPTEXT)
+
+HELPTEXT = """Print text output: -verbose [True, False]"""
+parser.add_argument("-verbose", help=HELPTEXT)
 
 args = parser.parse_args()
 
@@ -53,25 +59,26 @@ provider = {
     "software": "SBFRM",
     "web": "https://github.com/marioacjr/sbfrm"
 }
-VERBOSE = True
+verbose = args.verbose == '1'
 
 col = Collection()
 if args.op == "update_system":
-    if VERBOSE:
-        print(text_colored('green', 'Update System:'), dest, flush=True, end='')
+    if verbose:
+        print(text_colored('green', 'Update System:'), dest,
+              flush=True, end='')
     col.update_sys_from(dest, src, mdirs, subsyslist=subsyslist,
-                        verbose=VERBOSE)
+                        verbose=verbose)
 elif args.op == "update_collection":
-    if VERBOSE:
+    if verbose:
         print(text_colored('green', 'Update Collection:'), flush=True, end='')
     sys_paths = col.list_systems(args.src)
     for sys_path in sys_paths:
-        if VERBOSE:
+        if verbose:
             print(text_colored('green', '\n  Processing:'), sys_path, '',
                   flush=True, end='')
         src_path = join(args.src, sys_path)
         dest_path = join(args.dest, sys_path)
         col.update_sys_from(dest_path, src_path, mdirs, subsyslist=subsyslist,
-                            verbose=VERBOSE)
-if VERBOSE:
+                            verbose=verbose)
+if verbose:
     print()

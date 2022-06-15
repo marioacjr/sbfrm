@@ -66,7 +66,7 @@ layout = [
                     visible=False)]
 ]
 
-window = sg.Window('SBFRM V0.4.0', layout, enable_close_attempted_event=True,
+window = sg.Window('SBFRM V0.4.1', layout, enable_close_attempted_event=True,
                    location=sg.user_settings_get_entry('-location-', (None, None)))
 
 while True:

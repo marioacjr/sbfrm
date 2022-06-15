@@ -4,7 +4,7 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xdm
 
-from os import listdir
+from os import listdir, makedirs
 from os.path import isfile, join, basename, splitext
 from src.terminalutils import text_colored as tc
 from src.game import Game
@@ -46,6 +46,33 @@ class System:
                                     '.txt', '.eeprom', '.srm', '.lst', '.keep',
                                     '.sh']
         self.media_extensions = ['.png', '.jpg', '.jpeg', '.mp4', '.ogg']
+        self.reports = {
+            "ausent_media": {
+                'boxart': [],
+                "image": [],
+                "marquee": [],
+                "thumbnail": [],
+                "video": []
+            },
+            "ausent_info": {
+                "name": [],
+                "sortname": [],
+                "desc": [],
+                "releasedate": [],
+                "developer": [],
+                "publisher": [],
+                "genreid": [],
+                "genre": [],
+                "players": [],
+                "core": [],
+                "emulator": [],
+                "rating": [],
+                "playcount": [],
+                "lastplayed": [],
+                "md5": [],
+                "adult": []
+            },
+        }
 
     def __str__(self):
         """Make Description."""
@@ -97,11 +124,23 @@ class System:
             game = Game()
             game.load(paths, gl_path, media_dirs, subsys=subsys)
             self.games.append(game)
+            for key, value in game.paths.items():
+                if key != 'path' and value is None:
+                    game_filename = basename(game.paths['path'])
+                    self.reports['ausent_media'][key].append(game_filename)
 
     def load_info(self, gamelist_path):
         """Make Description."""
         for game in self.games:
             game.load_xml_info(gamelist_path)
+
+    def gen_report(self):
+        """Make Description."""
+        for game in self.games:
+            for key, value in game.info.items():
+                if value is None:
+                    game_filename = basename(game.paths['path'])
+                    self.reports['ausent_info'][key].append(game_filename)
 
     def set_gamelist(self, path, provider=None):
         """Make Description."""
@@ -123,3 +162,27 @@ class System:
             root.append(game_xml)
         with open(path, "w", encoding="utf-8") as file_out:
             file_out.write(xdm.parseString(ET.tostring(root)).toprettyxml())
+
+    def save_reports(self, path):
+        """Make Description."""
+        path = join(path, 'sbfrm_reports')
+        makedirs(path, exist_ok=True)
+        for key, media in self.reports['ausent_media'].items():
+            if key != 'path':
+                report_path = join(path, 'games_wihout_')
+                report_path += key + '.txt'
+                report = ''
+                for game_name in media:
+                    report += game_name + '\n'
+                with open(report_path, "w", encoding="utf-8") as file_out:
+                    file_out.write(report)
+
+        for key, media in self.reports['ausent_info'].items():
+            if key != 'path':
+                report_path = join(path, 'games_wihout_info_')
+                report_path += key + '.txt'
+                report = ''
+                for game_name in media:
+                    report += game_name + '\n'
+                with open(report_path, "w", encoding="utf-8") as file_out:
+                    file_out.write(report)
