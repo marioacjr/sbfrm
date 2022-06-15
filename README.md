@@ -160,8 +160,6 @@ Also, each game media type will be placed in its own directory. The following wi
 
           - **other report files**
 
-Translated with www.DeepL.com/Translator (free version)
-
 It is not my intention to think that this is a spectacular project and that there is no other equal or better one. There is a lot that can be improved, certainly there are bugs that I didn't notice, a lot of code refactoring to be done, lack of test implementation, etc, etc. But I hope it will be useful to you and help you save a lot of disk space and time organizing your roms. Time that should be used for playing and having fun. If you got this far, it is because you are really interested in my work and probably are, or will at some point, wonder what the hell sbfrm means, which is the acronym for Small Big Fucking Retro Gamelist Manager :)
 
 Otherwise, here are my ideas for future work to be implemented (when I have some time to spare):
