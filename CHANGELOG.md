@@ -2,6 +2,19 @@
 
 ---
 
+## 0.4.2
+- Add Progress window.
+- Add Cancel Process option.
+- Code refatoring.
+
+---
+
+## 0.4.1
+- Added Reports Generation.
+- Code refatoring.
+
+---
+
 ## 0.4.0
 - Added GUI.
 - Code refatoring.

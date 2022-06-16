@@ -69,6 +69,8 @@ class Collection:
                            "marquee": "marquee", "thumbnail": "thumbnail",
                            "video": "video"}
 
+        self.stop_copy = False
+
     def __str__(self):
         """Make Description."""
         return ""
@@ -87,7 +89,8 @@ class Collection:
         return False
 
     def copy_files(self, system_path, src_path, src_mdirs,
-                   subsys=None, verbose=False, overwrite_file=False):
+                   subsys=None, verbose=False, overwrite_file=False,
+                   gui=False):
         """Make Description."""
         make_sys_dirs(system_path, self.media_dirs, subsys=subsys)
         src_system = System()
@@ -99,9 +102,12 @@ class Collection:
                 print_txt = print_txt.replace(':', ' (' + subsys + '):')
             print(print_txt, end='', flush=True)
         for gid, game in enumerate(src_system.games):
+            if self.stop_copy:
+                break
             if verbose:
                 print(get_progress_bar(gid, progress_base), end='', flush=True)
-
+            if gui:
+                gui.write_event_value('-PROGRESS_GAMES-', [gid, progress_base])
             for key, value in game.paths.items():
                 if value is not None:
                     if key == 'path':
@@ -119,14 +125,15 @@ class Collection:
 
     def update_sys_from(self, sys_path, src_path, src_mdirs,
                         subsyslist=None, overwrite_info=False, provider=None,
-                        verbose=False, overwrite_file=False):
+                        verbose=False, overwrite_file=False, gui=False):
         """Make Description."""
         system = System()
         gl_dest_path = join(sys_path, 'gamelist.xml')
         gl_src_path = join(src_path, 'gamelist.xml')
 
         self.copy_files(sys_path, src_path, src_mdirs,
-                        verbose=verbose, overwrite_file=overwrite_file)
+                        verbose=verbose, overwrite_file=overwrite_file,
+                        gui=gui)
         system.load(sys_path, self.media_dirs)
 
         if isinstance(subsyslist, list):
@@ -134,7 +141,7 @@ class Collection:
                 if isdir(join(src_path, subsys)):
                     self.copy_files(sys_path, src_path, src_mdirs,
                                     subsys=subsys, verbose=verbose,
-                                    overwrite_file=overwrite_file)
+                                    overwrite_file=overwrite_file, gui=gui)
                     system.load(sys_path, self.media_dirs, subsys=subsys)
 
         if overwrite_info:
