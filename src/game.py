@@ -72,11 +72,14 @@ class Game:
                     self.paths[key] = "./" + path
                 else:
                     if key in media_dirs.keys():
-                        path = join(media_dirs[key], basename(value))
+                        path = basename(value)
+                        dir_name = dirname(value)
                         if subsys is not None:
-                            path = join(media_dirs[key],
-                                        subsys, basename(value))
-                        self.paths[key] = "./" + path
+                            path = join(subsys, path)
+                            dir_name = dirname(dir_name)
+                        dir_name = basename(dir_name)
+                        if isfile(value):
+                            self.paths[key] = "./" + join(dir_name, path)
 
     def load_xml_paths(self, gamelist_path):
         """Make Description."""

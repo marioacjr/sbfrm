@@ -21,6 +21,9 @@ To use, simply download the binary for your O.S. in the [releases](releases/) fo
 
 ![Execute GUI](srfrm_gui.png)
 
+### Requirements:
+- Linux or Windows.
+
 ## Command line:
 
 To use, you must have Python3 or higher installed. Run the script [sbfrm.py](sbfrm.py), passing the arguments as explained below, or open the gui [sbfrm_gui.py](sbfrm_gui.py).
@@ -29,7 +32,7 @@ To use, you must have Python3 or higher installed. Run the script [sbfrm.py](sbf
 
 ### Requirements:
 - Python3;
-- Works on Linux and Windows.
+- Linux or Windows.
 
 See [examples](examples) in Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.bat) format and Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh) format.
 

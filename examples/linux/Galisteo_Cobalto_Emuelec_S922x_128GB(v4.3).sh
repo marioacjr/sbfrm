@@ -22,7 +22,7 @@
 # roms da imagem do Galisteo e para a pasta onde
 # está a sua coleção.
 srcdir="/media/mario/EEROMS"
-destdir="/media/mario/SHARE/roms"
+destdir="/mnt/storage/batocera/roms"
 
 # Aqui não deve ser alterado, pois nesta imagem do
 # Galisteo as pastas de imagens e vídeos tem
@@ -37,4 +37,4 @@ vidsrc="downloaded_videos"
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms. imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc
+python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -verbose 1

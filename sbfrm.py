@@ -49,11 +49,11 @@ args = parser.parse_args()
 src, dest, subsyslist = args.src, args.dest, args.subsyslist
 if subsyslist:
     subsyslist = subsyslist.split(',')
-mdirs = {"boxart": args.box_src,
-         "image": args.img_src,
-         "marquee": args.marq_src,
-         "thumbnail": args.thumb_src,
-         "video": args.vid_src}
+mdirs = {"boxart": args.box_src.split(','),
+         "image": args.img_src.split(','),
+         "marquee": args.marq_src.split(','),
+         "thumbnail": args.thumb_src.split(','),
+         "video": args.vid_src.split(',')}
 provider = {
     "system": "system_one",
     "software": "SBFRM",

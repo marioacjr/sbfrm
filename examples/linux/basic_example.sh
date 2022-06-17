@@ -12,11 +12,11 @@ srcdir="test/roms_src/"
 destdir="test/roms_dest/"
 
 # Nomes dos diretórios onde estão as imagens e videos da coleção
-boxsrc="downloaded_boxarts"
-imgsrc="downloaded_images"
-thumbsrc="downloaded_thumbnails"
-vidsrc="downloaded_videos"
-marqsrc="downloaded_wheels"
+boxsrc="boxart,boxarts,downloaded_boxarts"
+imgsrc="image,images,downloaded_images"
+thumbsrc="thumbnail,thumbnails,downloaded_thumbnails"
+vidsrc="video,videos,downloaded_videos"
+marqsrc="marquee,marquees,wheel,wheels,downloaded_wheels"
 
 subsystems="## HACKS ##,# PT-BR #"
 
@@ -24,9 +24,9 @@ rm -rf $destdir/*
 
 # Este comando executa a varredura na coleção inteira e atualiza as roms,
 # imagens e videos da sua coleção.
-python3 sbfrm.py update_collection $srcdir $destdir -box_src $boxsrc -img_src $imgsrc -thumb_src $thumbsrc -marq_src $marqsrc -vid_src $vidsrc -subsyslist "$subsystems" -verbose 1 -overwritefile 1
+python3 sbfrm.py update_collection $srcdir $destdir -box_src "$boxsrc" -img_src "$imgsrc" -thumb_src "$thumbsrc" -marq_src "$marqsrc" -vid_src "$vidsrc" -subsyslist "$subsystems" -verbose 0 -overwritefile 1
 
-srcdir="test/roms_src/system_one"
-destdir="test/roms_dest/system_one"
-# Este comando executa uma atualização em apenas um sistema e seus subsistemas
-# python3 sbfrm.py update_system $srcdir $destdir -box_src $boxsrc -img_src $imgsrc -thumb_src $thumbsrc -vid_src $vidsrc -marq_src $marqsrc -subsyslist "$subsystems" -verbose 1 -overwritefile 0
+# srcdir="test/roms_src/system_one"
+# destdir="test/roms_dest/system_one"
+# # Este comando executa uma atualização em apenas um sistema e seus subsistemas
+# python3 sbfrm.py update_system $srcdir $destdir -box_src $boxsrc -img_src $imgsrc -thumb_src $thumbsrc -vid_src $vidsrc -marq_src $marqsrc -subsyslist "$subsystems" -verbose 0 -overwritefile 0

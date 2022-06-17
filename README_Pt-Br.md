@@ -21,6 +21,9 @@ Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releas
 
 ![Executar GUI](srfrm_gui.png)
 
+#### Requerimentos:
+- Linux ou Windows.
+
 ## Linha de comando:
 
 Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme explicado a seguir, ou abra a gui [sbfrm_gui.py](sbfrm_gui.py).
@@ -28,9 +31,9 @@ Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o scr
 ![Executar Terminal](srfrm.png)
 
 
-### Requerimentos:
+#### Requerimentos:
 - Python3;
-- Funciona em Linux e Windows.
+- Linux ou Windows.
 
 Veja [exemplos](examples) em formato Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.bat) e Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh).
 

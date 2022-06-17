@@ -110,10 +110,15 @@ class System:
         if subsys is not None:
             paths = {"path": join(path, subsys, game_file)}
         for key, value in media_dirs.items():
+            paths[key] = None
             if value is not None:
-                if subsys is not None:
-                    value = join(value, subsys)
-                paths[key] = self.get_path(path, game_file, value)
+                for dir_name in value:
+                    if subsys is not None:
+                        dir_name = join(dir_name, subsys)
+                    media_path = self.get_path(path, game_file, dir_name)
+                    if media_path is not None:
+                        paths[key] = media_path
+                        break
         return paths
 
     def load(self, path, media_dirs, subsys=None):

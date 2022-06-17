@@ -2,6 +2,14 @@
 
 ---
 
+## 0.4.3
+- Cancel Process option Optmized.
+- GUI Text Correction (Linux Version).
+- Change Source Media Dir Name to List Dir Names.
+- Changed SubSystems Names to accept Comma Separated and Multilines format.
+
+---
+
 ## 0.4.2
 - Add Progress window.
 - Add Cancel Process option.

@@ -23,8 +23,8 @@
 # Aqui voce deve alterar os caminhos para a pasta de
 # roms da imagem do Galisteo e para a pasta onde
 # está a sua coleção.
-srcdir="/media/mario/SHARE1/roms"
-destdir="/media/mario/SHARE/roms"
+srcdir="/media/mario/SHARE/roms/atari7800"
+destdir="/mnt/storage/batocera/roms"
 
 # Aqui não deve ser alterado, pois nesta imagem do
 # Galisteo as pastas de imagens e vídeos tem
@@ -35,13 +35,9 @@ imgsrc="downloaded_images"
 marqsrc="downloaded_wheels"
 vidsrc="downloaded_videos"
 
+subsystems="# Japan #,## HACKS ##,# MARK III (JP) #,# TECTOY #,# GENESIS (JP) #,# PT-BR #,# DYNAVISION #,# SATELLAVIEW #,# SUPER FAMICOM (JP) #"
+
 # Este comando executa a varredura na coleção inteira
 # e atualiza as roms. imagens e videos que não existem
 # na sua coleção.
-python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc
-
-# Este comando transforma a subcoleção da TECTOY, dentro
-# do sistema Mastersystem, em uma coleção independente,
-# com sua própria gamelist.xml e arquivos de imagens
-# e vídeos
-python3 sbfrm.py update_subcollection $srcdir/mastersystem $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subcol_list "# TECTOY #"
+python3 sbfrm.py update_collection $srcdir/ $destdir/ -img_src $imgsrc -marq_src $marqsrc -vid_src $vidsrc -subsyslist "$subsystems" -verbose 1
