@@ -12,6 +12,10 @@ def make_window():
     """Make Description."""
     last_up_col = sg.user_settings_get_entry('-last up_col-', '')
     last_up_sys = sg.user_settings_get_entry('-last up_sys-', '')
+    if not last_up_col and not last_up_sys:
+        last_up_col = True
+        last_up_sys = False
+    print(last_up_col, last_up_sys)
     operation = [[sg.Radio('Update Collection', "-RADIO-",
                            default=last_up_col, key="-UPDATE_COLLECTION-"),
                   sg.Radio('Update System', "-RADIO-",
@@ -73,7 +77,7 @@ def make_window():
         [sg.Button('Ok'), sg.Button('Exit')],
     ]
 
-    return sg.Window('SBFRM V0.4.3', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.4.5', layout, enable_close_attempted_event=True,
                      finalize=True,
                      location=sg.user_settings_get_entry('-location-',
                                                          (None, None)))
@@ -137,7 +141,8 @@ def update_collection(collection, values, gui):
 
 def update_sys_from(collection, values, gui):
     """Make Description"""
-    print('Update System:', values['-DEST-'])
+    print(60*'='+'\n', 'Update System:', values['-DEST-'])
+
     mdirs = {"boxart": values['-BOXART-'],
              "image": values['-IMAGE-'],
              "marquee": values['-THUMB-'],
@@ -150,8 +155,17 @@ def update_sys_from(collection, values, gui):
             value = value[:-1]
         mdirs[key] = value.split(',')
 
+    subsyslist = values['-SUBSYSLIST-'].splitlines()
+    for subsysid, value in enumerate(subsyslist):
+        while ', ' in value:
+            value = value.replace(', ', ',')
+        while value[-1] in [',', ' ']:
+            value = value[:-1]
+        subsyslist[subsysid] = value.split(',')
+    subsyslist = [s for ls in subsyslist for s in ls]
+
     collection.update_sys_from(values['-DEST-'], values['-SOURCE-'],
-                               mdirs, gui=gui)
+                               mdirs, subsyslist=subsyslist, gui=gui)
 
     gui.write_event_value('-UPDATE_SYSTEM_END-', '')
 

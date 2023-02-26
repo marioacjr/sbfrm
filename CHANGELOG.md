@@ -2,6 +2,14 @@
 
 ---
 
+## 0.4.4
+- Avoids copying files with the same name and different extension.
+- Add or Overwrite metadata in gamelist.xml for files with same name and
+different extensions.
+- Bug Fix: not updating subsystems in the update_system operation.
+
+---
+
 ## 0.4.3
 - Cancel Process option Optmized.
 - GUI Text Correction (Linux Version).

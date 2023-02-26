@@ -12,21 +12,22 @@ srcdir="test/roms_src/"
 destdir="test/roms_dest/"
 
 # Nomes dos diretórios onde estão as imagens e videos da coleção
-boxsrc="boxart,boxarts,downloaded_boxarts"
-imgsrc="image,images,downloaded_images"
-thumbsrc="thumbnail,thumbnails,downloaded_thumbnails"
-vidsrc="video,videos,downloaded_videos"
-marqsrc="marquee,marquees,wheel,wheels,downloaded_wheels"
+boxsrc="boxart,boxarts,downloaded_boxart,downloaded_boxarts"
+imgsrc="image,images,downloaded_image,downloaded_images"
+thumbsrc="thumbnail,thumbnails,downloaded_thumbnail,downloaded_thumbnails"
+marqsrc="marquee,marquees,wheel,wheels,downloaded_wheel,downloaded_wheels"
+vidsrc="video,videos,downloaded_video,downloaded_videos"
 
-subsystems="## HACKS ##,# PT-BR #"
+subsystems="# Japan #,## HACKS ##,# MARK III (JP) #,# TECTOY #,# GENESIS (JP) #,# PT-BR #,# DYNAVISION #,# SATELLAVIEW #,# SUPER FAMICOM (JP) #"
 
 rm -rf $destdir/*
 
 # Este comando executa a varredura na coleção inteira e atualiza as roms,
 # imagens e videos da sua coleção.
-python3 sbfrm.py update_collection $srcdir $destdir -box_src "$boxsrc" -img_src "$imgsrc" -thumb_src "$thumbsrc" -marq_src "$marqsrc" -vid_src "$vidsrc" -subsyslist "$subsystems" -verbose 0 -overwritefile 1
+python3 sbfrm.py update_collection $srcdir $destdir -box_src "$boxsrc" -img_src "$imgsrc" -thumb_src "$thumbsrc" -marq_src "$marqsrc" -vid_src "$vidsrc" -subsyslist "$subsystems" -verbose 0 -overwritefile 0
 
-# srcdir="test/roms_src/system_one"
-# destdir="test/roms_dest/system_one"
+srcdir="test/roms_src/system_one"
+destdir="test/roms_dest/system_one"
+rm -rf $destdir/*
 # # Este comando executa uma atualização em apenas um sistema e seus subsistemas
-# python3 sbfrm.py update_system $srcdir $destdir -box_src $boxsrc -img_src $imgsrc -thumb_src $thumbsrc -vid_src $vidsrc -marq_src $marqsrc -subsyslist "$subsystems" -verbose 0 -overwritefile 0
+python3 sbfrm.py update_system $srcdir $destdir -box_src "$boxsrc" -img_src "$imgsrc" -thumb_src "$thumbsrc" -marq_src "$marqsrc" -vid_src "$vidsrc" -subsyslist "$subsystems" -verbose 0 -overwritefile 0

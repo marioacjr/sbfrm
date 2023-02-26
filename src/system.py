@@ -1,11 +1,13 @@
 """Make Description."""
-
+import shutil
 from datetime import datetime
+from os import listdir, makedirs
+from os.path import isfile, join, basename, splitext
+
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xdm
 
-from os import listdir, makedirs
-from os.path import isfile, join, basename, splitext
+from src.terminalutils import get_progress_bar
 from src.terminalutils import text_colored as tc
 from src.game import Game
 
@@ -35,12 +37,58 @@ def backup_gamelist(path):
         prettyxml = xdm.parseString(ET.tostring(root)).toprettyxml()
         file_out.write(prettyxml)
 
+def get_file_name(path):
+    """Make Description."""
+    return splitext(basename(path))[-2]
+
+
+def get_file_extension(path):
+    """Make Description."""
+    return splitext(basename(path))[-1]
+
+def dest_has_same_file(src_file_path, dest_dir):
+    """Make Description."""
+    src_filename = basename(src_file_path)
+    dest_path = join(dest_dir, src_filename)
+    return isfile(dest_path)
+
+
+def same_filename_another_extension(src_file_path, dest_dir):
+    """Make Description."""
+    src_filename = get_file_name(basename(src_file_path))
+
+    dest_names = [get_file_name(basename(f)) for f in listdir(dest_dir)]
+    return src_filename in dest_names
+        
+def copy_file(src_path, src_filename, dest_path, dest_filename,
+              dest_mdir=None, subsys=None, overwrite_file=False):
+    """Make Description."""
+    src_file = join(src_path, src_filename)
+    if isfile(src_file):
+        dest_path = join(dest_path)
+        if dest_mdir is not None:
+            dest_path = join(dest_path, dest_mdir)
+        if subsys is not None:
+            dest_path = join(dest_path, subsys)
+        cond1 = not dest_has_same_file(src_file, dest_path)
+        cond2 = not same_filename_another_extension(src_file, dest_path)
+        if cond1 and cond2:
+            shutil.copy(src_file, dest_path)
+            return True
+        elif isfile(join(dest_path, dest_filename)) and overwrite_file:
+            dest_path = join(dest_path, dest_filename)
+            shutil.copy(src_file, dest_path)
+            return True
+        
+    return False
+
 
 class System:
     """Base class for system."""
 
-    def __init__(self):
+    def __init__(self, path):
         """Make Description."""
+        self.path = path
         self.games = []
         self.excluded_extensions = ['.xml', '.txt', '.state', '.nvmem', '.cfg',
                                     '.txt', '.eeprom', '.srm', '.lst', '.keep',
@@ -91,6 +139,7 @@ class System:
     def listgames(self, path, subsys=None):
         """Make Description."""
         if subsys is not None:
+            print(path, subsys)
             path = join(path, subsys)
         files = [f for f in listdir(path) if isfile(join(path, f))]
         files = [f for f in files if not self.excluded_files(f)]
@@ -109,6 +158,7 @@ class System:
         paths = {"path": join(path, game_file)}
         if subsys is not None:
             paths = {"path": join(path, subsys, game_file)}
+            
         for key, value in media_dirs.items():
             paths[key] = None
             if value is not None:
@@ -124,30 +174,85 @@ class System:
     def load(self, path, media_dirs, subsys=None):
         """Make Description."""
         gl_path = join(path, 'gamelist.xml')
-        for game_file in self.listgames(path, subsys=subsys):
+        listgames = self.listgames(path, subsys=subsys)
+        for game_file in listgames:
             paths = self.get_paths(path, game_file, media_dirs, subsys=subsys)
             game = Game()
             game.load(paths, gl_path, media_dirs, subsys=subsys)
             self.games.append(game)
-            for key, value in game.paths.items():
-                if key != 'path' and value is None:
-                    game_filename = basename(game.paths['path'])
-                    self.reports['ausent_media'][key].append(game_filename)
 
     def load_info(self, gamelist_path):
         """Make Description."""
         for game in self.games:
             game.load_xml_info(gamelist_path)
+            
+    def make_sys_dirs(self, path, mdirs, subsys=None):
+        """Make Description."""
+        if subsys is None:
+            makedirs(path, exist_ok=True)
+        else:
+            makedirs(join(path, subsys), exist_ok=True)
+
+        for value in mdirs.values():
+            mpath = join(path, value[0])
+            if subsys is not None:
+                mpath = join(mpath, subsys)
+            makedirs(mpath, exist_ok=True)
+            
+    def copy_files_from_system(self, src_system, src_mdirs, media_dirs, subsys=None, verbose=False, overwrite_file=False,
+                   gui=False):
+        """Make Description."""        
+        progress_base = len(src_system.games)
+        if verbose:
+            print_txt = '\n    Copying Files:'
+            if subsys is not None:
+                print_txt = print_txt.replace(':', ' (' + subsys + '):')
+            print(print_txt, end='', flush=True)
+        
+        for gid, game in enumerate(src_system.games):
+            if verbose:
+                print(get_progress_bar(gid, progress_base), end='', flush=True)
+                
+            if gui:
+                gui.write_event_value('-PROGRESS_GAMES-', [gid, progress_base])
+                
+            new_game = Game()
+            copied = False
+            for key, value in game.paths.items():
+                if value is not None:
+                    if key == 'path':
+                        copied = copy_file(src_system.path, value.replace('./', ''),
+                                  self.path, value.replace('./', ''),
+                                  subsys=subsys, overwrite_file=overwrite_file)
+                        if copied:
+                            new_game.paths['path'] = value
+                    elif key in src_mdirs:
+                        dest_filename = get_file_name(game.paths['path'])
+                        dest_filename += get_file_extension(basename(value))
+                        copied = copy_file(src_system.path, value.replace('./', ''),
+                                  self.path, dest_filename,
+                                  dest_mdir=media_dirs[key][0],
+                                  subsys=subsys,
+                                  overwrite_file=overwrite_file)
+                        if copied:
+                            new_game.paths[key] = "./" + join(media_dirs[key][0], basename(value))
+            if copied:
+                self.games.append(new_game)
 
     def gen_report(self):
         """Make Description."""
         for game in self.games:
+            for key, value in game.paths.items():
+                if key != 'path' and value is None:
+                    game_filename = basename(game.paths['path'])
+                    self.reports['ausent_media'][key].append(game_filename)
+
             for key, value in game.info.items():
                 if value is None:
                     game_filename = basename(game.paths['path'])
                     self.reports['ausent_info'][key].append(game_filename)
 
-    def set_gamelist(self, path, provider=None):
+    def save_gamelist(self, path, provider=None):
         """Make Description."""
         root = None
         if isfile(path):

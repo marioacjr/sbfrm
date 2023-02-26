@@ -3,51 +3,10 @@
 import shutil
 
 from os import listdir, makedirs
-from os.path import isdir, isfile, join, dirname, basename, splitext
+from os.path import isdir, isfile, join, basename, splitext
 from src.terminalutils import get_progress_bar
 
 from src.system import System
-
-
-def get_file_name(path):
-    """Make Description."""
-    return splitext(basename(path))[-2]
-
-
-def get_file_extension(path):
-    """Make Description."""
-    return splitext(basename(path))[-1]
-
-
-def make_sys_dirs(path, mdirs, subsys=None):
-    """Make Description."""
-    if subsys is None:
-        makedirs(path, exist_ok=True)
-    else:
-        makedirs(join(path, subsys), exist_ok=True)
-
-    for value in mdirs.values():
-        mpath = join(path, value[0])
-        if subsys is not None:
-            mpath = join(mpath, subsys)
-        makedirs(mpath, exist_ok=True)
-
-
-def copy_file(src_path, src_filename, dest_path, dest_filename,
-              dest_mdir=None, subsys=None, overwrite_file=False):
-    """Make Description."""
-    src_file = join(src_path, src_filename)
-    if isfile(src_file):
-        dest_path = join(dest_path)
-        if dest_mdir is not None:
-            dest_path = join(dest_path, dest_mdir)
-        if subsys is not None:
-            dest_path = join(dest_path, subsys)
-        if not isfile(join(dest_path, dest_filename)):
-            shutil.copy(src_file, dest_path)
-        elif overwrite_file:
-            dest_path = join(dest_path, dest_filename)
-            shutil.copy(src_file, dest_path)
 
 
 class Collection:
@@ -55,7 +14,6 @@ class Collection:
 
     def __init__(self):
         """Make Description."""
-        self.systems = []
         self.excluded_dirs = ['backup', 'bezels', 'BGM', 'bios', 'mplayer',
                               'downloads', 'download', 'scummvm', 'ports',
                               'model2', 'model3', 'windows', '.update',
@@ -63,8 +21,7 @@ class Collection:
         self.media_dirs = {"boxart": ["boxart"], "image": ["image"],
                            "marquee": ["marquee"], "thumbnail": ["thumbnail"],
                            "video": ["video"]}
-
-        self.stop_copy = False
+        self.stop_copy = False # Used bay GUI to stop process before finish.
 
     def __str__(self):
         """Make Description."""
@@ -83,75 +40,38 @@ class Collection:
                 return True
         return False
 
-    def copy_files(self, system_path, src_path, src_mdirs,
-                   subsys=None, verbose=False, overwrite_file=False,
-                   gui=False):
-        """Make Description."""
-        src_system = System()
-        src_system.load(src_path, src_mdirs, subsys=subsys)
-        if len(src_system.games) > 0:
-            make_sys_dirs(system_path, self.media_dirs, subsys=subsys)
-        progress_base = len(src_system.games)
-        if verbose:
-            print_txt = '\n    Copying Files:'
-            if subsys is not None:
-                print_txt = print_txt.replace(':', ' (' + subsys + '):')
-            print(print_txt, end='', flush=True)
-        for gid, game in enumerate(src_system.games):
-            if self.stop_copy:
-                break
-            if verbose:
-                print(get_progress_bar(gid, progress_base), end='', flush=True)
-            if gui:
-                gui.write_event_value('-PROGRESS_GAMES-', [gid, progress_base])
-            for key, value in game.paths.items():
-                if self.stop_copy:
-                    break
-                if value is not None:
-                    if key == 'path':
-                        copy_file(src_path, value.replace('./', ''),
-                                  system_path, value.replace('./', ''),
-                                  subsys=subsys, overwrite_file=overwrite_file)
-                    elif src_mdirs[key] is not None:
-                        dest_filename = get_file_name(game.paths['path'])
-                        dest_filename += get_file_extension(basename(value))
-                        copy_file(src_path, value.replace('./', ''),
-                                  system_path, dest_filename,
-                                  dest_mdir=self.media_dirs[key][0],
-                                  subsys=subsys,
-                                  overwrite_file=overwrite_file)
-
     def update_sys_from(self, sys_path, src_path, src_mdirs,
                         subsyslist=None, overwrite_info=False, provider=None,
                         verbose=False, overwrite_file=False, gui=False):
         """Make Description."""
-        self.copy_files(sys_path, src_path, src_mdirs,
-                        verbose=verbose, overwrite_file=overwrite_file,
-                        gui=gui)
-
+        src_system = System(src_path)
+        src_system.load(src_path, src_mdirs)
+                        
+        
+        dest_system = System(sys_path)
+        dest_system.make_sys_dirs(sys_path, self.media_dirs)
+        dest_system.load(sys_path, self.media_dirs)
+        dest_system.copy_files_from_system(src_system, src_mdirs, self.media_dirs,
+                                           verbose=verbose, overwrite_file=overwrite_file, gui=gui)
+        
         if isdir(sys_path):
-            system = System()
-            system.load(sys_path, self.media_dirs)
-
             if isinstance(subsyslist, list):
                 for subsys in subsyslist:
-                    if self.stop_copy:
-                        break
                     if isdir(join(src_path, subsys)):
-                        self.copy_files(sys_path, src_path, src_mdirs,
-                                        subsys=subsys, verbose=verbose,
-                                        overwrite_file=overwrite_file, gui=gui)
-                        system.load(sys_path, self.media_dirs, subsys=subsys)
+                        dest_system.make_sys_dirs(sys_path, self.media_dirs, subsys)
+                        dest_system.load(sys_path, self.media_dirs, subsys=subsys)
+                        dest_system.copy_files_from_system(src_system, src_mdirs, self.media_dirs, subsys=subsys,
+                                                           verbose=verbose, overwrite_file=overwrite_file, gui=gui)
 
-            gl_dest_path = join(sys_path, 'gamelist.xml')
-            gl_src_path = join(src_path, 'gamelist.xml')
-            if overwrite_info:
-                system.load_info(gl_dest_path)
-                system.load_info(gl_src_path)
-            else:
-                system.load_info(gl_src_path)
-                system.load_info(gl_dest_path)
+        gl_dest_path = join(sys_path, 'gamelist.xml')
+        gl_src_path = join(src_path, 'gamelist.xml')
+        if overwrite_info:
+            dest_system.load_info(gl_dest_path)
+            dest_system.load_info(gl_src_path)
+        else:
+            dest_system.load_info(gl_src_path)
+            dest_system.load_info(gl_dest_path)
 
-            system.set_gamelist(gl_dest_path, provider=provider)
-            system.gen_report()
-            system.save_reports(sys_path)
+        dest_system.save_gamelist(gl_dest_path, provider=provider)
+        dest_system.gen_report()
+        dest_system.save_reports(sys_path)

@@ -49,36 +49,43 @@ args = parser.parse_args()
 src, dest, subsyslist = args.src, args.dest, args.subsyslist
 if subsyslist:
     subsyslist = subsyslist.split(',')
-mdirs = {"boxart": args.box_src.split(','),
-         "image": args.img_src.split(','),
-         "marquee": args.marq_src.split(','),
-         "thumbnail": args.thumb_src.split(','),
-         "video": args.vid_src.split(',')}
+    
+src_mdirs = {}
+for mdir_params in [["boxart", args.box_src], 
+                  ["image", args.img_src], 
+                  ["marquee", args.marq_src],
+                  ["thumbnail", args.thumb_src],
+                  ["video", args.vid_src]]:
+    if mdir_params[1]:
+        src_mdirs[mdir_params[0]] = mdir_params[1].split(',')
+
 provider = {
     "system": "system_one",
     "software": "SBFRM",
     "web": "https://github.com/marioacjr/sbfrm"
 }
-verbose = args.verbose == '1'
+verbose = int(args.verbose) > 0
 
 col = Collection()
 if args.op == "update_system":
     if verbose:
         print(text_colored('green', 'Update System:'), dest,
               flush=True, end='')
-    col.update_sys_from(dest, src, mdirs, subsyslist=subsyslist,
+    col.update_sys_from(dest, src, src_mdirs, subsyslist=subsyslist,
                         verbose=verbose)
 elif args.op == "update_collection":
     if verbose:
         print(text_colored('green', 'Update Collection:'), flush=True, end='')
+        
     sys_paths = col.list_systems(args.src)
     for sys_path in sys_paths:
         if verbose:
             print(text_colored('green', '\n  Processing:'), sys_path, '',
                   flush=True, end='')
+            
         src_path = join(args.src, sys_path)
         dest_path = join(args.dest, sys_path)
-        col.update_sys_from(dest_path, src_path, mdirs, subsyslist=subsyslist,
+        col.update_sys_from(dest_path, src_path, src_mdirs, subsyslist=subsyslist,
                             verbose=verbose)
 if verbose:
     print()

@@ -1,7 +1,7 @@
 """Make Description."""
 
 import xml.etree.ElementTree as ET
-from os.path import isfile, basename, dirname, join
+from os.path import isfile, basename, dirname, join, splitext
 from src.terminalutils import text_colored as tc
 
 
@@ -112,7 +112,9 @@ class Game:
             for game in tree.getroot():
                 if game.find('path') is not None:
                     if game.find('path').text is not None:
-                        if game.find('path').text == self.paths['path']:
+                        name_a = splitext(game.find('path').text)[0]
+                        name_b = splitext(self.paths['path'])[0]
+                        if name_a == name_b:
                             games_xml.append(game)
         return games_xml
 

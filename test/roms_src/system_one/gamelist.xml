@@ -7,7 +7,7 @@
   </provider>
   
   <game>
-    <path>./Game One (Japan).chd</path>
+    <path>./Game One (Japan).zip</path>
     <boxart>./downloaded_boxarts/Game One (Japan).png</boxart>
     <image>./downloaded_images/Game One (Japan).png</image>
     <marquee>./downloaded_wheels/Game One (Japan).png</marquee>
@@ -67,22 +67,22 @@
     <marquee>./downloaded_wheels/## HACKS ##/Game One hack (Japan).png</marquee>
     <thumbnail>./downloaded_thumbnails/## HACKS ##/Game One hack (Japan).png</thumbnail>
     <video>./downloaded_videos/## HACKS ##/Game One hack (Japan).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <name>HACKS Tag Text (Japan)</name>
+    <sortname>HACKS Tag Text (Japan)</sortname>
+    <desc>HACKS Tag Text (Japan)</desc>
+    <releasedate>HACKS Tag Text (Japan)</releasedate>
+    <developer>HACKS Tag Text (Japan)</developer>
+    <publisher>HACKS Tag Text (Japan)</publisher>
+    <genreid>HACKS Tag Text (Japan)</genreid>
+    <genre>HACKS Tag Text (Japan)</genre>
+    <players>HACKS Tag Text (Japan)</players>
+    <core>HACKS Tag Text (Japan)</core>
+    <emulator>HACKS Tag Text (Japan)</emulator>
+    <rating>HACKS Tag Text (Japan)</rating>
+    <playcount>HACKS Tag Text (Japan)</playcount>
+    <lastplayed>HACKS Tag Text (Japan)</lastplayed>
+    <md5>HACKS Tag Text (Japan)</md5>
+    <adult>HACKS Tag Text (Japan)</adult>
   </game>
   
   <game>
@@ -92,22 +92,22 @@
     <marquee>./downloaded_wheels/## HACKS ##/Game One hack (USA).png</marquee>
     <thumbnail>./downloaded_thumbnails/## HACKS ##/Game One hack (USA).png</thumbnail>
     <video>./downloaded_videos/## HACKS ##/Game One hack (USA).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <name>HACKS Tag Text (USA)</name>
+    <sortname>HACKS Tag Text (USA)</sortname>
+    <desc>HACKS Tag Text (USA)</desc>
+    <releasedate>HACKS Tag Text (USA)</releasedate>
+    <developer>HACKS Tag Text (USA)</developer>
+    <publisher>HACKS Tag Text (USA)</publisher>
+    <genreid>HACKS Tag Text (USA)</genreid>
+    <genre>HACKS Tag Text (USA)</genre>
+    <players>HACKS Tag Text (USA)</players>
+    <core>HACKS Tag Text (USA)</core>
+    <emulator>HACKS Tag Text (USA)</emulator>
+    <rating>HACKS Tag Text (USA)</rating>
+    <playcount>HACKS Tag Text (USA)</playcount>
+    <lastplayed>HACKS Tag Text (USA)</lastplayed>
+    <md5>HACKS Tag Text (USA)</md5>
+    <adult>HACKS Tag Text (USA)</adult>
   </game>
   
   
@@ -121,22 +121,22 @@
     <marquee>./downloaded_wheels/# PT-BR #/Game One ptbr (Japan).png</marquee>
     <thumbnail>./downloaded_thumbnails/# PT-BR #/Game One ptbr (Japan).png</thumbnail>
     <video>./downloaded_videos/# PT-BR #/Game One ptbr (Japan).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <name>PT-BR Tag Text (Japan)</name>
+    <sortname>PT-BR Tag Text (Japan)</sortname>
+    <desc>PT-BR Tag Text (Japan)</desc>
+    <releasedate>PT-BR Tag Text (Japan)</releasedate>
+    <developer>PT-BR Tag Text (Japan)</developer>
+    <publisher>PT-BR Tag Text (Japan)</publisher>
+    <genreid>PT-BR Tag Text (Japan)</genreid>
+    <genre>PT-BR Tag Text (Japan)</genre>
+    <players>PT-BR Tag Text (Japan)</players>
+    <core>PT-BR Tag Text (Japan)</core>
+    <emulator>PT-BR Tag Text (Japan)</emulator>
+    <rating>PT-BR Tag Text (Japan)</rating>
+    <playcount>PT-BR Tag Text (Japan)</playcount>
+    <lastplayed>PT-BR Tag Text (Japan)</lastplayed>
+    <md5>PT-BR Tag Text (Japan)</md5>
+    <adult>PT-BR Tag Text (Japan)</adult>
   </game>
   
   <game>
@@ -146,22 +146,22 @@
     <marquee>./downloaded_wheels/# PT-BR #/Game One ptbr (USA).png</marquee>
     <thumbnail>./downloaded_thumbnails/# PT-BR #/Game One ptbr (USA).png</thumbnail>
     <video>./downloaded_videos/# PT-BR #/Game One ptbr (USA).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <name>PT-BR Tag Text (USA)</name>
+    <sortname>PT-BR Tag Text (USA)</sortname>
+    <desc>PT-BR Tag Text (USA)</desc>
+    <releasedate>PT-BR Tag Text (USA)</releasedate>
+    <developer>PT-BR Tag Text (USA)</developer>
+    <publisher>PT-BR Tag Text (USA)</publisher>
+    <genreid>PT-BR Tag Text (USA)</genreid>
+    <genre>PT-BR Tag Text (USA)</genre>
+    <players>PT-BR Tag Text (USA)</players>
+    <core>PT-BR Tag Text (USA)</core>
+    <emulator>PT-BR Tag Text (USA)</emulator>
+    <rating>PT-BR Tag Text (USA)</rating>
+    <playcount>PT-BR Tag Text (USA)</playcount>
+    <lastplayed>PT-BR Tag Text (USA)</lastplayed>
+    <md5>PT-BR Tag Text (USA)</md5>
+    <adult>PT-BR Tag Text (USA)</adult>
   </game>
   
   

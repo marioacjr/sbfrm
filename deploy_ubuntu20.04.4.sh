@@ -1,6 +1,8 @@
+sudo apt install python3-tk
+
 ### Create and activate virtual envirovment for projec ###
-python3.8 -m venv .env
-source .env/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install --upgrade pip
 
 pip install -r requirements.txt

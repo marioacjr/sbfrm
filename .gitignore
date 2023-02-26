@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-test/roms1
-test/dest
+test/roms
+test/roms_dest
 PySimpleGuiDemoPrograms
+Thumbs.db
+Thumbs.db:encryptable
+sbfrm_gui.spec

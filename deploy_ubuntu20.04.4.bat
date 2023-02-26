@@ -1,5 +1,6 @@
-python3.8 -m venv .env
-source .env/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-python -m pytest
+python.exe -m venv .env
+
+.env\Scripts\pip.exe install --upgrade pip
+.env\Scripts\pip.exe install -r requirements.txt
+
+.env\Scripts\python.exe -m pytest
