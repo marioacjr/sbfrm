@@ -2,6 +2,11 @@
 
 ---
 
+## 0.4.5
+- Bug Fix: system_update does not add metadata for media paths when the target system does not contain any files.
+
+---
+
 ## 0.4.4
 - Avoids copying files with the same name and different extension.
 - Add or Overwrite metadata in gamelist.xml for files with same name and
