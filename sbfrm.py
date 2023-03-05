@@ -1,10 +1,10 @@
 """Make Description."""
-
 import argparse
 from os.path import join
 
 from src.collection import Collection
-from src.terminalutils import text_colored
+from src.terminalutils import print_verbose_msg
+from src.fileutils import configs
 
 parser = argparse.ArgumentParser(description='RetroGames Collection Manager')
 
@@ -17,75 +17,22 @@ parser.add_argument("src", help=HELPTEXT)
 HELPTEXT = """Destiantion Folder"""
 parser.add_argument("dest", help=HELPTEXT)
 
-HELPTEXT = """Box Folder Source"""
-parser.add_argument("-box_src", help=HELPTEXT)
-
-HELPTEXT = """Image Folder Source"""
-parser.add_argument("-img_src", help=HELPTEXT)
-
-HELPTEXT = """Marquee Folder Source"""
-parser.add_argument("-marq_src", help=HELPTEXT)
-
-HELPTEXT = """Thumbnail Folder Source"""
-parser.add_argument("-thumb_src", help=HELPTEXT)
-
-HELPTEXT = """Video Folder Source"""
-parser.add_argument("-vid_src", help=HELPTEXT)
-
-HELPTEXT = """SubSystem Tag List"""
-parser.add_argument("-subsyslist", help=HELPTEXT)
-
-HELPTEXT = """For copy or move file: '-filemode [cp, mv]"""
-parser.add_argument("-filemode", help=HELPTEXT)
-
-HELPTEXT = """For copy or move file: '-overwritefile [0, 1]"""
-parser.add_argument("-overwritefile", help=HELPTEXT)
-
-HELPTEXT = """Print text output: -verbose [True, False]"""
-parser.add_argument("-verbose", help=HELPTEXT)
-
 args = parser.parse_args()
-
-src, dest, subsyslist = args.src, args.dest, args.subsyslist
-if subsyslist:
-    subsyslist = subsyslist.split(',')
-    
-src_mdirs = {}
-for mdir_params in [["boxart", args.box_src], 
-                  ["image", args.img_src], 
-                  ["marquee", args.marq_src],
-                  ["thumbnail", args.thumb_src],
-                  ["video", args.vid_src]]:
-    if mdir_params[1]:
-        src_mdirs[mdir_params[0]] = mdir_params[1].split(',')
-
-provider = {
-    "system": "system_one",
-    "software": "SBFRM",
-    "web": "https://github.com/marioacjr/sbfrm"
-}
-verbose = int(args.verbose) > 0
 
 col = Collection()
 if args.op == "update_system":
-    if verbose:
-        print(text_colored('green', 'Update System:'), dest,
-              flush=True, end='')
-    col.update_sys_from(dest, src, src_mdirs, subsyslist=subsyslist,
-                        verbose=verbose)
+    print_verbose_msg('cyan', 'Update System:')
+    col.update_sys_from(args.dest, args.src)
+    
 elif args.op == "update_collection":
-    if verbose:
-        print(text_colored('green', 'Update Collection:'), flush=True, end='')
+    print_verbose_msg('cyan', 'Update Collection:')
         
-    sys_paths = col.list_systems(args.src)
-    for sys_path in sys_paths:
-        if verbose:
-            print(text_colored('green', '\n  Processing:'), sys_path, '',
-                  flush=True, end='')
+    sys_names = col.list_systems(args.src)
+    for sys_name in sys_names:
+        print_verbose_msg('lightcyan', f'\n    Processing: {sys_name}')
             
-        src_path = join(args.src, sys_path)
-        dest_path = join(args.dest, sys_path)
-        col.update_sys_from(dest_path, src_path, src_mdirs, subsyslist=subsyslist,
-                            verbose=verbose)
-if verbose:
-    print()
+        src_path = join(args.src, sys_name)
+        dest_path = join(args.dest, sys_name)
+        col.update_sys_from(dest_path, src_path)
+        
+print_verbose_msg('lightcyan', '\n\n')

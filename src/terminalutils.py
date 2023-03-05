@@ -1,6 +1,7 @@
 """Make a description."""
 
 import math
+from src.fileutils import configs
 
 
 def text_colored(color, text):
@@ -61,3 +62,15 @@ def get_progress_bar(value, base):
     if progress >= 10:
         back_string += '\b'
     return progress_bar + back_string
+
+def print_verbose_progressbar(value, base):
+    """Make a description."""
+    if configs["verbose"]:
+        print(get_progress_bar(value, base), end='', flush=True)
+        
+def print_verbose_msg(color, msg):
+    """Make Description."""
+    if configs["verbose"]:
+        print_txt = text_colored(color, msg)
+        print(print_txt, end='', flush=True)
+    

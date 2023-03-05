@@ -1,10 +1,9 @@
 """Make Description."""
+from os import listdir
+from os.path import isdir, join
 
-import shutil
-
-from os import listdir, makedirs
-from os.path import isdir, isfile, join, basename, splitext
-from src.terminalutils import get_progress_bar
+from src.fileutils import configs, make_sys_dirs
+from src.terminalutils import print_verbose_msg
 
 from src.system import System
 
@@ -12,16 +11,14 @@ from src.system import System
 class Collection:
     """Base class for system."""
 
-    def __init__(self):
+    def __init__(self, gui=False):
         """Make Description."""
         self.excluded_dirs = ['backup', 'bezels', 'BGM', 'bios', 'mplayer',
                               'downloads', 'download', 'scummvm', 'ports',
                               'model2', 'model3', 'windows', '.update',
                               'System Volume Information', 'LOST.DIR']
-        self.media_dirs = {"boxart": ["boxart"], "image": ["image"],
-                           "marquee": ["marquee"], "thumbnail": ["thumbnail"],
-                           "video": ["video"]}
-        self.stop_copy = False # Used bay GUI to stop process before finish.
+        self.stop_copy = False # Used by the GUI to stop gently the process.
+        self.gui = gui
 
     def __str__(self):
         """Make Description."""
@@ -40,38 +37,32 @@ class Collection:
                 return True
         return False
 
-    def update_sys_from(self, sys_path, src_path, src_mdirs,
-                        subsyslist=None, overwrite_info=False, provider=None,
-                        verbose=False, overwrite_file=False, gui=False):
+    def update_sys_from(self, dest_sys, src_sys):
         """Make Description."""
-        src_system = System(src_path)
-        src_system.load(src_path, src_mdirs)
-                        
+        print_verbose_msg('blue', '\n        Loading Source System:')
+            
+        src_system = System(src_sys)  
+        src_system.load()
         
-        dest_system = System(sys_path)
-        dest_system.make_sys_dirs(sys_path, self.media_dirs)
-        dest_system.load(sys_path, self.media_dirs)
-        dest_system.copy_files_from_system(src_system, src_mdirs, self.media_dirs,
-                                           verbose=verbose, overwrite_file=overwrite_file, gui=gui)
+        print_verbose_msg('blue', '\n        Loading Dest System:')
         
-        if isdir(sys_path):
-            if isinstance(subsyslist, list):
-                for subsys in subsyslist:
-                    if isdir(join(src_path, subsys)):
-                        dest_system.make_sys_dirs(sys_path, self.media_dirs, subsys)
-                        dest_system.load(sys_path, self.media_dirs, subsys=subsys)
-                        dest_system.copy_files_from_system(src_system, src_mdirs, self.media_dirs, subsys=subsys,
-                                                           verbose=verbose, overwrite_file=overwrite_file, gui=gui)
-
-        gl_dest_path = join(sys_path, 'gamelist.xml')
-        gl_src_path = join(src_path, 'gamelist.xml')
-        if overwrite_info:
-            dest_system.load_info(gl_dest_path)
-            dest_system.load_info(gl_src_path)
-        else:
-            dest_system.load_info(gl_src_path)
-            dest_system.load_info(gl_dest_path)
-
-        dest_system.save_gamelist(gl_dest_path, provider=provider)
+        dest_system = System(dest_sys)
+        make_sys_dirs(dest_sys)
+        dest_system.load()
+        
+        
+        print_verbose_msg('blue', '\n        Merging Source to Dest:')
+        dest_system.copy_files_from_system(src_system)
+        dest_system.remove_games_clones()
+        
+        print_verbose_msg('blue', '\n        Generating GamelistXml File:')
+        
+        gl_dest_path = join(dest_sys, 'gamelist.xml')
+        dest_system.save_gamelist(gl_dest_path)
+        
+        print_verbose_msg('blue', '\n        Generating Reports Files:')
+        
         dest_system.gen_report()
-        dest_system.save_reports(sys_path)
+        dest_system.save_reports(dest_sys)
+        
+        

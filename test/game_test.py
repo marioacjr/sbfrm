@@ -29,11 +29,7 @@ class GameTests(TestCase):
         gamelist_path = join(system_path, "/gamelist.xml")
         paths = {
             "path": join(system_path, game_filename)}
-        media_dirs = {"image": "downloaded_images",
-                      "marquee": "downloaded_wheels",
-                      "thumbnail": "downloaded_thumbnails",
-                      "video": "downloaded_videos"}
         game = Game()
-        game.load(paths, gamelist_path, media_dirs)
+        game.load(paths, gamelist_path)
 
         self.assertTrue(game.paths['path'] == "./" + game_filename)

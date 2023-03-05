@@ -2,6 +2,16 @@
 
 ---
 
+## 0.5.0
+- Feature Added: Remove Game Clones.
+                    For this system, clones are considered any game with same <name> tag in gamelist.xml and diferent file name in system folder.
+- Removed Feature: SubSystem Files Load.
+                   These files are read from the paths indicated by gamelist.xml. All files in subfolders of a source system will be merged with the files in the root of the target system.
+- Bug Fix: Wrong entries in report files corrected
+- Performance improvements in loading systems, especially on very large systems.
+
+---
+
 ## 0.4.5
 - Bug Fix: system_update does not add metadata for media paths when the target system does not contain any files.
 

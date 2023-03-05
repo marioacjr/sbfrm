@@ -4,55 +4,58 @@
 [Changelog](CHANGELOG.md) |
 [Examplos de Uso](examples/)
 
-## Um Gerenciador para Coleções de Jogos Retrô.
+# Um Gerenciador para Coleções de Jogos Retrô.
 
 Este gerenciador é utilizado em coleções no formato do EmulationStation (aquelas com um arquivo gamelist.xml dentro). É bastante simples mas, ao mesmo tempo, muito poderoso. Inicialmente era apenas um script para fazer coisas muito simples para me ajudar a organizar minhas coleções de jogos (eu sou aquele tipo acumulador de jogos :). Com o tempo continuei a acrescentar mais funcionalidades até perceber que já estava bastante robusto e que podia ser útil para a comunidade.
 
-### As principais características são:
-- Mesclar coleções;
-- Evitar a duplicação de jogos;
-- Evitar arquivos de imagem e vídeo órfãos;
+## As principais características são:
+- Mesclar uma coleção Fonte em uma coleção Destino;
+- Evitar a duplicação de jogos e suas mídias;
+- Evitar arquivos de imagem e vídeo órfãos (sem um game relativo);
 - Evitar desperdício de espaço em disco;
-- E, mais importante, gerar o arquivo gamelist.xml automaticamente.
+- Localizar os arquivos de mídia de um game e incluí-los na gamelist.xml.
+- Gerar o arquivo gamelist.xml pequeno, porém completo.
 
-## Releases Executáveis:
+# Releases:
+
+## Executável:
 
 Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releases/) e executar. O binário foi compilado a partir deste código python e não necessita de nenhum requerimento para funcionar.
 
 ![Executar GUI](srfrm_gui.png)
 
-#### Requerimentos:
+### Requerimentos:
 - Linux ou Windows.
 
 ## Linha de comando:
 
-Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme explicado a seguir, ou abra a gui [sbfrm_gui.py](sbfrm_gui.py).
+Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme mostrado a seguir:
 
-![Executar Terminal](srfrm.png)
+`python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
 
-
-#### Requerimentos:
+### Requerimentos:
 - Python3;
 - Linux ou Windows.
 
-Veja [exemplos](examples) em formato Windows [.bat](examples/windows/CobaltoV4_Pi3_16GB.bat) e Linux [.sh](examples/linux/CobaltoV4_Pi3_16GB.sh).
+Veja [exemplos](examples).
 
-O **SBFRM**, é um script python, onde se deve passar vários parâmetros na linha de comando para realizar as tarefas que se deseja.
+## Sobre este Projeto
+O **SBFRM**, é um script python, onde se deve passar alguns parâmetros na linha de comando para realizar as tarefas que se deseja.
 
 ####  A forma mais simples de executar é:
 
-`python3 sbfrm.py update_collection src-collection/ dest-collection/`
+`python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
 
 ####  Onde:
 - **update_collection*** é a tarefa que deseja realizar. Neste caso, é adicionar novas roms à sua coleção;
-- **src-collection/***é o caminho da coleção que deseja adicionar;
-- **dest-collection/** é o caminho da sua coleção onde os arquivos serão adicionados e a gamelist.xml gerada ou atualizada;
+- **src-collection-path**: é o caminho da coleção fonte que deseja adicionar;
+- **dest-collection-path**: é o caminho da sua coleção onde os arquivos serão adicionados e a gamelist.xml gerada ou atualizada;
 
-Rode o comando acima e veja a magia acontecer. A execução irá acrescentar novas roms à sua coleção de forma automática (sem qualquer mídia de imagem ou vídeo neste caso). Também irá atualizar o arquivo gamelist.xml existente, ou criar um novo caso não exista. A ideia é, na medida do possível, evitar jogos duplicados, tanto nos arquivos quanto no gamelist.xml
+Rode o comando acima e veja a magia acontecer. A execução irá acrescentar novas roms à sua coleção de forma automática. Também irá atualizar o arquivo gamelist.xml existente, ou criar um novo caso não exista. O objetivo do processo é evitar jogos duplicados e mídias órfãs.
 
 #### A estrutura de pastas do exemplo acima deve ser semelhante a estas abaixo.
 
-- src-collection/
+- src-collection-path
     - snes/
         - Name1 (USA,Japan).zip
         - Name2 (USA,Europe) (En,Fr,De).zip
@@ -70,7 +73,7 @@ Rode o comando acima e veja a magia acontecer. A execução irá acrescentar nov
         - gamelist.xml
 
 
-- dest-collection/
+- dest-collection-path/
     - snes/
         - Name2 (USA).zip
         - gamelist.xml

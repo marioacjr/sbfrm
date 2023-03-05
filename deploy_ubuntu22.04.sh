@@ -1,4 +1,4 @@
-sudo apt install python3-tk
+# sudo apt install python3-tk
 
 ### Create and activate virtual envirovment for projec ###
 python3 -m venv .venv

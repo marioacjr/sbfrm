@@ -1,3 +1,4 @@
 pytest
 PySimpleGUI
+PySimpleGUIQt
 pyinstaller
