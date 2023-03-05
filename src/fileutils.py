@@ -3,8 +3,8 @@ import json
 import shutil
 from glob import glob
 from datetime import datetime
-from os import listdir, makedirs, remove
-from os.path import isfile, join, basename, splitext
+from os import listdir, makedirs
+from os.path import isfile, join, basename, splitext, pardir, abspath, normpath
 
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xdm
@@ -94,16 +94,20 @@ def merge_file(src_file, dest_path):
         shutil.move(src_file, dest_path)
 
 
-def remove_file(path):
+def remove_file(src_file, dest_path):
     """Make Description."""
-    if isfile(path):
-        remove(path)
+    if isfile(src_file):
+        shutil.move(src_file, dest_path)
 
 
 def make_sys_dirs(path):
-        """Make Description."""
-        makedirs(path, exist_ok=True)
+    """Make Description."""
+    makedirs(path, exist_ok=True)
 
-        for value in configs["dest_media_dirs_names"].values():
-            mpath = join(path, value)
-            makedirs(mpath, exist_ok=True)
+    for value in configs["dest_media_dirs_names"].values():
+        mpath = join(path, value)
+        makedirs(mpath, exist_ok=True)
+        
+def get_backup_dir(path):
+    
+    return join(abspath(join(path, pardir)), basename(normpath(path))+"_removed")

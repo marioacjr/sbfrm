@@ -10,7 +10,7 @@ from src.terminalutils import print_verbose_progressbar, print_verbose_msg
 from src.terminalutils import text_colored as tc
 from src.fileutils import configs, file_name, backup_gamelist
 from src.fileutils import make_sys_dirs, get_config_item_list, remove_file
-from src.fileutils import find_same_games, merge_file
+from src.fileutils import find_same_games, merge_file, get_backup_dir
 from src.game import Game
 
 
@@ -28,6 +28,8 @@ class System:
             "game_name": [],
             "game_path": []
         }
+        
+        self.removed_games = []
                    
         self.excluded_extensions = ['.xml', '.txt', '.state', '.nvmem', '.cfg',
                                     '.txt', '.eeprom', '.srm', '.lst', '.keep',
@@ -175,7 +177,6 @@ class System:
                                 media_path = join(src_media_dir, file_name(gamefile_path)+media_extension)
                                 game.paths[key] = media_path
             self.games.append(game)
-            # print(game)
                     
                     
         
@@ -232,9 +233,10 @@ class System:
         for game in self.games:
             game.load_xml_info(gamelist_path)
             
-    def remove_games_by_filename(self, filename_list):
+            
+    def remove_games_by_filename(self, filename_list, backup_path):
         """Make Description."""
-        games_to_remove = []
+        gamenames_to_remove = []
         for game_id, game in enumerate(self.games):
             for filename in filename_list:
                 path = "./" + filename
@@ -242,25 +244,52 @@ class System:
                     for key in game.paths.keys():
                         if  game.paths[key] is not None:
                             path = join(self.path, game.paths[key].replace("./", ""))
-                            remove_file(path)
-                            # print("dest_removed:", tc("red", path))
-                            games_to_remove.append(game_id)
+                            dest_path = join(backup_path, basename(game.paths[key]))
+                            if key != 'path':
+                                dest_path = join(backup_path, configs['dest_media_dirs_names'][key], basename(game.paths[key]))
+                            remove_file(path, dest_path)
+                            gamenames_to_remove.append(game_id)
                     games_removed = basename(game.paths['path'])
                     if games_removed not in self.reports['games_removed']:
                         self.reports['games_removed'].append(games_removed)
         
         new_games = []
         for game_id, game in enumerate(self.games):
-            if game_id not in games_to_remove:
+            if game_id not in gamenames_to_remove:
                 new_games.append(game)
+            else:
+                self.removed_games.append(game)
         self.games = new_games
         
+        
+    def backup_removed_games(self):
+        """Make Description."""
+        print_verbose_msg("green", '\n            Save Removed GameListXml Metadata:')
+        
+        dest_path = get_backup_dir(self.path)
+        if isfile(dest_path):
+            backup_gamelist(dest_path)
+
+        srt_xml = '<?xml version="1.0" encoding="UTF-8"?><gameList></gameList>'
+        root = ET.fromstring(srt_xml)
+
+        progress_base = len(self.games)
+        for progress_id, game in enumerate(self.games):
+            print_verbose_progressbar(progress_id, progress_base)
+            game_xml = game.gen_game_xml()
+            root.append(game_xml)
+        
+        path = join(dest_path, 'gamelist.xml')
+        
+        with open(path, "w", encoding="utf-8") as file_out:
+            file_out.write(xdm.parseString(ET.tostring(root)).toprettyxml())
+
         
     def remove_games_clones(self):
         """Make Description."""
         games_to_remove = []
         names = []
-        for game_id, game in enumerate(self.games):
+        for game in self.games:
             if game.info['name'] is not None:
                 name = game.info['name']
                 path = basename(game.paths['path'])
@@ -270,7 +299,7 @@ class System:
                 else:
                     names.append(name)
         
-        self.remove_games_by_filename(games_to_remove)
+        self.remove_games_by_filename(games_to_remove, get_backup_dir(self.path))
             
             
                     
@@ -278,11 +307,13 @@ class System:
     def copy_files_from_system(self, src_system):
         """Make Description."""   
         print_verbose_msg("green", '\n            Copying:')
+        
+        backup_path = get_backup_dir(self.path)
+        make_sys_dirs(backup_path)
                 
         progress_base = len(src_system.games)
         for src_game_id, game in enumerate(src_system.games):
             print_verbose_progressbar(src_game_id, progress_base)
-            # print()
             
             copy_cond = True
             
@@ -295,24 +326,15 @@ class System:
             if any(x in src_config_item_list for x in configs['removed_devcomm_status']):
                 copy_cond = False
                 
-            # # print("check_if_in_cache:", self.check_if_in_cache(game))
-            # if self.check_if_in_cache(game):
-            #     copy_cond = False
-            
             dest_same_names = find_same_games(self.path, src_game_name)
-            # print("src_game_name:", tc("blue", src_game_name), "src_config_item_list:", tc("blue", src_config_item_list))
-            # print("src_priorities_list:", tc("blue", src_priorities_list))
-            # print("dest_same_names:", tc("blue", dest_same_names))
             for dest_same_name in dest_same_names:
                 dest_config_item_list = get_config_item_list(dest_same_name)
                 dest_priorities_list = [configs['region_order'].index(x) for x in dest_config_item_list if x in configs['region_order']]
-                # print("dest_same_name:", tc("blue", dest_same_name))
-                # print("dest_priorities_list:", tc("blue", dest_priorities_list))
-                
+                 
                 cond = len(src_priorities_list) == 1
                 cond = cond and src_priorities_list[0] < dest_priorities_list[0]
                 if cond:                
-                    self.remove_games_by_filename([dest_same_name])
+                    self.remove_games_by_filename([dest_same_name], backup_path)
                     
                 cond = len(src_priorities_list) > 1
                 cond = cond and len(dest_priorities_list) == 1
@@ -334,7 +356,6 @@ class System:
                 for key in new_game.paths.keys():
                     if game.paths[key] is not None:
                         src_file = join(src_system.path, game.paths[key])
-                        # print("key:", key, "src_file:", src_file, "   -   ", isfile(src_file))
                         if isfile(src_file):
                             if key == 'path':
                                 dest_path = join(self.path, basename(game.paths[key]))
@@ -345,21 +366,20 @@ class System:
                                 media_dir = configs['dest_media_dirs_names'][key]
                                 dest_path = join(self.path, media_dir, basename(game.paths[key]))
                                 merge_file(src_file, dest_path)
-                                # print("src_file:", tc("green", src_file), "dest_path:", dest_path)
                                 if game.paths[key] is not None:
                                     new_game.paths[key] = "./"+join(media_dir, basename(game.paths[key]))                                
                 for key in new_game.info.keys():
                     new_game.info[key] = game.info[key]
                         
                 self.games.append(new_game)
-                # print("src_copied:", new_game.paths['path'])
-                # print()
                     
 
-    def save_gamelist(self, path):
+    def save_gamelist(self):
         """Make Description."""
         print_verbose_msg("green", '\n            Save GameListXml File:')
             
+        path = join(self.path, 'gamelist.xml')
+        
         root = None
         if isfile(path):
             backup_gamelist(path)
@@ -403,12 +423,12 @@ class System:
                         self.reports['ausent_info'][key].append(game_filename)
                     
 
-    def save_reports(self, path):
+    def save_reports(self):
         """Make Description."""
         print_verbose_msg("green", '\n            Saving Reports Files:')
         
             
-        path = join(path, 'sbfrm_reports')
+        path = join(self.path, 'sbfrm_reports')
         makedirs(path, exist_ok=True)
         for key, media in self.reports['ausent_media'].items():
             if key != 'path':

@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.1
+- Removed Game Clones are backed up to a System Backup folder (systemname_removed).
+
+---
+
 ## 0.5.0
 - Feature Added: Remove Game Clones.
                     For this system, clones are considered any game with same <name> tag in gamelist.xml and diferent file name in system folder.

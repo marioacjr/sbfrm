@@ -1,6 +1,6 @@
 """Make Description."""
 from os import listdir
-from os.path import isdir, join
+from os.path import isdir, join, basename, dirname, normpath
 
 from src.fileutils import configs, make_sys_dirs
 from src.terminalutils import print_verbose_msg
@@ -50,19 +50,18 @@ class Collection:
         make_sys_dirs(dest_sys)
         dest_system.load()
         
-        
         print_verbose_msg('blue', '\n        Merging Source to Dest:')
         dest_system.copy_files_from_system(src_system)
         dest_system.remove_games_clones()
+        dest_system.backup_removed_games()
         
         print_verbose_msg('blue', '\n        Generating GamelistXml File:')
         
-        gl_dest_path = join(dest_sys, 'gamelist.xml')
-        dest_system.save_gamelist(gl_dest_path)
+        dest_system.save_gamelist()
         
         print_verbose_msg('blue', '\n        Generating Reports Files:')
         
         dest_system.gen_report()
-        dest_system.save_reports(dest_sys)
+        dest_system.save_reports()
         
         
