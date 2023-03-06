@@ -53,7 +53,7 @@ class Collection:
         print_verbose_msg('blue', '\n        Merging Source to Dest:', gui=gui)
         dest_system.copy_files_from_system(src_system)
         dest_system.remove_games_clones()
-        dest_system.backup_removed_games()
+        dest_system.backup_removed_games_metadata()
         
         print_verbose_msg('blue', '\n        Generating GamelistXml File:', gui=gui)
         

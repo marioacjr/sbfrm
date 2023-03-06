@@ -15,6 +15,7 @@ This manager is used for collections in the EmulationStation format (those with 
 - Avoid wasted disk space;
 - Locate the media files of a game and automatically include them in the gamelist.xml.
 - Generate the small but complete gamelist.xml file.
+- Reduce the time needed to scrapper collections by reusing existing information.
 
 # Releases:
 

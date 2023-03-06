@@ -258,7 +258,7 @@ class System:
         self.games = new_games
         
         
-    def backup_removed_games(self):
+    def backup_removed_games_metadata(self):
         """Make Description."""
         print_verbose_msg("green", '\n            Save Removed GameListXml Metadata:', gui=self.gui)
         
@@ -269,10 +269,11 @@ class System:
         srt_xml = '<?xml version="1.0" encoding="UTF-8"?><gameList></gameList>'
         root = ET.fromstring(srt_xml)
 
-        progress_base = len(self.games)
-        for progress_id, game in enumerate(self.games):
+        progress_base = len(self.removed_games)
+        for progress_id, game in enumerate(self.removed_games):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
             game_xml = game.gen_game_xml()
+            print(game)
             root.append(game_xml)
         
         path = join(dest_path, 'gamelist.xml')

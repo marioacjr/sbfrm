@@ -15,6 +15,7 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Evitar desperdício de espaço em disco;
 - Localizar os arquivos de mídia de um game e incluí-los automaticamente na gamelist.xml.
 - Gerar o arquivo gamelist.xml pequeno, porém completo.
+- Reduzir o tempo necessário para fazero o scrapper nas coleções através do reaproveitamento das informações já existentes.
 
 # Releases:
 

@@ -24,7 +24,7 @@ class GameTests(TestCase):
 
     def test_load_game_path(self):
         """Make Description."""
-        game_filename = "Game One (Japan).chd"
+        game_filename = "Game AA (USA).zip"
         system_path = join("test", "roms_src", "system_one")
         gamelist_path = join(system_path, "/gamelist.xml")
         paths = {

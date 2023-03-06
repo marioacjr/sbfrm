@@ -2,6 +2,12 @@
 
 ---
 
+## 0.5.4
+- Bux Fix: Not saving the metadata of games removed from the collection fixed.
+- Bug Fix: Configuration file (config.json) always overwritten.
+
+---
+
 ## 0.5.3
 - Bux Fix: Creation of the configs.json file when it doesn't exist.
 

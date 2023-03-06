@@ -129,7 +129,7 @@ def check_is_configs_exists():
         ]
     }
     
-    if not isfile("configs.json"):
+    if not isfile("config.json"):
         jsonString = json.dumps(config_dict, indent=4)
         jsonFile = open("config.json", "w")
         jsonFile.write(jsonString)
