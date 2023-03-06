@@ -4,7 +4,6 @@ from os.path import join
 
 from src.collection import Collection
 from src.terminalutils import print_verbose_msg
-from src.fileutils import configs
 
 parser = argparse.ArgumentParser(description='RetroGames Collection Manager')
 

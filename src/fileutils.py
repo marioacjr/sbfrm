@@ -5,9 +5,12 @@ from glob import glob
 from datetime import datetime
 from os import listdir, makedirs
 from os.path import isfile, join, basename, splitext, pardir, abspath, normpath
+from src.jsonutils import check_is_configs_exists
 
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xdm
+
+check_is_configs_exists()
 
 configs = json.loads(open("config.json", 'r', encoding="utf8").read())
 
@@ -111,3 +114,6 @@ def make_sys_dirs(path):
 def get_backup_dir(path):
     
     return join(abspath(join(path, pardir)), basename(normpath(path))+"_removed")
+
+
+    

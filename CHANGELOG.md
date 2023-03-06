@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.3
+- Bux Fix: Creation of the configs.json file when it doesn't exist.
+
+---
+
 ## 0.5.2
 - Bux Fix: progress screen prints of user interface fixed.
 

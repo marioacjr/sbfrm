@@ -2,7 +2,6 @@
     "src_media_dirs_list": {
         "boxart": [
             "boxart",
-            "image",
             "images",
             "downloaded_boxarts"
         ],
@@ -13,13 +12,11 @@
         ],
         "marquee": [
             "marquee",
-            "image",
             "images",
             "downloaded_wheels"
         ],
         "thumbnail": [
             "thumbnail",
-            "image",
             "images",
             "downloaded_thumbnails"
         ],
@@ -51,8 +48,8 @@
         "software": "SBFRM",
         "web": "https://github.com/marioacjr/sbfrm"
     },
-    "gui_last_src": "/mnt/storage/development/mario/sbfrm/test/roms_src",
-    "gui_last_dest": "/mnt/storage/development/mario/sbfrm/test/roms_dest",
+    "gui_last_src": "test/roms_src",
+    "gui_last_dest": "test/roms_dest",
     "region_order": [
         "USA",
         "World",

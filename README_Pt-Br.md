@@ -10,10 +10,10 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 
 ## As principais características são:
 - Mesclar uma coleção Fonte em uma coleção Destino;
-- Evitar a duplicação de jogos e suas mídias;
+- Evitar a duplicação de roms e suas mídias associadas;
 - Evitar arquivos de imagem e vídeo órfãos (sem um game relativo);
 - Evitar desperdício de espaço em disco;
-- Localizar os arquivos de mídia de um game e incluí-los na gamelist.xml.
+- Localizar os arquivos de mídia de um game e incluí-los automaticamente na gamelist.xml.
 - Gerar o arquivo gamelist.xml pequeno, porém completo.
 
 # Releases:
@@ -29,13 +29,19 @@ Para utilizar, bastar baixar o binário para seu S.O. na pasta [releases](releas
 
 ## Linha de comando:
 
-Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme mostrado a seguir:
+Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o script [sbfrm.py](sbfrm.py), passando os argumntos conforme mostrado a seguir abaixo. As dependências necessárias estão listadas no arquivo requirements.txt. É aconselhável criar um ambiente virtual para a instalação das dependências (isto evita que os pacotes das dependências sejam instalados diretamente na instalação do python do seu S.O.).
 
-`python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
+### CLI:
+    `python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
+
+### GUI:
+    `python3 sbfrm_gui.py` 
 
 ### Requerimentos:
 - Python3;
 - Linux ou Windows.
+- Pacotes:
+    - PySimpleGUI (apenas para sbfrm_gui.py)
 
 Veja [exemplos](examples).
 
@@ -44,7 +50,7 @@ O **SBFRM**, é um script python, onde se deve passar alguns parâmetros na linh
 
 ####  A forma mais simples de executar é:
 
-`python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
+    `python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
 
 ####  Onde:
 - **update_collection*** é a tarefa que deseja realizar. Neste caso, é adicionar novas roms à sua coleção;
@@ -56,127 +62,104 @@ Rode o comando acima e veja a magia acontecer. A execução irá acrescentar nov
 #### A estrutura de pastas do exemplo acima deve ser semelhante a estas abaixo.
 
 - src-collection-path
-    - snes/
-        - Name1 (USA,Japan).zip
-        - Name2 (USA,Europe) (En,Fr,De).zip
-        - Name3 (USA,Europe,Japan).zip
+    - system_one/
+        - Game AA (Europe, Japan).zip
+        - Game AA (Europe, Japan) (Demo).zip
+        - Game AA (Japan).zip
+        - Game AA (USA).zip
+        - Game AA (USA, Europe, Japan).zip
+        - GAMEBB.zip
+        - GAMEBBBB.zip
         - gamelist.xml
-    - mastersystem/
-        - Name4 (USA,Japan).zip
-        - Name5 (USA) (En,Fr,De).zip
-        - Name6 (USA,Europe,Japan).zip
-        - gamelist.xml
-    - megadrive/
-        - Name7 (USA,Japan).zip
-        - Name8 (USA) (En,Fr,De).zip
-        - Name9 (USA,Europe,Japan).zip
+    - system_two/
+        - Game CC (Europe, Japan).zip
+        - Game CC (Europe, Japan) (Demo).zip
+        - Game CC (USA).zip
+        - GAMEDD.zip
+        - GAMEDDDD.zip
         - gamelist.xml
 
 
 - dest-collection-path/
-    - snes/
-        - Name2 (USA).zip
+    - system_one/
+        - Game AA (Japan).zip
         - gamelist.xml
-    - megadrive/
-        - Name7 (Japan).zip
-        - Name8 (En).zip
-        - Name9.zip
+    - system_three/
+        - Game EE (Europe, Japan).zip
+        - Game EE (USA).zip
         - gamelist.xml
+
+    
 
 #### A execução do script realizará o seguinte trabalho:
 
-- Na pasta **snes/** serão adicionados apenas **Name1** e **Name3**. A rom **Name2** não será adicionada porque já existe a versão **Name2 (USA)** no destino;
-- Na pasta **mastersystem** serão adicionadas todas as três roms;
-- Na pasta **megadrive** não será adicionada nenhuma rom, pois todas já possuem uma versão no destino;
+- Na pasta **system_one/** da coleção destino, será adicionado a rom **Game AA (USA).zip** e **GAMEBB.zip**. Será removida a rom **Game AA (Japan).zip**, pois a sua versão (USA) foi encontrada na coleção de origem. Todas as mídias de imagem e vídeos e metadados relativos às duas roms serão copiados para a coleção destino. Da mesma forma, todas as mídias e metadados associados à rom **Game AA (Japan).zip** serão movidos para a pasta de backup **system_one_removed/**;
+- Será criada uma pasta para o systema **system_two/**. Será copiada as roms **Game CC (USA).zip** e **GAMEDD.zip**. Todos os arquivos de mídia e metadados associados a essas duas roms serão copiados.
+- A pasta **system_three/** da coleção destino não sofrerá nenhuma modificação.
+
 
 #### O resultado final da sua coleção será como mostrado abaixo:
 
-- dest-collection/
-    - snes/
-        - Name1 (USA,Japan).zip
-        - Name2 (USA).zip
-        - Name3 (USA,Europe,Japan).zip
+- dest-collection-path/
+    - system_one/
+        - Game AA (USA).zip
+        - GAMEBB.zip
         - gamelist.xml
-    - mastersystem/
-        - Name4 (USA,Japan).zip
-        - Name5 (USA) (En,Fr,De).zip
-        - Name6 (USA,Europe,Japan).zip
+    - system_three/
+        - Game CC (USA).zip
+        - GAMEDD.zip
         - gamelist.xml
-    - megadrive/
-        - Name7 (Japan).zip
-        - Name8 (En).zip
-        - Name9.zip
+    - system_three/
+        - Game EE (Europe, Japan).zip
+        - Game EE (USA).zip
         - gamelist.xml
-
-O exemplificado acima é o mais simples que o sbfrm pode fazer. De fato, ele é capaz coisas mais complexas, como gerenciar subsistemas (snes/## HACKS ##/) por exemplo. A lista completa de parâmetros é mostrada a seguir:
 
 #### Parâmetros Obrigatórios:
 - **op**: Operação a ser efetuada.
-    - **update_collection**: Atualiza, em **dest/**, todos os arquivos de roms, imagens e vídeos para cada coleção (sistema de jogos) presentes em **src/**. Atualiza o **gamelist.xml** de cada coleção, ou cria um novo caso não exista;
-    - **update_system**: Atualiza o respectivo sistema ou cria um novo, caso não exista, e seus subsistemas. Entende-se como subsistema as pastas com roms dentro de um sistema (ex: ## HACKS ##). Esta operação trabalha em conjunto com o parâmetro opcional **-subsyslist**. Caso o parâmetro opcional não seja passado, nenhuma subcoleção será atualizada ou adicionada;
-- **src/**: Caminho do diretório onde está a coleção a ser adicionada.
+    - **update_collection**: Atualiza, em **dest-collection-path/**, todos os arquivos de roms, imagens e vídeos para cada sistema da coleção presentes em **src-collection-path/**. Atualiza o **gamelist.xml** de cada sistema, ou cria um novo caso não exista;
+    - **update_system**: Atualiza o respectivo sistema ou cria um novo, caso não exista. ;
+- **src-collection-path/**: Caminho do diretório onde está a coleção a ser adicionada.
     - Ex: /media/user/SHARE1/roms
-- **dest/**: Caminho do diretório onde os arquivos devem ser adicionados.
+- **dest-collection-path/**: Caminho do diretório onde os arquivos devem ser adicionados.
     - Ex: /media/user/SHARE/roms
 
-#### Parâmetros Opcionais:
-- **-box_src**: Nome do diretório onde estão os arquivos de imagens das caixas dos jogos que deverão ser adicionadas à sua coleção (ex: -box_src Named_Boxarts ou box_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-img_src**: Nome do diretório onde estão os arquivos de imagens do gameplay dos jogos que deverão ser adicionadas à sua coleção (ex: -img_src Named_Snaps ou -img_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-marq_src**: Nome do diretório onde estão os arquivos de imagens do letreiro dos jogos que deverão ser adicionadas à sua coleção (ex: -marq_src Named_Marquees ou -marq_src downloaded_wheels). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-thumb_src**: Nome do diretório onde estão os arquivos de imagens da tela de título dos jogos que deverão ser adicionadas à sua coleção (ex: -thumb_src Named_Titles ou -thumb_src downloaded_images). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-vid_src**: Nome do diretório onde estão os arquivos de vídeo da gamepley dos jogos que deverão ser adicionadas à sua coleção (ex: -vid_src videos ou -vid_src downloaded_videos). Caso este parâmetro não seja declarado, estes arquivos de mídia não serão atualizados na coleção destino.
-- **-subsyslist**: Lista de subsistemas a serem considerados durante o processamento do script (ex: -subsys_list "## HACKS ##, # PT-BR #, # TECTOY #"). A lista deve ser separada por vírgula, sem espaços entre os itens e estar dentro de aspas duplas. Para cada coleção presente em **src/**, a lista inteira será avaliada, e, caso algum subdiretório exista com o mesmo nome do item, o script irá atualizar ou elevar a subcoleção.
-- **-filemode**: Define se os arquivos serão copiados ou movidos para o destino (ex: -filemode cp ou -filemode mv). Essa opção é muito útil caso você tenha limitação de espaço em disco ou deseja que o processamento seja realizado de forma mais rápida (arquivos são movidos quase instantaneamente se estiverem dentro da mesma partição :p).
+#### Configurações Opcionais:
+É possível personalizar algumas operações antes da execução, como prioridade de região das roms e nome das pastas de mídia das coleções. Estas personalizações devem ser realizadas através da alteraçãos dos seus parâmetros no arquivo **configs.json**. Este arquivo deve seguir a estrutura pré-estabelecida existente no formato JSON. A seguir será descrito o comportamento de cada um desses parâmetros.
+
+- **-src_media_dirs_list**: Contém a lista de pastas onde o script deve procurar pelas mídas associadas às roms na coleção de origem. Dentro de cada lista dos seus sub itens, deve ser inserido o nome da pasta onde estão localizados as mídias daquele tipo.
+
+- **-dest_media_dirs_names**: Contém o nome das pastas das mídias da coleção destino. Cada tipo de mídia deve conter um, e apenas um, nomepara a mídia do respectivo tipo.
+
+- **-filemode**: Define o tipo de operação realizada da coleção de origem para a coleção destino. Em **options** estão as opções de operação disponíveis (**este parâmetro não deve ser alterado**). Em **mode** deve ser informado o tipo desejado. O tipo **cp** copia os arquivos da origem para o destino. Este tipo de operação é mais seguro, porém mais lento. O tipo **mv** move os arquivos da origem para o destino. Este modo é mais rápido quando a origem e destino estão localizados na mesma partição.
+
+- **-overwrite_file**: Define de o arquivo de destino deve ser sobrescrito, caso exista. Altere este parâmetro para 0 (zero) caso não queira sobrescrever e para 1 (hum) caso contrário.
+
+- **-overwrite_gamelist_info**: Define se os metadados do arquivos **gamelist.xml** do destino devem ser sobrescritos pelos novos dados localizados na origem.
+
+- **-verbose**: Define se deve ser gerado uma saída textual no teminal de execução ou gui do usuário.
+
+- **region_order**: Define a lista de prioridades das regiões das roms a serem mantidas na coleção destino. O primeiro ítem desta lista tem maior prioridade sobro segundo,e assim sucessivamente. Cada ítem desta lista deve aparecer entre parêntesis no nome das roms.
+
+- **removed_devcomm_status**: Contém a lista dos status de desenvolvimento e comercial das roms que devem ser removidas da coleção destino. Cada ítem desta lista deve aparecer entre parêntesis no nome das roms.
 
 ## Relatórios das coleções e Organização dos Arquivos de Mídia
 
 
-Após o processamento do script, um conjunto de arquivos de texto, com informações de totais de arquivos e mídias ausentes, será criado para cada uma das coleções presentes em **dest/**. Estes arquivos são bastantes úteis para identificar e adicionar o que está faltando na coleção. Por exemplo, por meio deles, pode-se criar uma força-tarefa para completar todas as informações de uma coleção.
+Após o processamento do script, um conjunto de arquivos de texto, com informações dos totais de arquivos de mídias ausentes, será criado para cada uma das coleções presentes em **dest/**. Estes arquivos são bastantes úteis para identificar e adicionar o que está faltando na coleção. Por exemplo, por meio deles, pode-se criar uma força-tarefa para completar todas as informações ausentes de uma coleção.
 
 Também será realizado um backup da **gamelist.xml** anterior para evitar ao máximo a perda de informação caso algum problema ocorra.
 
-Além disso, cada tipo de mídia dos jogos será inserida em um diretório proprio para ela. A seguir será detalhado a composição dos arquivos de relatório e a estrutura de pastas de cada coloção:
+## Considerações Finais
 
-- **dest-collection/**
-    - **sistema/**
-        - **boxart/**: Pasta onde estão adicionados os arquivos de imagens das caixas dos jogos da coleção.
+Longe de mim achar que esse é um projeto espetacular e que não haja outro igual ou melhor. Tem muita coisa que pode ser melhorada, certamente tem bugs que eu não percebi, muita refatoração de código para ser feita, falta implementar mais testes e etc, etc. De qualquer modo, espero que ele lhe seja útil e ajude a ganhar espaço em disco e poupar muito tempo organizando suas roms. Tempo esse que dever ser usado para jogar e se divertir.
 
-        - **image/**: Pasta onde estão adicionados os arquivos de imagens do gameplay dos jogos da coleção.
-
-        - **marquee/**: Pasta onde estão adicionados os arquivos de imagens do letreiro dos jogos da coleção.
-
-        - **thumbnails/**: Pasta onde estão adicionados os arquivos de imagens da tela de titulo dos jogos da coleção.
-
-        - **video/**: Pasta onde estão adicionados os arquivos de vídeo de demostração dos jogos da coleção.
-
-        - **gamelist_yyyymmdd-hhmmss.txt/**: Backup do gamelist.xml anterior, com a data e hora do backup.
-        - **sbfrm_reports/**
-          - **game_wihout_box.txt/**: Arquivo de texto com a lista das imagens das boxarts ausentes da coleção.
-
-          - **game_wihout_image.txt/**: Arquivo de texto com a lista das imagens de gameplay ausentes da coleção.
-
-          - **game_wihout_marquee.txt/**: Arquivo de texto com a lista das imagens de letreiro ausentes da coleção.
-
-          - **game_wihout_thumbnails.txt/**: Arquivo de texto com a lista das imagens do gameplay ausentes da coleção.
-
-          - **game_wihout_video.txt/**: Arquivo de texto com a lista dos vídeos de gameplay ausentes da coleção.
-
-          - **game_wihout_info_name.txt/**: Arquivo de texto com a lista dos jogos sem o nome no gamelist.txt.
-
-          - **game_wihout_info_desc.txt/**: Arquivo de texto com a lista dos jogos sem a descrição no gamelist.txt.
-
-          - **game_wihout_info_genre.txt/**: Arquivo de texto com a lista dos jogos sem o gênero do jogo no gamelist.txt.
-
-          - **demais arquivos de relatório**
-
-Longe de mim achar que esse é um projeto espetacular e que não haja outro igual ou melhor. Tem muita coisa que pode ser melhorada, certamente tem bugs que eu não percebi, muita refatoração de código para ser feita, falta implementar testes, etc, etc. Mas espero que ele lhe seja útil e ajude a ganhar espaço em disco e poupar muito tempo organizando suas roms. Tempo esse que dever ser usado para jogar e se divertir. Se você chegou até aqui, é porque realmente se interessou pelo meu trabalho e provavelmente está, ou vai em algum momento, se perguntar que diabos significa sbfrm, que é o acrônimo para Small Big Fucking Retro Gamelist Manager :)
+Se você chegou até aqui, é porque realmente se interessou pelo meu trabalho e provavelmente está, ou vai em algum momento, se perguntar que diabos significa **sbfrm**, que é o acrônimo para Small Big Fucking Retro Gamelist Manager. Sim, eu estava muito inspirado quando buscava um nome para este projeto :p
 
 De resto, fica minhas ideias de trabalhos futuros a ser implementado (quando eu tiver algum tempo sobrando):
-- Interface Gráfica (para facilitar a utilização para quem não é acostumado a usar linha de comando);
-- Implementar um novo método para comparar dois diretórios e remover arquivos duplicados de um deles (ex: remover as roms traduzidas do diretório **:nes/**: e que já estão presentes no diretório **:nes/# PT-BR #/**:);
-- Melhorar a comparação de arquivos duplicados. A comparação atual tem bons resultados mas é bem simples. Usando regex poderá ser possível fazer coisas mais complexas como selecionar arquivos de determinada região, idioma, revisão, etc.
-- Escrever um documento com exemplos e truques de coisas legais que eu já consegui fazer com o sbfrm
-- Melhorar meu Português :p
+- Melhorar a comparação de arquivos duplicados. A comparação atual, apesar de simples, tem bons resultados mas certamente tem muito a melhorar.
+- Implementar um sistema de prioridades de língua das roms.
+- Escrever um documento melhor com exemplos e truques de coisas legais que é pssível fazer com o **sbfrm**.
+- Melhorar meu Inglês :p
 
 
 Doações:
