@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.2
+- Bux Fix: progress screen prints of user interface fixed.
+
+---
+
 ## 0.5.1
 - Removed Game Clones are backed up to a System Backup folder (systemname_removed).
 

@@ -17,12 +17,12 @@ from src.game import Game
 class System:
     """Base class for system."""
 
-    def __init__(self, path):
+    def __init__(self, path, gui=False):
         """Make Description."""
         self.path = path
         
         self.games = []
-        self.gui = False
+        self.gui = gui
         
         self.cache = {
             "game_name": [],
@@ -111,8 +111,6 @@ class System:
     def check_if_in_cache(self, game):
         """Make Description."""
         result = False
-        print()
-        print("result:", result, "game.paths['path']:", tc("blue", game.paths['path']))
         if game.paths['path'] is not None:
             result = result or game.paths['path'] in self.cache['game_path']
             print("game.paths['path'] in cache:", result)
@@ -120,14 +118,12 @@ class System:
             result = result or game.info['name'] in self.cache['game_name']
             print("game.paths['name'] in cache:", result)
                 
-        print("final result:", result)
-        print("cache:", self.cache)
         return result
 
         
     def load_from_gamelist(self):
         """Make Description."""
-        print_verbose_msg('green', '\n            Loading GameListXml:')
+        print_verbose_msg('green', '\n            Loading GameListXml:', gui=self.gui)
         
         gamelist_path = join(self.path, 'gamelist.xml')
         
@@ -136,7 +132,7 @@ class System:
             progress_base = len(tree.getroot())
             for progress_id, game_xml in enumerate(tree.getroot()):
                 progress_id += 1
-                print_verbose_progressbar(progress_id, progress_base)
+                print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
                 
                 
                 path = self.read_game_xml_metadata(game_xml, 'path')
@@ -157,12 +153,12 @@ class System:
     
     def load_from_filegames(self):
         """Make Description."""
-        print_verbose_msg('green', '\n            Loading GameFiles:  ')
+        print_verbose_msg('green', '\n            Loading GameFiles:  ', gui=self.gui)
         
         listgamefiles = self.listgamesfiles()
         progress_base = len(listgamefiles)
         for progress_id, gamefile_path in enumerate(listgamefiles):
-            print_verbose_progressbar(progress_id, progress_base)
+            print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
                     
             game = Game()  
             for key in game.paths.keys():
@@ -264,7 +260,7 @@ class System:
         
     def backup_removed_games(self):
         """Make Description."""
-        print_verbose_msg("green", '\n            Save Removed GameListXml Metadata:')
+        print_verbose_msg("green", '\n            Save Removed GameListXml Metadata:', gui=self.gui)
         
         dest_path = get_backup_dir(self.path)
         if isfile(dest_path):
@@ -275,7 +271,7 @@ class System:
 
         progress_base = len(self.games)
         for progress_id, game in enumerate(self.games):
-            print_verbose_progressbar(progress_id, progress_base)
+            print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
             game_xml = game.gen_game_xml()
             root.append(game_xml)
         
@@ -306,14 +302,14 @@ class System:
     
     def copy_files_from_system(self, src_system):
         """Make Description."""   
-        print_verbose_msg("green", '\n            Copying:')
+        print_verbose_msg("green", '\n            Copying:', gui=self.gui)
         
         backup_path = get_backup_dir(self.path)
         make_sys_dirs(backup_path)
                 
         progress_base = len(src_system.games)
         for src_game_id, game in enumerate(src_system.games):
-            print_verbose_progressbar(src_game_id, progress_base)
+            print_verbose_progressbar(src_game_id, progress_base, gui=self.gui)
             
             copy_cond = True
             
@@ -376,7 +372,7 @@ class System:
 
     def save_gamelist(self):
         """Make Description."""
-        print_verbose_msg("green", '\n            Save GameListXml File:')
+        print_verbose_msg("green", '\n            Save GameListXml File:', gui=self.gui)
             
         path = join(self.path, 'gamelist.xml')
         
@@ -395,7 +391,7 @@ class System:
 
         progress_base = len(self.games)
         for progress_id, game in enumerate(self.games):
-            print_verbose_progressbar(progress_id, progress_base)
+            print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
             game_xml = game.gen_game_xml()
             root.append(game_xml)
         with open(path, "w", encoding="utf-8") as file_out:
@@ -404,11 +400,11 @@ class System:
     
     def gen_report(self):
         """Make Description."""
-        print_verbose_msg("green", '\n            Generating Reports Files:')
+        print_verbose_msg("green", '\n            Generating Reports Files:', gui=self.gui)
         
         progress_base = len(self.games)
         for progress_id, game in enumerate(self.games):
-            print_verbose_progressbar(progress_id, progress_base)
+            print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
             
             if game.paths['path'] is not None:
                 text = f"Name: {game.info['name']}   File:{basename(game.paths['path'])}"
@@ -425,7 +421,7 @@ class System:
 
     def save_reports(self):
         """Make Description."""
-        print_verbose_msg("green", '\n            Saving Reports Files:')
+        print_verbose_msg("green", '\n            Saving Reports Files:', gui=self.gui)
         
             
         path = join(self.path, 'sbfrm_reports')

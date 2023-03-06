@@ -72,7 +72,7 @@ def make_window():
         act_buttons,
     ]
 
-    return sg.Window('SBFRM V0.4.5', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.5.1', layout, enable_close_attempted_event=True,
                      finalize=True, icon="logo.ico",
                      location=sg.user_settings_get_entry('-location-', (300, 300)))
 
@@ -106,7 +106,7 @@ def update_collection(collection, values, gui):
         gui.write_event_value('-PROGRESS_SYSTEMS-', [sysid, progress_base])
         src_path = join(values['-SOURCE-'], sys_path)
         dest_path = join(values['-DEST-'], sys_path)
-        collection.update_sys_from(dest_path, src_path)
+        collection.update_sys_from(dest_path, src_path, gui=gui)
 
     gui.write_event_value('-UPDATE_COLLECTION_END-', '')
 
@@ -115,7 +115,7 @@ def update_sys_from(collection, values, gui):
     """Make Description"""
     print(60*'='+'\n', 'Update System:', values['-DEST-'])
 
-    collection.update_sys_from(values['-DEST-'], values['-SOURCE-'])
+    collection.update_sys_from(values['-DEST-'], values['-SOURCE-'], gui=gui)
 
     gui.write_event_value('-UPDATE_SYSTEM_END-', '')
 

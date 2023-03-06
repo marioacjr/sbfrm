@@ -48,29 +48,37 @@ def clear_line():
     return clrl
 
 
-def get_progress_bar(value, base):
+def get_progress_bar(value, base, gui=False):
     """Make a description."""
     progress = 100
     if base > 1:
         progress = int(100*value/(base-1))
     bar_size = int(progress/4)
     bar_c = '='*bar_size
-    progress_bar = text_colored('orange', bar_c)
-    progress_bar += text_colored('green', str(progress)+"%")
-    progress_bar += text_colored('orange', bar_c)
+    progress_bar = ""
+    if gui:
+        progress_bar = bar_c
+        progress_bar += str(progress)+"%"
+        progress_bar += bar_c
+    else:
+        progress_bar = text_colored('orange', bar_c)
+        progress_bar += text_colored('green', str(progress)+"%")
+        progress_bar += text_colored('orange', bar_c)
     back_string = '\b'*(bar_size+2+bar_size)
     if progress >= 10:
         back_string += '\b'
     return progress_bar + back_string
 
-def print_verbose_progressbar(value, base):
+def print_verbose_progressbar(value, base, gui=False):
     """Make a description."""
     if configs["verbose"]:
-        print(get_progress_bar(value, base), end='', flush=True)
+        print(get_progress_bar(value, base, gui=gui), end='', flush=True)
         
-def print_verbose_msg(color, msg):
+def print_verbose_msg(color, msg, gui=False):
     """Make Description."""
     if configs["verbose"]:
-        print_txt = text_colored(color, msg)
-        print(print_txt, end='', flush=True)
-    
+        if gui:
+            print(msg, end='', flush=True)
+        else:
+            print_txt = text_colored(color, msg)
+            print(print_txt, end='', flush=True)

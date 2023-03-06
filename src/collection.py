@@ -37,29 +37,29 @@ class Collection:
                 return True
         return False
 
-    def update_sys_from(self, dest_sys, src_sys):
+    def update_sys_from(self, dest_sys, src_sys, gui=False):
         """Make Description."""
-        print_verbose_msg('blue', '\n        Loading Source System:')
+        print_verbose_msg('blue', '\n        Loading Source System:', gui=gui)
             
-        src_system = System(src_sys)  
+        src_system = System(src_sys, gui=gui)  
         src_system.load()
         
-        print_verbose_msg('blue', '\n        Loading Dest System:')
+        print_verbose_msg('blue', '\n        Loading Dest System:', gui=gui)
         
-        dest_system = System(dest_sys)
+        dest_system = System(dest_sys, gui=gui)
         make_sys_dirs(dest_sys)
         dest_system.load()
         
-        print_verbose_msg('blue', '\n        Merging Source to Dest:')
+        print_verbose_msg('blue', '\n        Merging Source to Dest:', gui=gui)
         dest_system.copy_files_from_system(src_system)
         dest_system.remove_games_clones()
         dest_system.backup_removed_games()
         
-        print_verbose_msg('blue', '\n        Generating GamelistXml File:')
+        print_verbose_msg('blue', '\n        Generating GamelistXml File:', gui=gui)
         
         dest_system.save_gamelist()
         
-        print_verbose_msg('blue', '\n        Generating Reports Files:')
+        print_verbose_msg('blue', '\n        Generating Reports Files:', gui=gui)
         
         dest_system.gen_report()
         dest_system.save_reports()

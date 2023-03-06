@@ -1,168 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gameList>
-  <provider>
-    <system>system_one</system>
-    <software>SBFRM</software>
-    <web>https://github.com/marioacjr/sbfrm</web>
-  </provider>
-  
   <game>
-    <path>./Game One (Japan).chd</path>
-    <boxart>./downloaded_boxarts/Game One (Japan).png</boxart>
-    <image>./downloaded_images/Game One (Japan).png</image>
-    <marquee>./downloaded_wheels/Game One (Japan).png</marquee>
-    <thumbnail>./downloaded_thumbnails/Game One (Japan).png</thumbnail>
-    <video>./downloaded_videos/Game One (Japan).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <path>./Game AA (Europe, Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Europe, Japan).png</boxart>
+    <image>./downloaded_images/Game AA (Europe, Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (Europe, Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Europe, Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Europe, Japan).mp4</video>
+    <name>Game AA</name>
   </game>
   
   <game>
-    <path>./Game One (USA).chd</path>
-    <boxart>./downloaded_boxarts/Game One (USA).png</boxart>
-    <image>./downloaded_images/Game One (USA).png</image>
-    <marquee>./downloaded_wheels/Game One (USA).png</marquee>
-    <thumbnail>./downloaded_thumbnails/Game One (USA).png</thumbnail>
-    <video>./downloaded_videos/Game One (USA).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
-  </game>
-  
-  
-  
-  
-  
-  <game>
-    <path>./## HACKS ##/Game One hack (Japan).chd</path>
-    <boxart>./downloaded_boxarts/## HACKS ##/Game One hack (Japan).png</boxart>
-    <image>./downloaded_images/## HACKS ##/Game One hack (Japan).png</image>
-    <marquee>./downloaded_wheels/## HACKS ##/Game One hack (Japan).png</marquee>
-    <thumbnail>./downloaded_thumbnails/## HACKS ##/Game One hack (Japan).png</thumbnail>
-    <video>./downloaded_videos/## HACKS ##/Game One hack (Japan).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <path>./Game AA (Europe, Japan) (Demo).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Europe, Japan) (Demo).png</boxart>
+    <image>./downloaded_images/Game AA (Europe, Japan) (Demo).png</image>
+    <marquee>./downloaded_wheels/Game AA (Europe, Japan) (Demo).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Europe, Japan) (Demo).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Europe, Japan) (Demo).mp4</video>
+    <name>Game AA</name>
   </game>
   
   <game>
-    <path>./## HACKS ##/Game One hack (USA).chd</path>
-    <boxart>./downloaded_boxarts/## HACKS ##/Game One hack (USA).png</boxart>
-    <image>./downloaded_images/## HACKS ##/Game One hack (USA).png</image>
-    <marquee>./downloaded_wheels/## HACKS ##/Game One hack (USA).png</marquee>
-    <thumbnail>./downloaded_thumbnails/## HACKS ##/Game One hack (USA).png</thumbnail>
-    <video>./downloaded_videos/## HACKS ##/Game One hack (USA).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
-  </game>
-  
-  
-  
-  
-  
-  <game>
-    <path>./# PT-BR #/Game One ptbr (Japan).chd</path>
-    <boxart>./downloaded_boxarts/# PT-BR #/Game One ptbr (Japan).png</boxart>
-    <image>./downloaded_images/# PT-BR #/Game One ptbr (Japan).png</image>
-    <marquee>./downloaded_wheels/# PT-BR #/Game One ptbr (Japan).png</marquee>
-    <thumbnail>./downloaded_thumbnails/# PT-BR #/Game One ptbr (Japan).png</thumbnail>
-    <video>./downloaded_videos/# PT-BR #/Game One ptbr (Japan).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <path>./Game AA (Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Japan).png</boxart>
+    <image>./downloaded_images/Game AA (Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Japan).mp4</video>
+    <name>Game AA</name>
   </game>
   
   <game>
-    <path>./# PT-BR #/Game One ptbr (USA).chd</path>
-    <boxart>./downloaded_boxarts/# PT-BR #/Game One ptbr (USA).png</boxart>
-    <image>./downloaded_images/# PT-BR #/Game One ptbr (USA).png</image>
-    <marquee>./downloaded_wheels/# PT-BR #/Game One ptbr (USA).png</marquee>
-    <thumbnail>./downloaded_thumbnails/# PT-BR #/Game One ptbr (USA).png</thumbnail>
-    <video>./downloaded_videos/# PT-BR #/Game One ptbr (USA).mp4</video>
-    <name>Tag Text</name>
-    <sortname>Tag Text</sortname>
-    <desc>Tag Text</desc>
-    <releasedate>Tag Text</releasedate>
-    <developer>Tag Text</developer>
-    <publisher>Tag Text</publisher>
-    <genreid>Tag Text</genreid>
-    <genre>Tag Text</genre>
-    <players>Tag Text</players>
-    <core>Tag Text</core>
-    <emulator>Tag Text</emulator>
-    <rating>Tag Text</rating>
-    <playcount>Tag Text</playcount>
-    <lastplayed>Tag Text</lastplayed>
-    <md5>Tag Text</md5>
-    <adult>Tag Text</adult>
+    <path>./Game AA (USA).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (USA).png</boxart>
+    <image>./downloaded_images/Game AA (USA).png</image>
+    <marquee>./downloaded_wheels/Game AA (USA).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA).png</thumbnail>
+    <video>./downloaded_videos/Game AA (USA).mp4</video>
+    <name>Game AA</name>
   </game>
+  
+  <game>
+    <path>./Game AA (USA, Europe, Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (USA, Europe, Japan).png</boxart>
+    <image>./downloaded_images/Game AA (USA, Europe, Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (USA, Europe, Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA, Europe, Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (USA, Europe, Japan).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./GAMEBB.zip</path>
+    <boxart>./downloaded_boxarts/GAMEBB.png</boxart>
+    <image>./downloaded_images/GAMEBB.png</image>
+    <marquee>./downloaded_wheels/GAMEBB.png</marquee>
+    <thumbnail>./downloaded_thumbnails/GAMEBB.png</thumbnail>
+    <video>./downloaded_videos/GAMEBB.mp4</video>
+    <name>Game BB</name>
+  </game>
+  
+  <game>
+    <path>./GAMEBBBB.zip</path>
+    <boxart>./downloaded_boxarts/GAMEBBBB.png</boxart>
+    <image>./downloaded_images/GAMEBBBB.png</image>
+    <marquee>./downloaded_wheels/GAMEBBBB.png</marquee>
+    <thumbnail>./downloaded_thumbnails/GAMEBBBB.png</thumbnail>
+    <video>./downloaded_videos/GAMEBBBB.mp4</video>
+    <name>Game BB</name>
+  </game>
+  
   
   
 </gameList>
