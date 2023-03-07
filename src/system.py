@@ -273,7 +273,6 @@ class System:
         for progress_id, game in enumerate(self.removed_games):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
             game_xml = game.gen_game_xml()
-            print(game)
             root.append(game_xml)
         
         path = join(dest_path, 'gamelist.xml')
@@ -328,10 +327,11 @@ class System:
                 dest_config_item_list = get_config_item_list(dest_same_name)
                 dest_priorities_list = [configs['region_order'].index(x) for x in dest_config_item_list if x in configs['region_order']]
                  
-                cond = len(src_priorities_list) == 1
-                cond = cond and src_priorities_list[0] < dest_priorities_list[0]
-                if cond:                
-                    self.remove_games_by_filename([dest_same_name], backup_path)
+                if len(src_priorities_list)>0 and len(dest_priorities_list)>0:
+                    cond = len(src_priorities_list) == 1
+                    cond = cond and src_priorities_list[0] < dest_priorities_list[0]
+                    if cond:                
+                        self.remove_games_by_filename([dest_same_name], backup_path)
                     
                 cond = len(src_priorities_list) > 1
                 cond = cond and len(dest_priorities_list) == 1

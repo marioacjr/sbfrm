@@ -10,6 +10,8 @@ import json
 from src.fileutils import configs
 from src.collection import Collection
 
+from time import sleep
+
 
 def make_window():
     """Make Description."""
@@ -72,7 +74,7 @@ def make_window():
         act_buttons,
     ]
 
-    return sg.Window('SBFRM V0.5.4', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.5.5', layout, enable_close_attempted_event=True,
                      finalize=True, icon="logo.ico",
                      location=sg.user_settings_get_entry('-location-', (300, 300)))
 
@@ -187,7 +189,7 @@ def main():
             window2 = make_progress_window((xpos, ypos))
             col = Collection()
             thread = threading.Thread(
-                target=update_sys_from, args=(col, values, window),
+                target=update_sys_from, args=(col, values, True),
                 daemon=True)
             thread.start()
 
@@ -196,6 +198,7 @@ def main():
                   "\nHalting the Process. Please wait...",
                   "\n=============================================")
             col.stop_copy = True
+        
 
         if event == '-PROGRESS_GAMES-':
             window2[event].update_bar(values[event][0], max=values[event][1])
@@ -204,7 +207,7 @@ def main():
             window2[event].update_bar(values[event][0], max=values[event][1])
 
         if event in ['-UPDATE_SYSTEM_END-', '-UPDATE_COLLECTION_END-']:
-            print('Finished!:')
+            print('\nFinished!\n')
             window2.close()
 
     window1.close()

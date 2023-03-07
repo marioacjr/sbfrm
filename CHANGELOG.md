@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.5
+- Bux Fix: Corrected GUI terminal prints
+
+---
+
 ## 0.5.4
 - Bux Fix: Not saving the metadata of games removed from the collection fixed.
 - Bug Fix: Configuration file (config.json) always overwritten.
