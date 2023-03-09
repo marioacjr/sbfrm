@@ -1,5 +1,4 @@
 """Make Description."""
-import shutil
 from os import listdir, makedirs
 from os.path import isfile, join, basename, isdir
 
@@ -12,6 +11,8 @@ from src.fileutils import configs, file_name, backup_gamelist
 from src.fileutils import make_sys_dirs, get_config_item_list, remove_file
 from src.fileutils import find_same_games, merge_file, get_backup_dir
 from src.game import Game
+
+from time import sleep
 
 
 class System:
@@ -99,7 +100,8 @@ class System:
             text = self.read_game_xml_metadata(game_xml, key)
             if text:
                 path = text.replace("./", "")
-                game_metadata[key] = path
+                if configs['overwrite_gamelist_info'] or game_metadata[key] == None:
+                    game_metadata[key] = path
                 
     
     def add_to_cache(self, game):
@@ -115,10 +117,8 @@ class System:
         result = False
         if game.paths['path'] is not None:
             result = result or game.paths['path'] in self.cache['game_path']
-            print("game.paths['path'] in cache:", result)
         if game.info['name'] is not None:
             result = result or game.info['name'] in self.cache['game_name']
-            print("game.paths['name'] in cache:", result)
                 
         return result
     
@@ -144,6 +144,8 @@ class System:
             progress_base = len(tree.getroot())
             for progress_id, game_xml in enumerate(tree.getroot()):
                 print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
+                if self.stop:
+                    break
                 
                 path = self.read_game_xml_metadata(game_xml, 'path')
                 if path:
@@ -152,8 +154,6 @@ class System:
                         self.load_game_metadata(game.paths, game_xml, 'path')
                         self.load_game_metadata(game.info, game_xml, 'name')
                         self.games.append(game)
-                if self.stop:
-                    break
                         
     
     def load_from_filegames(self):
@@ -164,31 +164,54 @@ class System:
         progress_base = len(listgamefiles)
         for progress_id, gamefile_path in enumerate(listgamefiles):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
+            if self.stop:
+                break
                     
             game = Game()  
             for key in game.paths.keys():
+                if self.stop:
+                    break
                 if key == 'path':
                     game.paths[key] = gamefile_path
                 else:
                     for src_media_dir in configs["src_media_dirs_list"][key]:
+                        if self.stop:
+                            break
                         for media_extension in self.media_extensions:
+                            if self.stop:
+                                break
                             media_path = join(self.path, src_media_dir)
                             media_path = join(media_path, file_name(gamefile_path)+media_extension)
                             if isfile(media_path):
                                 media_path = join(src_media_dir, file_name(gamefile_path)+media_extension)
                                 game.paths[key] = media_path
                             else:
-                                for sufix in ["-boxart", "-image", "-thumb", "-marquee", "-video"]:
-                                    media_path = join(self.path, src_media_dir)
-                                    media_path = join(media_path, file_name(gamefile_path)+sufix+media_extension)
-                                    if isfile(media_path):
-                                        media_path = join(src_media_dir, file_name(gamefile_path)+media_extension)
-                                        game.paths[key] = media_path
+                                suffixes = {
+                                    "boxart": "-boxart",
+                                    "image": "-image",
+                                    "marquee": "-marquee",
+                                    "thumbnail": "-thumb",
+                                    "video": "-video"                                    
+                                }
+                                media_path = join(self.path, src_media_dir)
+                                media_path = join(media_path, file_name(gamefile_path)+suffixes[key]+media_extension)
+                                if isfile(media_path):
+                                    media_path = join(src_media_dir, file_name(gamefile_path)+suffixes[key]+media_extension)
+                                    game.paths[key] = media_path
+                            
                                         
-            self.games.append(game)
-            
-            if self.stop:
+            game_src_id = False
+            for game_id, game_src in enumerate(self.games):
+                if self.stop:
                     break
+                if game_src.paths['path'] == game.paths['path']:
+                    game_src_id = game_id
+                    break
+                
+            for key in self.games[game_src_id].paths.keys():
+                if self.stop:
+                    break
+                self.games[game_src_id].paths[key] = game.paths[key]
         
 
     def excluded_files(self, filename):
@@ -210,19 +233,23 @@ class System:
     def load_info(self, gamelist_path):
         """Make Description."""
         for game in self.games:
-            game.load_xml_info(gamelist_path)            
-            if self.stop:
-                break
+            game.load_xml_info(gamelist_path)
             
             
     def remove_games_by_filename(self, filename_list, backup_path):
         """Make Description."""
         gamenames_to_remove = []
         for game_id, game in enumerate(self.games):
+            if self.stop:
+                break
             for filename in filename_list:
+                if self.stop:
+                    break
                 path = "./" + filename
                 if game.paths['path'] == path:
                     for key in game.paths.keys():
+                        if self.stop:
+                            break
                         if  game.paths[key] is not None:
                             path = join(self.path, game.paths[key].replace("./", ""))
                             dest_path = join(backup_path, basename(game.paths[key]))
@@ -233,19 +260,15 @@ class System:
                     games_removed = basename(game.paths['path'])
                     if games_removed not in self.reports['games_removed']:
                         self.reports['games_removed'].append(games_removed)
-                        
-            if self.stop:
-                break
         
         new_games = []
         for game_id, game in enumerate(self.games):
+            if self.stop:
+                break
             if game_id not in gamenames_to_remove:
                 new_games.append(game)
             else:
                 self.removed_games.append(game)
-                
-            if self.stop:
-                break
             
         self.games = new_games
         
@@ -264,11 +287,10 @@ class System:
         progress_base = len(self.removed_games)
         for progress_id, game in enumerate(self.removed_games):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
-            game_xml = game.gen_game_xml()
-            root.append(game_xml)
-            
             if self.stop:
                 break
+            game_xml = game.gen_game_xml()
+            root.append(game_xml)
         
         path = join(dest_path, 'gamelist.xml')
         
@@ -281,6 +303,8 @@ class System:
         games_to_remove = []
         names = []
         for game in self.games:
+            if self.stop:
+                break
             if game.info['name'] is not None:
                 name = game.info['name']
                 
@@ -289,15 +313,16 @@ class System:
                     games_to_remove.append(path)
                 else:
                     names.append(name)
-                    
-            if self.stop:
-                break
             
         for game_to_remove in games_to_remove:
+            if self.stop:
+                break
             to_remove_item_list = get_config_item_list(game_to_remove)
             to_remove_priorities_list = [configs['region_order'].index(x) for x in to_remove_item_list if x in configs['region_order']]
             dest_same_names = find_same_games(self.path, game_to_remove)
             for dest_same_name in dest_same_names:
+                if self.stop:
+                    break
                 dest_config_item_list = get_config_item_list(dest_same_name)
                 dest_priorities_list = [configs['region_order'].index(x) for x in dest_config_item_list if x in configs['region_order']]
                 if len(to_remove_priorities_list)>0 and len(dest_priorities_list)>0:
@@ -307,7 +332,6 @@ class System:
                         games_to_remove.remove(game_to_remove)
                         games_to_remove.append(dest_same_name)
             
-        print(games_to_remove)
         self.remove_games_by_filename(games_to_remove, get_backup_dir(self.path))
             
             
@@ -323,6 +347,8 @@ class System:
         progress_base = len(src_system.games)
         for src_game_id, game in enumerate(src_system.games):
             print_verbose_progressbar(src_game_id, progress_base, gui=self.gui)
+            if self.stop:
+                break
             
             copy_cond = True
             
@@ -332,6 +358,8 @@ class System:
                 
             dest_same_names = find_same_games(self.path, src_game_name)
             for dest_same_name in dest_same_names:
+                if self.stop:
+                    break
                 dest_config_item_list = get_config_item_list(dest_same_name)
                 dest_priorities_list = [configs['region_order'].index(x) for x in dest_config_item_list if x in configs['region_order']]
                  
@@ -362,6 +390,8 @@ class System:
             if copy_cond:
                 new_game = Game()
                 for key in new_game.paths.keys():
+                    if self.stop:
+                        break
                     if game.paths[key] is not None:
                         src_file = join(src_system.path, game.paths[key])
                         if isfile(src_file):
@@ -377,12 +407,11 @@ class System:
                                 if game.paths[key] is not None:
                                     new_game.paths[key] = "./"+join(media_dir, basename(game.paths[key]))                                
                 for key in new_game.info.keys():
+                    if self.stop:
+                        break
                     new_game.info[key] = game.info[key]
                         
                 self.games.append(new_game)
-                
-            if self.stop:
-                break
                     
 
     def save_gamelist(self):
@@ -400,6 +429,8 @@ class System:
         if configs["gamelist_provider"] is not None:
             provider_xml = ET.Element('provider')
             for key, value in configs["gamelist_provider"].items():
+                if self.stop:
+                    break
                 subelement = ET.SubElement(provider_xml, key)
                 subelement.text = value
             root.append(provider_xml)
@@ -407,6 +438,8 @@ class System:
         progress_base = len(self.games)
         for progress_id, game in enumerate(self.games):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
+            if self.stop:
+                break
             game_xml = game.gen_game_xml()
             root.append(game_xml)
         with open(path, "w", encoding="utf-8") as file_out:
@@ -420,15 +453,21 @@ class System:
         progress_base = len(self.games)
         for progress_id, game in enumerate(self.games):
             print_verbose_progressbar(progress_id, progress_base, gui=self.gui)
+            if self.stop:
+                break
             
             if game.paths['path'] is not None:
                 text = f"Name: {game.info['name']}   File:{basename(game.paths['path'])}"
                 for key, value in game.paths.items():
+                    if self.stop:
+                        break
                     if key != 'path' and value is None:
                         game_filename = text
                         self.reports['ausent_media'][key].append(game_filename)
 
                 for key, value in game.info.items():
+                    if self.stop:
+                        break
                     if value is None:
                         game_filename = text
                         self.reports['ausent_info'][key].append(game_filename)
@@ -442,21 +481,29 @@ class System:
         path = join(self.path, 'sbfrm_reports')
         makedirs(path, exist_ok=True)
         for key, media in self.reports['ausent_media'].items():
+            if self.stop:
+                break
             if key != 'path':
                 report_path = join(path, 'games_wihout_')
                 report_path += key + '.txt'
                 report = ''
                 for game_name in media:
+                    if self.stop:
+                        break
                     report += game_name + '\n'
                 with open(report_path, "w", encoding="utf-8") as file_out:
                     file_out.write(report)
 
         for key, media in self.reports['ausent_info'].items():
+            if self.stop:
+                break
             if key != 'path':
                 report_path = join(path, 'games_wihout_info_')
                 report_path += key + '.txt'
                 report = ''
                 for game_name in media:
+                    if self.stop:
+                        break
                     report += game_name + '\n'
                 with open(report_path, "w", encoding="utf-8") as file_out:
                     file_out.write(report)
@@ -464,6 +511,8 @@ class System:
         report_path = join(path, 'games_removed.txt')
         report = ''
         for game_added in self.reports['games_removed']:
+            if self.stop:
+                break
             report += game_added + '\n'
         with open(report_path, "w", encoding="utf-8") as file_out:
             file_out.write(report)

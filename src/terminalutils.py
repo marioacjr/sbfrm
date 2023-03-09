@@ -50,7 +50,7 @@ def clear_line():
 
 def print_verbose_progressbar(value, base, gui=False):
     """Make a description."""
-    if configs["verbose"]:
+    if configs["verbose"] and not gui:
         progress = 100
         if base > 1:
             progress = int(100*value/(base-1))
@@ -69,8 +69,11 @@ def print_verbose_progressbar(value, base, gui=False):
         if progress >= 10:
             back_string += '\b'
             
-        if not gui:
-            print(progress_bar + back_string, end='', flush=True)   
+        print(progress_bar + back_string, end='', flush=True)   
+    
+    if gui:
+        gui['-PROGRESS_SYSTEM-'].update(value, max=base)
+            
         
 def print_verbose_msg(color, msg, gui=False):
     """Make Description."""

@@ -120,6 +120,10 @@
         "Taikenban Sample ROM",
         "Test Drive"
     ],
-    "gui_last_src": "/mnt/storage/development/mario/sbfrm/test/roms_src",
-    "gui_last_dest": "/mnt/storage/development/mario/sbfrm/test/roms_dest"
+    "gui_last_op": [
+        1,
+        0
+    ],
+    "gui_last_src": "/media/mario/SHARE/roms/mame",
+    "gui_last_dest": "/mnt/storage/development/mario/sbfrm/test/roms_dest/mame"
 }

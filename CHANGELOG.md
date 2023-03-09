@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.8
+- User Interface Improvements
+
+---
+
 ## 0.5.7
 - Bux Fix: Remove clones removes highest priority rom
 

@@ -15,27 +15,22 @@ def make_window():
     """Make Description."""
     size_tab = (14, 1)
     size_tex = (65, 1)
-    last_up_col = sg.user_settings_get_entry('-last up_col-', '')
-    last_up_sys = sg.user_settings_get_entry('-last up_sys-', '')
-    if not last_up_col and not last_up_sys:
-        last_up_col = False
-        last_up_sys = True
     
     choose_operation = [sg.Text("Choose Operation.", font=("Helvetica", 12))]
     
-    operation = [[sg.Radio('Update System', "-RADIO-",
-                           default=last_up_sys, key="-UPDATE_SYSTEM-"),
-                 sg.Radio('Update Collection', "-RADIO-",
-                           default=last_up_col, key="-UPDATE_COLLECTION-")]]
+    operation = [[sg.Radio('Update System', "-RADIO-", enable_events=True,
+                           default=configs["gui_last_op"][0], key="-UPDATE_SYSTEM-"),
+                 sg.Radio('Update Collection', "-RADIO-", enable_events=True,
+                           default=configs["gui_last_op"][1], key="-UPDATE_COLLECTION-")]]
     
     set_src_dest = [sg.Text("Set Source and Destination Paths.", font=("Helvetica", 12))]
 
     select_src = [sg.Text("     Source", size=size_tab),
-                  sg.Input(configs["gui_last_src"], key='-SOURCE-', enable_events=True, size=(53, 1)),
+                  sg.Input(configs["gui_last_src"], key='-SOURCE-', enable_events=True, size=(52, 1)),
                   sg.FolderBrowse(initial_folder=configs["gui_last_src"])]
 
     select_dest = [sg.Text("     Destination", size=size_tab),
-                   sg.Input(configs["gui_last_dest"], key='-DEST-', enable_events=True, size=(53, 1)),
+                   sg.Input(configs["gui_last_dest"], key='-DEST-', enable_events=True, size=(52, 1)),
                    sg.FolderBrowse(initial_folder=configs["gui_last_dest"])]
     
     src_mdir_names = [sg.Text("Source Media Folder Names.", font=("Helvetica", 12)),
@@ -58,7 +53,22 @@ def make_window():
     select_vid = [sg.Text("     Video", size=size_tab),
                   sg.Input(",".join(configs["src_media_dirs_list"]["video"]), key='-VIDEO-', size=size_tex)]
     
-    act_buttons = [sg.Button('Ok'), sg.Button('Exit')]
+    
+    progress_bars = [
+        [sg.Text("Process Verbose", font=("Helvetica", 12))],
+        [sg.Output(size=(79, 15), key='-CONSOLE-')],
+        [sg.Text("Collection Progress:", size=(16, 1)),
+         sg.ProgressBar(
+                        max_value=10, orientation='h', size=(42, 10),
+                        key='-PROGRESS_COLLECTION-')],
+        [sg.Text("System Progress:", size=(16, 1)),
+         sg.ProgressBar(
+                        max_value=10, orientation='h', size=(42, 10),
+                        key='-PROGRESS_SYSTEM-')]
+    ]
+    
+    act_buttons = [sg.Button('Ok', key='-OK_BUTTON-'), sg.Button('Exit', key='-EXIT_BUTTON-'), sg.Button('Stop', key='-STOP_BUTTON-', visible=False)]
+    
     layout = [
         choose_operation,
         operation,
@@ -71,43 +81,23 @@ def make_window():
         select_thumb,
         select_marc,
         select_vid,
+        progress_bars,
         act_buttons,
     ]
 
-    return sg.Window('SBFRM V0.5.7', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.5.8', layout, enable_close_attempted_event=True,
                      finalize=True, icon="logo.ico",
                      location=sg.user_settings_get_entry('-location-', (500, 500)))
-
-
-def make_progress_window(location):
-    """Make Description"""
-    layout = [
-        [sg.Output(size=(72, 6), key='-CONSOLE-')],
-        [sg.Text("Collection Progress:", size=(16, 1)), sg.ProgressBar(
-            max_value=10, orientation='h', size=(37, 10),
-            key='-PROGRESS_SYSTEMS-')],
-        [sg.Text("System Progress:", size=(16, 1)), sg.ProgressBar(
-            max_value=10, orientation='h', size=(37, 10),
-            key='-PROGRESS_GAMES-')],
-        [sg.Button('Cancel')]
-    ]
-    xpos, ypos = location
-    xpos, ypos = xpos+40, ypos+60
-    return sg.Window('Progress', layout, enable_close_attempted_event=True,
-                     location=(xpos, ypos), modal=True, finalize=True)
-
-
+    
 def update_collection(collection, values, gui):
     """Make Description"""    
-    print(60*'='+'\n', 'Update Collection:')
-
     sys_paths = collection.list_systems(values['-SOURCE-'])
     progress_base = len(sys_paths)
     for sysid, sys_path in enumerate(sys_paths):
         if collection.stop:
             break
         print('\n  Processing:', sys_path)
-        gui.write_event_value('-PROGRESS_SYSTEMS-', [sysid, progress_base])
+        gui['-PROGRESS_COLLECTION-'].update(sysid, max=progress_base)
         src_path = join(values['-SOURCE-'], sys_path)
         dest_path = join(values['-DEST-'], sys_path)
         collection.update_sys_from(dest_path, src_path, gui=gui)
@@ -128,22 +118,14 @@ def main():
     """Make Description."""    
     sg.theme('DarkAmber') 
 
-    window1, window2 = make_window(), None
+    main_window = make_window()
     col = None
 
     while True:
-        window, event, values = sg.read_all_windows()
-        if event in [sg.WIN_CLOSED, 'Exit']:
-            # The line of code to save the position before exiting
-            last = window1.current_location()
-            sg.user_settings_set_entry('-location-', last)
-
-            last = values['-UPDATE_COLLECTION-']
-            sg.user_settings_set_entry('-last up_col-', last)
-
-            last = values['-UPDATE_SYSTEM-']
-            sg.user_settings_set_entry('-last up_sys-', last)
-            
+        # window, event, values = sg.read_all_windows()
+        event, values = main_window.read()
+        if event in [sg.WIN_CLOSED, '-EXIT_BUTTON-', "-WINDOW CLOSE ATTEMPTED-"]:
+            configs["gui_last_op"] = [int(values['-UPDATE_SYSTEM-']==True), int(values['-UPDATE_COLLECTION-']==True)]
             configs["gui_last_src"] = values['-SOURCE-']
             configs["gui_last_dest"] = values['-DEST-']
             configs["src_media_dirs_list"]["boxart"] = values['-BOXART-'].split(",")
@@ -155,44 +137,52 @@ def main():
             jsonFile = open("config.json", "w")
             jsonFile.write(jsonString)
             jsonFile.close()
-            
-            if window == window2:
-                window2 = None
-            elif window == window1:
-                break
-            
-            window.close()
+            break
 
-        if event == 'Ok' and values['-UPDATE_COLLECTION-'] is True:
-            window2 = make_progress_window(window.current_location())
-            col = Collection(window)
+        if event == '-OK_BUTTON-' and values['-UPDATE_COLLECTION-'] is True:
+            print(60*'='+'\n', 'Update Collection:')
+            # main_window['-STOP_BUTTON-'].update(visible=True)
+            main_window['-OK_BUTTON-'].update(visible=False)
+            # main_window['-EXIT_BUTTON-'].update(visible=False)
+            col = Collection(main_window)
             thread = threading.Thread(
-                target=update_collection, args=(col, values, window),
+                target=update_collection, args=(col, values, main_window),
                 daemon=True)
             thread.start()
+            continue
 
-        if event == 'Ok' and values['-UPDATE_SYSTEM-'] is True:
-            window2 = make_progress_window(window.current_location())
+        if event == '-OK_BUTTON-' and values['-UPDATE_SYSTEM-'] is True:
+            # main_window['-STOP_BUTTON-'].update(visible=True)
+            main_window['-OK_BUTTON-'].update(visible=False)
+            # main_window['-EXIT_BUTTON-'].update(visible=False)
             col = Collection()
             thread = threading.Thread(
-                target=update_sys_from, args=(col, values, window),
+                target=update_sys_from, args=(col, values, main_window),
                 daemon=True)
             thread.start()
+            continue
 
-        if event == 'Cancel':
+        if event == '-STOP_BUTTON-':
             col.stop = True
             print("\n\n=============================================",
                   "\nHalting the Process. Please wait...",
                   "\n=============================================")
+            main_window['-STOP_BUTTON-'].update(visible=False)
+            main_window['-OK_BUTTON-'].update(visible=True)
+            main_window['-EXIT_BUTTON-'].update(visible=True)
+            continue
+        
+        if event in ['-UPDATE_SYSTEM_END-', '-UPDATE_COLLECTION_END-']:
+            main_window['-PROGRESS_COLLECTION-'].update(1, max=1)
+            main_window['-PROGRESS_SYSTEM-'].update(1, max=1)
+            main_window['-STOP_BUTTON-'].update(visible=False)
+            main_window['-OK_BUTTON-'].update(visible=True)
+            main_window['-EXIT_BUTTON-'].update(visible=True)
+            continue
+        
         
 
-        if event in ['-PROGRESS_GAMES-', '-PROGRESS_SYSTEMS-']:
-            window2[event].update_bar(values[event][0], max=values[event][1])
-
-        if event in ['-UPDATE_SYSTEM_END-', '-UPDATE_COLLECTION_END-']:
-            window2.close()
-
-    window1.close()
+    main_window.close()
 
 
 if __name__ == '__main__':
