@@ -53,8 +53,6 @@ def check_is_configs_exists():
             "software": "SBFRM",
             "web": "https://github.com/marioacjr/sbfrm"
         },
-        "gui_last_src": "test/roms_src",
-        "gui_last_dest": "test/roms_dest",
         "region_order": [
             "USA",
             "World",
@@ -126,7 +124,9 @@ def check_is_configs_exists():
             "Trainer",
             "Taikenban Sample ROM",
             "Test Drive"
-        ]
+        ],
+        "gui_last_src": "test/roms_src",
+        "gui_last_dest": "test/roms_dest"
     }
     
     if not isfile("config.json"):

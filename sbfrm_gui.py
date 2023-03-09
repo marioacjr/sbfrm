@@ -10,11 +10,11 @@ import json
 from src.fileutils import configs
 from src.collection import Collection
 
-from time import sleep
-
 
 def make_window():
     """Make Description."""
+    size_tab = (14, 1)
+    size_tex = (65, 1)
     last_up_col = sg.user_settings_get_entry('-last up_col-', '')
     last_up_sys = sg.user_settings_get_entry('-last up_sys-', '')
     if not last_up_col and not last_up_sys:
@@ -30,12 +30,12 @@ def make_window():
     
     set_src_dest = [sg.Text("Set Source and Destination Paths.", font=("Helvetica", 12))]
 
-    select_src = [sg.Text("     Source", size=(13, 1)),
-                  sg.Input(configs["gui_last_src"], key='-SOURCE-', enable_events=True),
+    select_src = [sg.Text("     Source", size=size_tab),
+                  sg.Input(configs["gui_last_src"], key='-SOURCE-', enable_events=True, size=(53, 1)),
                   sg.FolderBrowse(initial_folder=configs["gui_last_src"])]
 
-    select_dest = [sg.Text("     Destination", size=(13, 1)),
-                   sg.Input(configs["gui_last_dest"], key='-DEST-'),
+    select_dest = [sg.Text("     Destination", size=size_tab),
+                   sg.Input(configs["gui_last_dest"], key='-DEST-', enable_events=True, size=(53, 1)),
                    sg.FolderBrowse(initial_folder=configs["gui_last_dest"])]
     
     src_mdir_names = [sg.Text("Source Media Folder Names.", font=("Helvetica", 12)),
@@ -43,20 +43,20 @@ def make_window():
                  font=("Helvetica", 8),
                  text_color='dark gray')]
 
-    select_boxart = [sg.Text("     Boxart", size=(13, 1)),
-                     sg.Input(",".join(configs["src_media_dirs_list"]["boxart"]), key='-BOXART-', size=(57, 1))]
+    select_boxart = [sg.Text("     Boxart", size=size_tab),
+                     sg.Input(",".join(configs["src_media_dirs_list"]["boxart"]), key='-BOXART-', size=size_tex)]
 
-    select_img = [sg.Text("     Image", size=(13, 1)),
-                  sg.Input(",".join(configs["src_media_dirs_list"]["image"]), key='-IMAGE-', size=(57, 1))]
+    select_img = [sg.Text("     Image", size=size_tab),
+                  sg.Input(",".join(configs["src_media_dirs_list"]["image"]), key='-IMAGE-', size=size_tex)]
 
-    select_thumb = [sg.Text("     Thumbnail", size=(13, 1)),
-                    sg.Input(",".join(configs["src_media_dirs_list"]["thumbnail"]), key='-THUMB-', size=(57, 1))]
+    select_thumb = [sg.Text("     Thumbnail", size=size_tab),
+                    sg.Input(",".join(configs["src_media_dirs_list"]["thumbnail"]), key='-THUMB-', size=size_tex)]
 
-    select_marc = [sg.Text("     Marquee", size=(13, 1)),
-                   sg.Input(",".join(configs["src_media_dirs_list"]["marquee"]), key='-MARQUEE-', size=(57, 1))]
+    select_marc = [sg.Text("     Marquee", size=size_tab),
+                   sg.Input(",".join(configs["src_media_dirs_list"]["marquee"]), key='-MARQUEE-', size=size_tex)]
 
-    select_vid = [sg.Text("     Video", size=(13, 1)),
-                  sg.Input(",".join(configs["src_media_dirs_list"]["video"]), key='-VIDEO-', size=(57, 1))]
+    select_vid = [sg.Text("     Video", size=size_tab),
+                  sg.Input(",".join(configs["src_media_dirs_list"]["video"]), key='-VIDEO-', size=size_tex)]
     
     act_buttons = [sg.Button('Ok'), sg.Button('Exit')]
     layout = [
@@ -74,9 +74,9 @@ def make_window():
         act_buttons,
     ]
 
-    return sg.Window('SBFRM V0.5.5', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.5.7', layout, enable_close_attempted_event=True,
                      finalize=True, icon="logo.ico",
-                     location=sg.user_settings_get_entry('-location-', (300, 300)))
+                     location=sg.user_settings_get_entry('-location-', (500, 500)))
 
 
 def make_progress_window(location):
@@ -91,8 +91,10 @@ def make_progress_window(location):
             key='-PROGRESS_GAMES-')],
         [sg.Button('Cancel')]
     ]
+    xpos, ypos = location
+    xpos, ypos = xpos+40, ypos+60
     return sg.Window('Progress', layout, enable_close_attempted_event=True,
-                     location=location, modal=True, finalize=True)
+                     location=(xpos, ypos), modal=True, finalize=True)
 
 
 def update_collection(collection, values, gui):
@@ -102,7 +104,7 @@ def update_collection(collection, values, gui):
     sys_paths = collection.list_systems(values['-SOURCE-'])
     progress_base = len(sys_paths)
     for sysid, sys_path in enumerate(sys_paths):
-        if collection.stop_copy:
+        if collection.stop:
             break
         print('\n  Processing:', sys_path)
         gui.write_event_value('-PROGRESS_SYSTEMS-', [sysid, progress_base])
@@ -154,28 +156,15 @@ def main():
             jsonFile.write(jsonString)
             jsonFile.close()
             
-            window.close()
             if window == window2:
                 window2 = None
             elif window == window1:
                 break
-
-        if event in ['-UPDATE_COLLECTION-', '-UPDATE_SYSTEM-']:
-            last = values['-UPDATE_COLLECTION-']
-            sg.user_settings_set_entry('-last up_col-', last)
-
-            last = values['-UPDATE_SYSTEM-']
-            sg.user_settings_set_entry('-last up_sys-', last)
-
-        if event in ['-SOURCE-', '-DEST-']:
-            sg.user_settings_set_entry('-last source-', values['-SOURCE-'])
-            sg.user_settings_set_entry('-last dest-', values['-DEST-'])
+            
+            window.close()
 
         if event == 'Ok' and values['-UPDATE_COLLECTION-'] is True:
-            xpos, ypos = window1.current_location()
-            xpos += 30
-            ypos += 300
-            window2 = make_progress_window((xpos, ypos))
+            window2 = make_progress_window(window.current_location())
             col = Collection(window)
             thread = threading.Thread(
                 target=update_collection, args=(col, values, window),
@@ -183,31 +172,24 @@ def main():
             thread.start()
 
         if event == 'Ok' and values['-UPDATE_SYSTEM-'] is True:
-            xpos, ypos = window1.current_location()
-            xpos += 30
-            ypos += 300
-            window2 = make_progress_window((xpos, ypos))
+            window2 = make_progress_window(window.current_location())
             col = Collection()
             thread = threading.Thread(
-                target=update_sys_from, args=(col, values, True),
+                target=update_sys_from, args=(col, values, window),
                 daemon=True)
             thread.start()
 
         if event == 'Cancel':
+            col.stop = True
             print("\n\n=============================================",
                   "\nHalting the Process. Please wait...",
                   "\n=============================================")
-            col.stop_copy = True
         
 
-        if event == '-PROGRESS_GAMES-':
-            window2[event].update_bar(values[event][0], max=values[event][1])
-
-        if event == '-PROGRESS_SYSTEMS-':
+        if event in ['-PROGRESS_GAMES-', '-PROGRESS_SYSTEMS-']:
             window2[event].update_bar(values[event][0], max=values[event][1])
 
         if event in ['-UPDATE_SYSTEM_END-', '-UPDATE_COLLECTION_END-']:
-            print('\nFinished!\n')
             window2.close()
 
     window1.close()

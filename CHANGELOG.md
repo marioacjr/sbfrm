@@ -2,6 +2,16 @@
 
 ---
 
+## 0.5.7
+- Bux Fix: Remove clones removes highest priority rom
+
+---
+
+## 0.5.6
+- Bux Fix: Corrected GUI stop proccess
+
+---
+
 ## 0.5.5
 - Bux Fix: Corrected GUI terminal prints
 

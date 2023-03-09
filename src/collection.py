@@ -17,7 +17,7 @@ class Collection:
                               'downloads', 'download', 'scummvm', 'ports',
                               'model2', 'model3', 'windows', '.update',
                               'System Volume Information', 'LOST.DIR']
-        self.stop_copy = False # Used by the GUI to stop gently the process.
+        self.stop = False # Used by the GUI to stop gently the process.
         self.gui = gui
 
     def __str__(self):
@@ -41,12 +41,12 @@ class Collection:
         """Make Description."""
         print_verbose_msg('blue', '\n        Loading Source System:', gui=gui)
             
-        src_system = System(src_sys, gui=gui)  
+        src_system = System(src_sys, stop=self.stop, gui=gui)  
         src_system.load()
         
         print_verbose_msg('blue', '\n        Loading Dest System:', gui=gui)
         
-        dest_system = System(dest_sys, gui=gui)
+        dest_system = System(dest_sys, stop=self.stop, gui=gui)
         make_sys_dirs(dest_sys)
         dest_system.load()
         
