@@ -17,6 +17,12 @@ Este gerenciador é utilizado em coleções no formato do EmulationStation (aque
 - Gerar o arquivo gamelist.xml pequeno, porém completo.
 - Reduzir o tempo necessário para fazero o scrapper nas coleções através do reaproveitamento das informações já existentes.
 
+## Notas Importantes:
+- Este projeto não exclui a necessidade de utilização de gerenciadores de roms, como RomCenter, ClrMamePro e RomVault.
+- Antes de utilizar este projeto, é importante organizar e renomear suas roms para alguma convenção de nomes. A princípio este projeto funciona bem para as convenções de nomes do NoIntro e Redump.
+- O desenvolvimento deste projeto utiliza o gerenciador de rom RomVault com Dats do NoIntro e Redump. Assim, é aconselhável usar estes dois para realizar seus testes com este projeto.
+- Este projeto ainda não está exaustivamene testado. Nunca o utilize diretamente na sua coleção. Mantenha um backup dela ou use-o em pequenas cópias.
+
 # Releases:
 
 ## Executável:
@@ -36,7 +42,9 @@ Para utilizar, é necessário ter instalado o Python3 ou superior. Execute o scr
     `python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
 
 ### GUI:
-    `python3 sbfrm_gui.py` 
+    `python3 sbfrm_gui.py`
+
+![Executar GUI](srfrm.png)
 
 ### Requerimentos:
 - Python3;

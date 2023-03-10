@@ -14,6 +14,7 @@ check_is_configs_exists()
 
 configs = json.loads(open("config.json", 'r', encoding="utf8").read())
 
+
 def list_files(path):
     """Make Description."""
     return [f for f in listdir(path) if isfile(join(path, f))]
@@ -60,7 +61,8 @@ def dest_has_same_file(src_file_path, dest_dir):
 def dest_has_same_filename(src_file_path, dest_dir):
     """Make Description."""
     src_filename = get_file_name(basename(src_file_path))
-    dest_names = [get_file_name(basename(f)) for f in listdir(dest_dir) if isfile(join(dest_dir, f))]
+    dest_names = [get_file_name(basename(f)) for f in listdir(
+        dest_dir) if isfile(join(dest_dir, f))]
     return src_filename in dest_names
 
 
@@ -78,16 +80,29 @@ def get_config_item_list(name):
 def find_same_games(path, name):
     """Make Description."""
     text = file_name(name)
-    ocur = [m.start() for m in re.finditer('\(', text)]    
-    
-    if len(ocur)>0:
+    ocur = [m.start() for m in re.finditer('\(', text)]
+
+    if len(ocur) > 0:
         text = text[:ocur[0]+1]
-    
-    filelist = glob(join(path, text+"*"))
-    for file_id, file in enumerate(filelist):
-        filelist[file_id] = basename(file)
-        
+
+    filelist = [basename(file) for file in glob(join(path, text+"*"))]
+    for file in filelist.copy():
+        if same_game_another_disc(name, file):
+            filelist.remove(file)
     return filelist
+
+
+def same_game_another_disc(name, same_game):
+    """Make Description."""
+    text = file_name(name)
+    ocur = [m.start() for m in re.finditer('\(Disc ', text)]
+    if len(ocur) > 0:
+        text = text[:ocur[0]+6]
+
+    if text in same_game:
+        return bool(re.search('(Disc [0-9])', same_game))
+    return False
+
 
 def merge_file(src_file, dest_path):
     """Make Description."""
@@ -110,10 +125,8 @@ def make_sys_dirs(path):
     for value in configs["dest_media_dirs_names"].values():
         mpath = join(path, value)
         makedirs(mpath, exist_ok=True)
-        
+
+
 def get_backup_dir(path):
-    
+
     return join(abspath(join(path, pardir)), basename(normpath(path))+"_removed")
-
-
-    

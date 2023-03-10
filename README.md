@@ -8,7 +8,7 @@
 
 This manager is used for collections in the EmulationStation format (those with a gamelist.xml file inside). It is quite simple but at the same time very powerful. Initially it was just a script to do very simple things to help me organize my game collections (I'm that hoarder guy, you know :). Over time I kept adding more features until I realized it was already pretty robust and could be useful for the community.
 
-### The main features are:
+## The main features are:
 - Merge a Source collection into a Destination collection;
 - Avoid duplication of roms and their associated media;
 - Avoid orphaned image and video files (without a relative game);
@@ -16,6 +16,12 @@ This manager is used for collections in the EmulationStation format (those with 
 - Locate the media files of a game and automatically include them in the gamelist.xml.
 - Generate the small but complete gamelist.xml file.
 - Reduce the time needed to scrapper collections by reusing existing information.
+
+## Important Notes:
+- This project does not exclude the need to use roms managers, such as RomCenter, ClrMamePro, and RomVault.
+- Before using this project, it is important to organize and rename your roms to some naming convention. At first this project works well for the NoIntro and Redump naming conventions.
+- The development of this project uses the RomVault rom manager with Dats from NoIntro and Redump. Thus, it is recommended to use these two to run your tests with this project.
+- This project is not yet exaustively tested. Never use it directly in your collection. Keep a backup of it or use it in small copies.
 
 # Releases:
 
@@ -36,7 +42,9 @@ To use it, you must have Python3 or higher installed. Run the script [sbfrm.py](
     `python3 sbfrm.py update_collection src-collection-path/ dest-collection-path/`
 
 ### GUI:
-    `python3 sbfrm_gui.py` 
+    `python3 sbfrm_gui.py`
+
+![Executar GUI](srfrm.png)
 
 ### Requirements:
 - Python3;

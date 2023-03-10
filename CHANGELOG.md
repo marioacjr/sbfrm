@@ -2,6 +2,12 @@
 
 ---
 
+## 0.5.9
+- Bux Fix: Games with multiple disc roms are no longer removed
+- Readmes Update
+
+---
+
 ## 0.5.8
 - User Interface Improvements
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gameList>
+  <game>
+    <path>./Game AA (Europe, Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Europe, Japan).png</boxart>
+    <image>./downloaded_images/Game AA (Europe, Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (Europe, Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Europe, Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Europe, Japan).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./Game AA (Europe, Japan) (Demo).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Europe, Japan) (Demo).png</boxart>
+    <image>./downloaded_images/Game AA (Europe, Japan) (Demo).png</image>
+    <marquee>./downloaded_wheels/Game AA (Europe, Japan) (Demo).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Europe, Japan) (Demo).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Europe, Japan) (Demo).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./Game AA (Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (Japan).png</boxart>
+    <image>./downloaded_images/Game AA (Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (Japan).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./Game AA (USA).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (USA).png</boxart>
+    <image>./downloaded_images/Game AA (USA).png</image>
+    <marquee>./downloaded_wheels/Game AA (USA).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA).png</thumbnail>
+    <video>./downloaded_videos/Game AA (USA).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./Game AA (USA, Europe, Japan).zip</path>
+    <boxart>./downloaded_boxarts/Game AA (USA, Europe, Japan).png</boxart>
+    <image>./downloaded_images/Game AA (USA, Europe, Japan).png</image>
+    <marquee>./downloaded_wheels/Game AA (USA, Europe, Japan).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA, Europe, Japan).png</thumbnail>
+    <video>./downloaded_videos/Game AA (USA, Europe, Japan).mp4</video>
+    <name>Game AA</name>
+  </game>
+  
+  <game>
+    <path>./GAMEBB.zip</path>
+    <boxart>./downloaded_boxarts/GAMEBB.png</boxart>
+    <image>./downloaded_images/GAMEBB.png</image>
+    <marquee>./downloaded_wheels/GAMEBB.png</marquee>
+    <thumbnail>./downloaded_thumbnails/GAMEBB.png</thumbnail>
+    <video>./downloaded_videos/GAMEBB.mp4</video>
+    <name>Game BB</name>
+  </game>
+  
+  <game>
+    <path>./GAMEBBBB.zip</path>
+    <boxart>./downloaded_boxarts/GAMEBBBB.png</boxart>
+    <image>./downloaded_images/GAMEBBBB.png</image>
+    <marquee>./downloaded_wheels/GAMEBBBB.png</marquee>
+    <thumbnail>./downloaded_thumbnails/GAMEBBBB.png</thumbnail>
+    <video>./downloaded_videos/GAMEBBBB.mp4</video>
+    <name>Game BB</name>
+  </game>
+  
+  <game>
+    <path>./Game CC (USA) (Disc 1).zip</path>
+    <boxart>./downloaded_boxarts/Game CC (USA) (Disc 1).png</boxart>
+    <image>./downloaded_images/Game CC (USA) (Disc 1).png</image>
+    <marquee>./downloaded_wheels/Game CC (USA) (Disc 1).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA) (Disc 1).png</thumbnail>
+    <video>./downloaded_videos/Game CC (USA) (Disc 1).mp4</video>
+    <name>Game CC</name>
+  </game>
+  
+  <game>
+    <path>./Game CC (USA) (Disc 2).zip</path>
+    <boxart>./downloaded_boxarts/Game CC (USA) (Disc 2).png</boxart>
+    <image>./downloaded_images/Game CC (USA) (Disc 2).png</image>
+    <marquee>./downloaded_wheels/Game CC (USA) (Disc 2).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA) (Disc 2).png</thumbnail>
+    <video>./downloaded_videos/Game CC (USA) (Disc 2).mp4</video>
+    <name>Game CC</name>
+  </game>
+  
+  <game>
+    <path>./Game CC (USA) (Disc 3).zip</path>
+    <boxart>./downloaded_boxarts/Game CC (USA) (Disc 3).png</boxart>
+    <image>./downloaded_images/Game CC (USA) (Disc 3).png</image>
+    <marquee>./downloaded_wheels/Game CC (USA) (Disc 3).png</marquee>
+    <thumbnail>./downloaded_thumbnails/Game AA (USA) (Disc 3).png</thumbnail>
+    <video>./downloaded_videos/Game CC (USA) (Disc 3).mp4</video>
+    <name>Game CC</name>
+  </game>
+  
+</gameList>
