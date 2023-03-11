@@ -2,6 +2,12 @@
 
 ---
 
+## 0.5.10
+- Added Checkboxs to Overwrite Files, Overwrite Metadata and Copy or Move Files options.
+- Bug Fix: Fixed GUI misalignment in Windows.
+
+---
+
 ## 0.5.9
 - Bux Fix: Games with multiple disc roms are no longer removed
 - Readmes Update

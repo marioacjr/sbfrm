@@ -40,7 +40,7 @@
         ],
         "mode": "cp"
     },
-    "overwrite_file": 1,
+    "overwrite_file": 0,
     "overwrite_gamelist_info": 0,
     "verbose": 1,
     "gamelist_provider": {

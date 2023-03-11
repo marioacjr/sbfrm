@@ -17,7 +17,7 @@ class Collection:
                               'downloads', 'download', 'scummvm', 'ports',
                               'model2', 'model3', 'windows', '.update',
                               'System Volume Information', 'LOST.DIR']
-        self.stop = False # Used by the GUI to stop gently the process.
+        self.stop = False  # Used by the GUI to stop gently the process.
         self.gui = gui
 
     def __str__(self):
@@ -40,29 +40,28 @@ class Collection:
     def update_sys_from(self, dest_sys, src_sys, gui=False):
         """Make Description."""
         print_verbose_msg('blue', '\n        Loading Source System:', gui=gui)
-            
-        src_system = System(src_sys, stop=self.stop, gui=gui)  
+
+        src_system = System(src_sys, stop=self.stop, gui=gui)
         src_system.load()
-        
+
         print_verbose_msg('blue', '\n        Loading Dest System:', gui=gui)
-        
+
         dest_system = System(dest_sys, stop=self.stop, gui=gui)
         make_sys_dirs(dest_sys)
         dest_system.load()
-        
+
         print_verbose_msg('blue', '\n        Merging Source to Dest:', gui=gui)
         dest_system.copy_files_from_system(src_system)
         dest_system.remove_games_clones()
         dest_system.backup_removed_games_metadata()
-        
-        print_verbose_msg('blue', '\n        Generating GamelistXml File:', gui=gui)
-        
+
+        print_verbose_msg(
+            'blue', '\n        Generating GamelistXml File:', gui=gui)
+
         dest_system.save_gamelist()
-        
-        print_verbose_msg('blue', '\n        Generating Reports Files:', gui=gui)
-        
+
+        print_verbose_msg(
+            'blue', '\n        Generating Reports Files:', gui=gui)
+
         dest_system.gen_report()
         dest_system.save_reports()
-        print()
-        
-        

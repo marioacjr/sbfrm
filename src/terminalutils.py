@@ -68,13 +68,13 @@ def print_verbose_progressbar(value, base, gui=False):
         back_string = '\b'*(bar_size+2+bar_size)
         if progress >= 10:
             back_string += '\b'
-            
-        print(progress_bar + back_string, end='', flush=True)   
-    
+
+        print(progress_bar + back_string, end='', flush=True)
+
     if gui:
         gui['-PROGRESS_SYSTEM-'].update(value, max=base)
-            
-        
+
+
 def print_verbose_msg(color, msg, gui=False):
     """Make Description."""
     if configs["verbose"]:

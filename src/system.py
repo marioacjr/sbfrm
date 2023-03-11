@@ -317,9 +317,6 @@ class System:
                     names.append(name)
                     paths.append(basename(game.paths['path']))
 
-        print()
-        print(games_to_remove)
-
         for game_to_remove in games_to_remove:
             if self.stop:
                 break
@@ -397,10 +394,6 @@ class System:
 
             if any(x in src_config_item_list for x in configs['removed_devcomm_status']):
                 copy_cond = False
-
-            # print("\npath:", game.paths['path'])
-            # print("dest_same_names:", dest_same_names)
-            # print("cond:", copy_cond)
 
             if copy_cond:
                 new_game = Game()
