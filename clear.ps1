@@ -1,4 +1,4 @@
-$FolderName = ".\.venv\"
+$FolderName = ".\.venv_win\"
 if (Test-Path $FolderName) {
     Remove-Item -LiteralPath $FolderName -Force -Recurse
 }
