@@ -124,7 +124,7 @@ def make_window():
         act_buttons,
     ]
 
-    return sg.Window('SBFRM V0.5.10', layout, enable_close_attempted_event=True,
+    return sg.Window('SBFRM V0.5.12', layout, enable_close_attempted_event=True,
                      finalize=True, icon="logo.ico",
                      location=sg.user_settings_get_entry('-location-', (500, 500)))
 
