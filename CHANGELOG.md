@@ -2,6 +2,16 @@
 
 ---
 
+## 0.5.12
+- Bug Fix: Fixed crash error when removing clone games
+
+---
+
+## 0.5.11
+- Bug Fix: Fixed bug of not processing a system folder without the gamelist.xml file
+
+---
+
 ## 0.5.10
 - Added Checkboxs to Overwrite Files, Overwrite Metadata and Copy or Move Files options.
 - Bug Fix: Fixed GUI misalignment in Windows.

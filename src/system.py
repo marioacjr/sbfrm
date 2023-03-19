@@ -19,7 +19,7 @@ from time import sleep
 class System:
     """Base class for system."""
 
-    def __init__(self, path, stop, gui=False):
+    def __init__(self, path, stop=False, gui=False):
         """Make Description."""
         self.path = path
 
@@ -207,10 +207,13 @@ class System:
                     game_src_id = game_id
                     break
 
-            for key in self.games[game_src_id].paths.keys():
-                if self.stop:
-                    break
-                self.games[game_src_id].paths[key] = game.paths[key]
+            if game_src_id:
+                for key in self.games[game_src_id].paths.keys():
+                    if self.stop:
+                        break
+                    self.games[game_src_id].paths[key] = game.paths[key]
+            else:
+                self.games.append(game)
 
     def excluded_files(self, filename):
         """Make Description."""
@@ -305,7 +308,9 @@ class System:
         for game in self.games:
             if self.stop:
                 break
-            if game.info['name'] is not None:
+            cond = game.paths['path'] is not None
+            cond = cond and game.info['name'] is not None
+            if cond:
                 name = game.info['name']
 
                 cond = name in names

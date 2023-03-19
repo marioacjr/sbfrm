@@ -80,7 +80,7 @@ def get_config_item_list(name):
 def find_same_games(path, name):
     """Make Description."""
     text = file_name(name)
-    ocur = [m.start() for m in re.finditer('\(', text)]
+    ocur = [m.start() for m in re.finditer(r'\(', text)]
 
     if len(ocur) > 0:
         text = text[:ocur[0]+1]
@@ -94,13 +94,14 @@ def find_same_games(path, name):
 
 def same_game_another_disc(name, same_game):
     """Make Description."""
-    text = file_name(name)
-    ocur = [m.start() for m in re.finditer('\(Disc ', text)]
-    if len(ocur) > 0:
-        text = text[:ocur[0]+6]
+    if name is not None:
+        text = file_name(name)
+        ocur = [m.start() for m in re.finditer(r'\(Disc ', text)]
+        if len(ocur) > 0:
+            text = text[:ocur[0]+6]
 
-    if text in same_game:
-        return bool(re.search('(Disc [0-9])', same_game))
+        if text in same_game:
+            return bool(re.search('(Disc [0-9])', same_game))
     return False
 
 
