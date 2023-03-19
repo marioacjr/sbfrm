@@ -1,9 +1,9 @@
-python.exe -m venv .venv
+python.exe -m venv .venv_win
 
-.venv\Scripts\python.exe -m pip install --upgrade pip
-.venv\Scripts\pip.exe install -r requirements.txt
+.venv_win\Scripts\python.exe -m pip install --upgrade pip
+.venv_win\Scripts\pip.exe install -r requirements.txt
 
-.venv\Scripts\python.exe -m pytest
+.venv_win\Scripts\python.exe -m pytest
 
 $file = "../pyinstaller-5.8.0.zip"
 if (-not(Test-Path -Path $file -PathType Leaf)) {
@@ -27,7 +27,7 @@ if (-not(Test-Path -Path $folder)) {
 }
 
 Set-Location ..\pyinstaller-5.8.0\bootloader\
-..\..\sbfrm\.venv\Scripts\python.exe ./waf all --target-arch=64bit
+..\..\sbfrm\.venv_win\Scripts\python.exe ./waf all --target-arch=64bit
 Set-Location ..\
-..\sbfrm\.venv\Scripts\pip.exe install .
+..\sbfrm\.venv_win\Scripts\pip.exe install .
 Set-Location ..\sbfrm\
